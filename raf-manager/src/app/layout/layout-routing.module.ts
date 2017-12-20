@@ -8,7 +8,12 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: '', redirectTo: 'dashboard' },
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },            
+            { path: 'bookings', loadChildren: './bookings/bookings.module#BookingsModule' },
+            { path: 'users', loadChildren: './users/users.module#UsersModule' },
+            { path: 'assessments', loadChildren: './assessments/assessments.module#AssessmentsModule' },
+            { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
+            { path: 'invoices', loadChildren: './invoices/invoices.module#InvoicesModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
             { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
             { path: 'forms', loadChildren: './form/form.module#FormModule' },

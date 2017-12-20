@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var Appointment = require('../models/appointment');
+var booking = require('../models/booking');
 
 router.get('/:id?', function(req, res, next) {
     if (req.params.id) {
-        Appointment.getAppointmentById(req.params.id, function(err, rows) {
+        booking.getbookingById(req.params.id, function(err, rows) {
             if (err)
                 res.json(err);
             else
                 res.json(rows);
         })
     } else {
-        Appointment.getAllApointments(function(err, rows) {
+        booking.getAllApointments(function(err, rows) {
             if (err)
                 res.json(err);
             else
@@ -21,7 +21,7 @@ router.get('/:id?', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    Appointment.addAppointment(req.body, function(err, rows) {
+    booking.addbooking(req.body, function(err, rows) {
         if (err)
             res.json(err);
         else
@@ -30,7 +30,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    Appointment.deleteAppointment(req.params.id, function(err, count) {
+    booking.deletebooking(req.params.id, function(err, count) {
         if (err)
             res.json(err);
         else
@@ -39,7 +39,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.put('/:id', function(req, res, next) {
-    Appointment.updateAppointment(req.params.id, req.body, function(err, rows) {
+    booking.updatebooking(req.params.id, req.body, function(err, rows) {
         if (err)
             res.json(err);
         else

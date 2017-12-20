@@ -2,7 +2,22 @@
     <ul class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
-        </a>jkhjkh
+        </a>
+        <a [routerLink]="['/bookings']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Bookings' | translate }}
+        </a>
+        <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Users' | translate }}
+        </a>
+        <a [routerLink]="['/assessments']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Assessments' | translate }}
+        </a>
+        <a [routerLink]="['/reports']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Reports' | translate }}
+        </a>
+        <a [routerLink]="['/invoices']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Invoices' | translate }}
+        </a>
         <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
         </a>

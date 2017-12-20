@@ -8,9 +8,17 @@ var map = {
 		"../../../../../src/app/access-denied/access-denied.module.ts",
 		"access-denied.module"
 	],
+	"./assessments/assessments.module": [
+		"../../../../../src/app/layout/assessments/assessments.module.ts",
+		"assessments.module"
+	],
 	"./blank-page/blank-page.module": [
 		"../../../../../src/app/layout/blank-page/blank-page.module.ts",
 		"blank-page.module"
+	],
+	"./bookings/bookings.module": [
+		"../../../../../src/app/layout/bookings/bookings.module.ts",
+		"bookings.module"
 	],
 	"./bs-component/bs-component.module": [
 		"../../../../../src/app/layout/bs-component/bs-component.module.ts",
@@ -42,6 +50,10 @@ var map = {
 		"common",
 		"grid.module"
 	],
+	"./invoices/invoices.module": [
+		"../../../../../src/app/layout/invoices/invoices.module.ts",
+		"invoices.module"
+	],
 	"./layout/layout.module": [
 		"../../../../../src/app/layout/layout.module.ts",
 		"common",
@@ -56,6 +68,10 @@ var map = {
 		"../../../../../src/app/not-found/not-found.module.ts",
 		"not-found.module"
 	],
+	"./reports/reports.module": [
+		"../../../../../src/app/layout/reports/reports.module.ts",
+		"reports.module"
+	],
 	"./server-error/server-error.module": [
 		"../../../../../src/app/server-error/server-error.module.ts",
 		"server-error.module"
@@ -69,6 +85,10 @@ var map = {
 		"../../../../../src/app/layout/tables/tables.module.ts",
 		"common",
 		"tables.module"
+	],
+	"./users/users.module": [
+		"../../../../../src/app/layout/users/users.module.ts",
+		"users.module"
 	]
 };
 function webpackAsyncContext(req) {

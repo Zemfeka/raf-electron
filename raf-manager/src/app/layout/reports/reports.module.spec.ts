@@ -1,13 +1,13 @@
 import { ReportsModule } from './reports.module';
 
 describe('ReportsModule', () => {
-    let ReportsModule: ReportsModule;
+    let reportsModule: ReportsModule;
 
     beforeEach(() => {
-        ReportsModule = new ReportsModule();
+        reportsModule = new ReportsModule();
     });
 
     it('should create an instance', () => {
-        expect(ReportsModule).toBeTruthy();
+        expect(reportsModule).toBeTruthy();
     });
 });

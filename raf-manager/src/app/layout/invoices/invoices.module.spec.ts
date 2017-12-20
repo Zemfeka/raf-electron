@@ -1,13 +1,13 @@
 import { InvoicesModule } from './invoices.module';
 
 describe('InvoicesModule', () => {
-    let InvoicesModule: InvoicesModule;
+    let invoicesModule: InvoicesModule;
 
     beforeEach(() => {
-        InvoicesModule = new InvoicesModule();
+        invoicesModule = new InvoicesModule();
     });
 
     it('should create an instance', () => {
-        expect(InvoicesModule).toBeTruthy();
+        expect(invoicesModule).toBeTruthy();
     });
 });

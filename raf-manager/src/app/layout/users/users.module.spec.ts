@@ -1,13 +1,13 @@
 import { UsersModule } from './users.module';
 
 describe('UsersModule', () => {
-    let UsersModule: UsersModule;
+    let usersModule: UsersModule;
 
     beforeEach(() => {
-        UsersModule = new UsersModule();
+        usersModule = new UsersModule();
     });
 
     it('should create an instance', () => {
-        expect(UsersModule).toBeTruthy();
+        expect(usersModule).toBeTruthy();
     });
 });

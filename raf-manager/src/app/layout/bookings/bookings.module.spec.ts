@@ -1,13 +1,13 @@
 import { BookingsModule } from './bookings.module';
 
 describe('BookingsModule', () => {
-    let BookingsModule: BookingsModule;
+    let bookingsModule: BookingsModule;
 
     beforeEach(() => {
-        BookingsModule = new BookingsModule();
+        bookingsModule = new BookingsModule();
     });
 
     it('should create an instance', () => {
-        expect(BookingsModule).toBeTruthy();
+        expect(bookingsModule).toBeTruthy();
     });
 });

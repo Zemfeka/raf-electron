@@ -1,13 +1,13 @@
 import { AssessmentsModule } from './assessments.module';
 
 describe('AssessmentsModule', () => {
-    let AssessmentsModule: AssessmentsModule;
+    let assessmentsModule: AssessmentsModule;
 
     beforeEach(() => {
-        AssessmentsModule = new AssessmentsModule();
+        assessmentsModule = new AssessmentsModule();
     });
 
     it('should create an instance', () => {
-        expect(AssessmentsModule).toBeTruthy();
+        expect(assessmentsModule).toBeTruthy();
     });
 });

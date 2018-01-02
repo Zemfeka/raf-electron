@@ -4,14 +4,14 @@ import "rxjs/Rx";
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class BookingsService { 
-  private _bookingURL = "http://localhost:3000/bookings";
+export class UserService  { 
+  private _userServiceURL = "http://localhost:3000/users/profile";
   constructor(private _http: Http) { }
 
-  getBookings(): Observable<IBooking[]> {
-    return this._http.get(this._bookingURL)
+  getUsers(): Observable<IUser[]> {
+    return this._http.get(this._userServiceURL)
             .map((response: Response) => {
-              return <IBooking[]>response.json();
+              return <IUser[]>response.json();
             })
             .catch(this.handleError);
   }
@@ -22,11 +22,9 @@ export class BookingsService {
 
 }
 
-
-export interface IBooking {
+export interface IUser {
   Id: number;
-  ClientName: string;
-  ClaimentFirstName: string;
-  ClaimentLastName: string;
-  BookingDate: Date;
+  FullName: string;
+  Email: string;
+  Password: string;
 }

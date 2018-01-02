@@ -1,0 +1,35 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Users'" [icon]="'fa-calendar'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-6 col-lg-12 col-xs-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Active System Users
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User Id</th>
+                                <th>Full Name</th>
+                                <th>Email/Username</th>
+                                <th>Password</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of _users">
+                                <td>{{user.Id}}</td>
+                                <td>{{user.FullName}}</td>
+                                <td>{{user.Email}}</td>
+                                <td>{{user.Password}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

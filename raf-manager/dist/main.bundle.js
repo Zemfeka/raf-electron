@@ -18,6 +18,7 @@ var map = {
 	],
 	"./bookings/bookings.module": [
 		"../../../../../src/app/layout/bookings/bookings.module.ts",
+		"common",
 		"bookings.module"
 	],
 	"./bs-component/bs-component.module": [
@@ -32,8 +33,8 @@ var map = {
 	],
 	"./charts/charts.module": [
 		"../../../../../src/app/layout/charts/charts.module.ts",
-		"charts.module",
-		"common"
+		"common",
+		"charts.module"
 	],
 	"./dashboard/dashboard.module": [
 		"../../../../../src/app/layout/dashboard/dashboard.module.ts",
@@ -61,8 +62,8 @@ var map = {
 	],
 	"./login/login.module": [
 		"../../../../../src/app/login/login.module.ts",
-		"login.module",
-		"common"
+		"common",
+		"login.module"
 	],
 	"./not-found/not-found.module": [
 		"../../../../../src/app/not-found/not-found.module.ts",
@@ -88,6 +89,7 @@ var map = {
 	],
 	"./users/users.module": [
 		"../../../../../src/app/layout/users/users.module.ts",
+		"common",
 		"users.module"
 	]
 };

@@ -13,8 +13,8 @@ VALUES
 'CD Attorneys',
 'Thabo',
 'Mhlongo',
-'22 Dec 2017',
-'18 Dec 2017',
+CURDATE(),
+CURDATE(),
 1,
 null,
 null);

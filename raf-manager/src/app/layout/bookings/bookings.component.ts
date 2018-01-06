@@ -3,6 +3,7 @@ import { BookingsService, IBooking } from '../../services/bookings.service';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-bookings',

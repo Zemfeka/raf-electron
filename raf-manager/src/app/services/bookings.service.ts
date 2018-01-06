@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from "@angular/http";
 import "rxjs/Rx";
 import { Observable } from 'rxjs/Observable';
+import { Time } from '@angular/common/src/i18n/locale_data_api';
 
 @Injectable()
 export class BookingsService { 
@@ -16,6 +17,10 @@ export class BookingsService {
             .catch(this.handleError);
   }
 
+  saveBooking(booking: IBooking){
+    return this._http.post(this._bookingURL, booking).catch(this.handleError);
+  }
+
   private handleError(error: Response){
     return Observable.throw(error.statusText);
   }
@@ -28,5 +33,6 @@ export interface IBooking {
   ClientName: string;
   ClaimentFirstName: string;
   ClaimentLastName: string;
-  BookingDate: DateTimeFormat;
+  BookingDate: Date;
+  Time: Time
 }

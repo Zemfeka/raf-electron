@@ -2,7 +2,7 @@ var db = require('../dbconnection');
 var booking = {
 
     getAllApointments: function(callback) {
-        return db.query("select * from bookings", callback);
+        return db.query("select *, TIME(`BookingDate`) as Time from bookings", callback);
     },
     getbookingById: function(id, callback) {
         return db.query("select * from bookings where Id=?", [id], callback);

@@ -5,7 +5,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     Upcoming bookings
-                    <button class="btn btn-primary pull-right" (click)="open(content, this.booking = {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null})">New Booking</button>
+                    <button class="btn btn-primary pull-right" (click)="open(content, this.booking = {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null})">New Booking</button>
                 </div>
 
                 <div class="card-body table-responsive">
@@ -16,6 +16,7 @@
                                 <th>Claiment First Name</th>
                                 <th>Claiment Last Name</th>
                                 <th>Booking date</th>
+                                <th>Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -23,7 +24,8 @@
                                 <td>{{booking.ClientName}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
-                                <td>{{booking.BookingDate}}</td>
+                                <td>{{booking.BookingDate|date}}</td>
+                                <td>{{booking.Time}}</td>
                             </tr>
                         </tbody>
 

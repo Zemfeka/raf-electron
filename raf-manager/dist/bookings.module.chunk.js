@@ -42,7 +42,7 @@ var BookingsRoutingModule = (function () {
 /***/ "../../../../../src/app/layout/bookings/bookings.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [@routerTransition]>\r\n    <app-page-header [heading]=\"'Bookings'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n    <div class=\"row\">\r\n        <div class=\"col col-xl-6 col-lg-12 col-xs-12\">\r\n            <div class=\"card mb-3\">\r\n                <div class=\"card-header\">\r\n                    Upcoming bookings\r\n                </div>\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>Client Name</th>\r\n                                <th>Claiment First Name</th>\r\n                                <th>Claiment Last Name</th>\r\n                                <th>Booking date</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let booking of _bookings\">\r\n                                <td>{{booking.ClientName}}</td>\r\n                                <td>{{booking.ClaimentFirstName}}</td>\r\n                                <td>{{booking.ClaimentLastName}}</td>\r\n                                <td>{{booking.BookingDate}}</td>\r\n                            </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>"
+module.exports = "<div [@routerTransition]>\r\n    <app-page-header [heading]=\"'Bookings'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n    <div class=\"row\">\r\n        <div class=\"col col-xl-6 col-lg-12 col-xs-12\">\r\n            <div class=\"card mb-3\">\r\n                <div class=\"card-header\">\r\n                    Upcoming bookings\r\n                    <button class=\"btn btn-primary pull-right\" (click)=\"open(content)\">Large modal</button>\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>Client Name</th>\r\n                                <th>Claiment First Name</th>\r\n                                <th>Claiment Last Name</th>\r\n                                <th>Booking date</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let booking of _bookings\" (click)=\"open(content,this.booking)\">\r\n                                <td>{{booking.ClientName}}</td>\r\n                                <td>{{booking.ClaimentFirstName}}</td>\r\n                                <td>{{booking.ClaimentLastName}}</td>\r\n                                <td>{{booking.BookingDate}}</td>\r\n                            </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n        <div class=\"modal-header\">\r\n            <h4 class=\"modal-title\">Modal title</h4>\r\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n                <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n            <form role=\"form\" >\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"clientname\">Client Name</label>\r\n                    <input name=\"clientname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClientName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"claimentfirstname\">Claiment First Name</label>\r\n                    <input name=\"claimentfirstname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentFirstName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"claimentlastname\">Claiment Last Name</label>\r\n                    <input name=\"claimentlastname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentLastName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"bookingdate\">Booking Date</label>\r\n                    <!-- <input name=\"bookingdate\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.BookingDate\"> -->\r\n\r\n                    <div class=\"input-group\">\r\n                        <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                            name=\"bookingdate\" [(ngModel)]=\"booking.BookingDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                        <div class=\"input-group-addon\" (click)=\"d.toggle()\" >\r\n                            <span class=\"fa fa-calendar\"></span>\r\n                        </div>\r\n                    </div>\r\n                </fieldset>\r\n\r\n            </form>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\r\n        </div>\r\n    </ng-template>\r\n</div>"
 
 /***/ }),
 
@@ -72,6 +72,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_bookings_service__ = __webpack_require__("../../../../../src/app/services/bookings.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router_animations__ = __webpack_require__("../../../../../src/app/router.animations.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -84,9 +86,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var BookingsComponent = (function () {
-    function BookingsComponent(bookingsService) {
+    function BookingsComponent(bookingsService, modalService) {
         this.bookingsService = bookingsService;
+        this.modalService = modalService;
+        this.booking = { Id: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null };
     }
     BookingsComponent.prototype.getBookings = function () {
         var _this = this;
@@ -95,16 +101,38 @@ var BookingsComponent = (function () {
     };
     BookingsComponent.prototype.ngOnInit = function () {
         this.getBookings();
+        //this.booking.ClientName = "";
+    };
+    BookingsComponent.prototype.open = function (content, data) {
+        var _this = this;
+        console.log(data);
+        this.booking = data;
+        this.modalService.open(content).result.then(function (result) {
+            _this.closeResult = "Closed with: " + result;
+        }, function (reason) {
+            _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
+        });
+    };
+    BookingsComponent.prototype.getDismissReason = function (reason) {
+        if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
+            return 'by pressing ESC';
+        }
+        else if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        }
+        else {
+            return "with: " + reason;
+        }
     };
     BookingsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-bookings',
             template: __webpack_require__("../../../../../src/app/layout/bookings/bookings.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/bookings/bookings.component.scss")],
-            providers: [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_4__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_4__angular_forms__["e" /* ReactiveFormsModule */],],
             animations: [Object(__WEBPACK_IMPORTED_MODULE_2__router_animations__["a" /* routerTransition */])()]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]])
     ], BookingsComponent);
     return BookingsComponent;
 }());
@@ -121,9 +149,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookingsModule", function() { return BookingsModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bookings_routing_module__ = __webpack_require__("../../../../../src/app/layout/bookings/bookings-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__bookings_component__ = __webpack_require__("../../../../../src/app/layout/bookings/bookings.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__bookings_routing_module__ = __webpack_require__("../../../../../src/app/layout/bookings/bookings-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bookings_component__ = __webpack_require__("../../../../../src/app/layout/bookings/bookings.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -135,13 +165,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var BookingsModule = (function () {
     function BookingsModule() {
     }
     BookingsModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__bookings_routing_module__["a" /* BookingsRoutingModule */], __WEBPACK_IMPORTED_MODULE_4__shared__["b" /* PageHeaderModule */]],
-            declarations: [__WEBPACK_IMPORTED_MODULE_3__bookings_component__["a" /* BookingsComponent */]]
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_4__bookings_routing_module__["a" /* BookingsRoutingModule */], __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* PageHeaderModule */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* ReactiveFormsModule */],],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5__bookings_component__["a" /* BookingsComponent */]]
         })
     ], BookingsModule);
     return BookingsModule;

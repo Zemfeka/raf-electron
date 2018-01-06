@@ -5,7 +5,9 @@
             <div class="card mb-3">
                 <div class="card-header">
                     Upcoming bookings
+                    <button class="btn btn-primary pull-right" (click)="open(content)">Large modal</button>
                 </div>
+
                 <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
@@ -17,7 +19,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let booking of _bookings">
+                            <tr *ngFor="let booking of _bookings" (click)="open(content,this.booking)">
                                 <td>{{booking.ClientName}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
@@ -31,5 +33,44 @@
             </div>
         </div>
     </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Modal title</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form role="form" >
+                <fieldset class="form-group">
+                    <label for="clientname">Client Name</label>
+                    <input name="clientname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClientName">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="claimentfirstname">Claiment First Name</label>
+                    <input name="claimentfirstname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentFirstName">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="claimentlastname">Claiment Last Name</label>
+                    <input name="claimentlastname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentLastName">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="bookingdate">Booking Date</label>
+                    <!-- <input name="bookingdate" class="form-control" placeholder="Enter text" [(ngModel)]="booking.BookingDate"> -->
 
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd"
+                            name="bookingdate" [(ngModel)]="booking.BookingDate" ngbDatepicker #d="ngbDatepicker">
+                        <div class="input-group-addon" (click)="d.toggle()" >
+                            <span class="fa fa-calendar"></span>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </ng-template>
 </div>

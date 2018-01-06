@@ -28,5 +28,5 @@ export interface IBooking {
   ClientName: string;
   ClaimentFirstName: string;
   ClaimentLastName: string;
-  BookingDate: Date;
+  BookingDate: DateTimeFormat;
 }

@@ -1,8 +1,8 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Bookings'" [icon]="'fa-calendar'"></app-page-header>
     <div class="row">
-        <div class="col col-xl-6 col-lg-12 col-xs-12">
-            <div class="card mb-3">
+        <div class="col col-xl-12 col-lg-12 col-xs-12">
+            <div class="card mb-12">
                 <div class="card-header">
                     Upcoming bookings
                     <button class="btn btn-primary pull-right" (click)="open(content, this.booking, true)">New Booking</button>
@@ -37,7 +37,7 @@
     </div>
     <ng-template #content let-c="close" let-d="dismiss">
         <div class="modal-header">
-            <h4 class="modal-title">Modal title</h4>
+            <h4 class="modal-title">Booking Details</h4>
             <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
                 <span aria-hidden="true">&times;</span>
             </button>

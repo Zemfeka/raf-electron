@@ -14,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class BookingsComponent implements OnInit {
     _bookings: IBooking[];
     closeResult: string;
-    booking: IBooking = {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null};
+    booking: IBooking = {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null};
     constructor(private bookingsService: BookingsService, private modalService: NgbModal) {}
 
     getBookings(){

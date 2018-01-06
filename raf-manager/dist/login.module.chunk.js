@@ -196,7 +196,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var LoginService = (function () {
     function LoginService(_http) {
         this._http = _http;
-        this._bookingURL = "http://localhost:3000/users/authenticate";
+        this._logingURL = "http://localhost:3000/users/authenticate";
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json',
             'Accept': 'q=0.8;application/json;q=0.9' });
         this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
@@ -205,7 +205,7 @@ var LoginService = (function () {
         var body = '{"username": "eichlefoko@gmail.com","password": "lefoko@1"}';
         console.log(body);
         return this._http
-            .post(this._bookingURL, body, this.options)
+            .post(this._logingURL, body, this.options)
             .map(function (response) {
             return response.json();
         })

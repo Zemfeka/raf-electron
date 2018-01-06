@@ -5,7 +5,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     Upcoming bookings
-                    <button class="btn btn-primary pull-right" (click)="open(content, this.booking = {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null})">New Booking</button>
+                    <button class="btn btn-primary pull-right" (click)="open(content, this.booking, true)">New Booking</button>
                 </div>
 
                 <div class="card-body table-responsive">
@@ -20,11 +20,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let booking of _bookings" (click)="open(content,this.booking)">
+                            <tr *ngFor="let booking of _bookings" (click)="open(content,this.booking, false)">
                                 <td>{{booking.ClientName}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
-                                <td>{{booking.BookingDate|date}}</td>
+                                <td>{{booking.BookingDate}}</td>
                                 <td>{{booking.Time}}</td>
                             </tr>
                         </tbody>
@@ -61,17 +61,21 @@
                     <!-- <input name="bookingdate" class="form-control" placeholder="Enter text" [(ngModel)]="booking.BookingDate"> -->
 
                     <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="bookingdate" [(ngModel)]="booking.BookingDate" ngbDatepicker #d="ngbDatepicker">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="bookingdate" [(ngModel)]="booking.Date" ngbDatepicker #d="ngbDatepicker">
                         <div class="input-group-addon" (click)="d.toggle()">
                             <span class="fa fa-calendar"></span>
                         </div>
                     </div>
                 </fieldset>
-
+                <fieldset class="form-group">
+                    <label for="bookingtime">Booking Time</label>
+                    <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
+                </fieldset>
             </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-secondary" (click)="saveBooking()">Save</button>
         </div>
     </ng-template>
 </div>

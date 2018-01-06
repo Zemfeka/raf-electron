@@ -7,7 +7,14 @@ import { Time } from '@angular/common/src/i18n/locale_data_api';
 @Injectable()
 export class BookingsService { 
   private _bookingURL = "http://localhost:3000/bookings";
-  constructor(private _http: Http) { }
+  headers: Headers;
+  options: RequestOptions;
+
+  constructor(private _http: Http) {
+    this.headers = new Headers({ 'Content-Type': 'application/json', 
+    'Accept': 'q=0.8;application/json;q=0.9' });
+    this.options = new RequestOptions({ headers: this.headers });    
+   }
 
   getBookings(): Observable<IBooking[]> {
     return this._http.get(this._bookingURL)
@@ -18,7 +25,8 @@ export class BookingsService {
   }
 
   saveBooking(booking: IBooking){
-    return this._http.post(this._bookingURL, booking).catch(this.handleError);
+    return this._http.post(this._bookingURL, booking,this.options)
+    .catch(this.handleError);
   }
 
   private handleError(error: Response){
@@ -34,5 +42,7 @@ export interface IBooking {
   ClaimentFirstName: string;
   ClaimentLastName: string;
   BookingDate: Date;
-  Time: Time
+  Time: Time;
+  Date: any;
+  BookingTime: any
 }

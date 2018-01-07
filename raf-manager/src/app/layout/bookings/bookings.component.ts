@@ -28,13 +28,12 @@ export class BookingsComponent implements OnInit {
     }
 
     initialiseBooking() {
-        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, Time: null,BookingTime: {hour: 13, minute: 30},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()}};
+        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, Time: null,BookingTime: {hour: 0, minute: 0},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()}};
     }
 
-    saveBooking() {
-        this.booking.BookingDate = new Date(this.booking.Date.year,this.booking.Date.month,this.booking.Date.day, this.booking.Time.hours,this.booking.Time.minutes);
-        console.log(this.booking.BookingDate);
-        this.bookingsService.saveBooking(this.booking).subscribe(o => this._bookings.push(this.booking),
+    saveBooking() {        
+        this.booking.BookingDate = new Date(this.booking.Date.year,this.booking.Date.month - 1,this.booking.Date.day, this.booking.BookingTime.hour + 2,this.booking.BookingTime.minute);                
+        this.bookingsService.saveBooking(this.booking).subscribe(o => this.getBookings(),
         error => console.log("Error :: " + error))        
     }
 
@@ -51,10 +50,12 @@ export class BookingsComponent implements OnInit {
         }
         
         var date = new Date(this.booking.BookingDate);        
-
-        this.booking.Date = {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()};        
+       
+        this.booking.Date = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};        
         if(this.booking.Time != null)
-            this.booking.BookingTime = {hour: this.booking.Time.hours, minute: this.booking.Time.minutes};
+            this.booking.BookingTime = {hour: this.booking.Time.toString().substr(0,2), minute: this.booking.Time.toString().substr(3,2)};
+
+        console.log(this.booking.BookingTime);
 
         this.modalService.open(content).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;

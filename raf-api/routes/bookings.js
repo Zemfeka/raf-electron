@@ -38,8 +38,8 @@ router.delete('/:id', function(req, res, next) {
     })
 });
 
-router.put('/:id', function(req, res, next) {
-    booking.updatebooking(req.params.id, req.body, function(err, rows) {
+router.put('/', function(req, res, next) {
+    booking.updatebooking(req.body, function(err, rows) {
         if (err)
             res.json(err);
         else

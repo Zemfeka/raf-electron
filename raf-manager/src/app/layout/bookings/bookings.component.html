@@ -24,7 +24,7 @@
                                 <td>{{booking.ClientName}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
-                                <td>{{booking.BookingDate}}</td>
+                                <td>{{booking.BookingDate|date}}</td>
                                 <td>{{booking.Time}}</td>
                             </tr>
                         </tbody>
@@ -75,7 +75,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-            <button type="button" class="btn btn-secondary" (click)="saveBooking()">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="saveBooking() && c('Close click')">Save</button>
         </div>
     </ng-template>
 </div>

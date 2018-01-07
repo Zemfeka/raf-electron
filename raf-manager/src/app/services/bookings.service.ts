@@ -25,8 +25,14 @@ export class BookingsService {
   }
 
   saveBooking(booking: IBooking){
-    return this._http.post(this._bookingURL, booking,this.options)
-    .catch(this.handleError);
+    if(booking.Id == 0){
+        return this._http.post(this._bookingURL, booking,this.options)
+        .catch(this.handleError);
+    }else{
+      return this._http.put(this._bookingURL, booking,this.options)
+        .catch(this.handleError);
+    }
+    
   }
 
   private handleError(error: Response){

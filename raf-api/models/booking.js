@@ -13,8 +13,8 @@ var booking = {
     deletebooking: function(id, callback) {
         return db.query("delete from bookings where Id=?", [id], callback)
     },
-    updatebooking: function(id, booking, callback) {
-        return db.query("update bookings set UpdatedDate=?, UpdatedByID=? where Id=?", [booking.UpdatedDate, booking.UpdatedByID, id], callback);
+    updatebooking: function(booking, callback) {
+        return db.query("update bookings set UpdatedDate=?, UpdatedByID=?, ClientName=?,ClaimentFirstName=?,ClaimentLastName=?,BookingDate=? where Id=?", [booking.UpdatedDate, booking.UpdatedByID, booking.ClientName, booking.ClaimentFirstName, booking.ClaimentLastName, booking.BookingDate, booking.Id], callback);
     }
 };
 

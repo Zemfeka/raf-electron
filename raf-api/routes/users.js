@@ -41,5 +41,14 @@ router.post('/authenticate', function(req, res, next) {
       
 });
 
+router.post('/Add', function(req, res, next) {
+    User.adduser(req.body, function(err, rows) {
+        if (err)
+            res.json(err);
+        else
+            res.json(req.body);
+    })
+});
+
 
 module.exports = router;

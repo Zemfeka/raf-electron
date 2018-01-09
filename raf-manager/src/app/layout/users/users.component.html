@@ -5,6 +5,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     Active System Users
+                    <button class="btn btn-primary pull-right" (click)="open(content, this.user, true)">New User</button>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table">
@@ -17,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of _users">
+                            <tr *ngFor="let user of _users" (click)="open(content,this.user, false)">
                                 <td>{{user.Id}}</td>
                                 <td>{{user.FullName}}</td>
                                 <td>{{user.Email}}</td>
@@ -31,5 +32,33 @@
             </div>
         </div>
     </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">User Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form role="form">
+                <fieldset class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input name="fullname" class="form-control" placeholder="Enter text" [(ngModel)]="user.FullName">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="email">Emai/Username</label>
+                    <input name="email" class="form-control" placeholder="Enter text" [(ngModel)]="user.Email">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" class="form-control" placeholder="Enter text" [(ngModel)]="user.Password">
+                </fieldset>
+             </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-secondary" (click)="saveUser() && c('Close click')">Save</button>
+        </div>
+    </ng-template>
 
 </div>

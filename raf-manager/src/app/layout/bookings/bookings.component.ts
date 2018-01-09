@@ -19,7 +19,7 @@ const now = new Date();
 
 export class BookingsComponent implements OnInit {
     _bookings: IBooking[];
-    documents: IDocument[];
+    documents: IDocument[] = [];
     closeResult: string;
     booking: IBooking = this.initialiseBooking();
     attorney: IAttorney = this.initialiseAttorney();
@@ -64,9 +64,7 @@ export class BookingsComponent implements OnInit {
                 this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
             });                  
         },
-        error => console.log("Error :: " + error));
-        
-        
+        error => console.log("Error :: " + error));        
     }
 
     ngOnInit() {
@@ -109,9 +107,9 @@ export class BookingsComponent implements OnInit {
         });
     }
 
-    uploadDocument() {
+    uploadDocument() {        
         this.documents.push(this.document);
-        console.log(this.document);
+        this.document = this.initialiseDocument();        
     }
 
     onFileChange(event) {

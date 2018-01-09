@@ -97,12 +97,10 @@ var BookingsComponent = (function () {
         this.attorney = this.initialiseAttorney();
     }
     BookingsComponent.prototype.getBookings = function () {
-        var _this = this;
-        this.bookingsService.getBookings()
-            .subscribe(function (results) { return _this._bookings = results; }, function (error) { return console.log("Error :: " + error); });
+        return this.bookingsService.getBookings();
     };
     BookingsComponent.prototype.initialiseBooking = function () {
-        return { Id: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, TrialDate: null, RequestedReportDate: null, Reference: '', Time: null, BookingTime: { hour: 0, minute: 0 }, Date: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }, TDate: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }, RDate: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() } };
+        return { Id: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, TrialDate: null, RequestedReportDate: null, Reference: '', Time: null, BookingTime: { hour: 0, minute: 0 }, Date: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }, TDate: { year: null, month: null, day: null }, RDate: { year: null, month: null, day: null } };
     };
     BookingsComponent.prototype.initialiseAttorney = function () {
         return { Id: 0, BookingId: 0, ClientName: '', ContactPerson: '', PhoneNumber: '', Email: '' };
@@ -119,20 +117,21 @@ var BookingsComponent = (function () {
             this.booking.RequestedReportDate = new Date(this.booking.RDate.year, this.booking.RDate.month - 1, this.booking.RDate.day + 1, 0, 0, 0, 0);
         }
         this.booking.Time = this.booking.BookingTime.hour + ":0" + this.booking.BookingTime.minute + ":0" + this.booking.BookingTime.second;
-        console.log(this.booking.Time);
-        var returnId = 0;
         this.bookingsService.saveBooking(this.booking).subscribe(function (o) {
-            _this.getBookings();
-            if (_this.booking.Id == 0)
-                returnId = o.Id;
+            _this.getBookings().subscribe(function (results) {
+                _this._bookings = results;
+                var bookingId = results[results.length - 1].Id;
+                //save the attorney details     
+                console.log(bookingId);
+                _this.attorney.BookingId = bookingId;
+                _this.attorney.ClientName = _this.booking.ClientName;
+                _this.bookingsService.saveAttorney(_this.attorney).subscribe(function (a) { return console.log(''); }, function (error) { return console.log("Error :: " + error); });
+            });
         }, function (error) { return console.log("Error :: " + error); });
-        //save the attorney details        
-        var bookingId = this.booking.Id > 0 ? this.booking.Id : returnId;
-        this.attorney.BookingId = bookingId;
-        this.bookingsService.saveAttorney(this.attorney).subscribe(function (a) { return console.log(''); }, function (error) { return console.log("Error :: " + error); });
     };
     BookingsComponent.prototype.ngOnInit = function () {
-        this.getBookings();
+        var _this = this;
+        this.getBookings().subscribe(function (results) { return _this._bookings = results; }, function (error) { return console.log("Error :: " + error); });
         //this.booking.ClientName = "";
     };
     BookingsComponent.prototype.open = function (content, data, isNew) {
@@ -281,6 +280,8 @@ var BookingsService = (function () {
     };
     BookingsService.prototype.saveBooking = function (booking) {
         if (booking.Id == 0) {
+            console.log('saving booking...');
+            console.log(booking);
             return this._http.post(this._bookingURL, booking, this.options)
                 .catch(this.handleError);
         }

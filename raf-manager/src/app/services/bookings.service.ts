@@ -36,6 +36,8 @@ export class BookingsService {
 
   saveBooking(booking: IBooking){
     if(booking.Id == 0){
+        console.log('saving booking...')
+        console.log(booking);
         return this._http.post(this._bookingURL, booking,this.options)
         .catch(this.handleError);
     }else{

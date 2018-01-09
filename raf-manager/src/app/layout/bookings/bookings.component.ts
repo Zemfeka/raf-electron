@@ -25,13 +25,11 @@ export class BookingsComponent implements OnInit {
     constructor(private bookingsService: BookingsService, private modalService: NgbModal) {}
 
     getBookings(){
-        this.bookingsService.getBookings()
-            .subscribe(results => this._bookings = results,
-            error => console.log("Error :: " + error))
+        return this.bookingsService.getBookings();           
     }
 
     initialiseBooking() {
-        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now,TrialDate:null,RequestedReportDate:null,Reference:'', Time: null,BookingTime: {hour: 0, minute: 0},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()},TDate:{year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()},RDate:{year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()}};
+        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now,TrialDate:null,RequestedReportDate:null,Reference:'', Time: null,BookingTime: {hour: 0, minute: 0},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()},TDate:{year: null, month: null, day: null},RDate:{year: null, month: null, day: null}};
     }
     initialiseAttorney() {
         return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
@@ -51,24 +49,24 @@ export class BookingsComponent implements OnInit {
        
        this.booking.Time =  this.booking.BookingTime.hour + ":0" + this.booking.BookingTime.minute + ":0" + this.booking.BookingTime.second; 
        
-        var returnId = 0;
-
-        this.bookingsService.saveBooking(this.booking).subscribe(o => {
-            this.getBookings();
-            if(this.booking.Id == 0)
-                returnId = o.Id;
+        this.bookingsService.saveBooking(this.booking).subscribe(o => {          
+            this.getBookings().subscribe(results => {
+                this._bookings = results;
+                var bookingId = results[results.length -1].Id;
+                //save the attorney details                
+                this.attorney.BookingId = bookingId;
+                this.attorney.ClientName = this.booking.ClientName;
+                this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
+            });                  
         },
         error => console.log("Error :: " + error));
         
-        //save the attorney details        
-        var bookingId = this.booking.Id > 0 ? this.booking.Id : returnId;
-        this.attorney.BookingId = bookingId;
-        this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
         
     }
 
     ngOnInit() {
-        this.getBookings();
+       this.getBookings().subscribe(results => this._bookings = results,
+        error => console.log("Error :: " + error));
         //this.booking.ClientName = "";
     }
 

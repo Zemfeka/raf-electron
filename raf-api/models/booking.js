@@ -8,7 +8,7 @@ var booking = {
         return db.query("select * from bookings where Id=?", [id], callback);
     },
     addbooking: function(booking, callback) {
-        return db.query("INSERT INTO `test`.`bookings`(ClientName`,`ClaimentFirstName`,`ClaimentLastName`,`BookingDate`,`CreatedDate`,`CreatedByID`,`UpdatedDate`,`UpdatedByID`,`TrialDate`,`RequestedReportDate`,`Time`) VALUES (?,?,?,?,?,?,?,?,?,?,?)", [booking.ClientName, booking.ClaimentFirstName, booking.ClaimentLastName, booking.BookingDate, booking.CreatedDate, booking.CreatedByID, booking.UpdatedDate, booking.UpdatedByID, booking.TrialDate, booking.RequestedReportDate, booking.Time], callback);
+        return db.query("insert into bookings (ClientName,ClaimentFirstName,ClaimentLastName,BookingDate,CreatedDate,CreatedByID,UpdatedDate,UpdatedByID,TrialDate,RequestedReportDate,Time) values (?,?,?,?,?,?,?,?,?,?,?)", [booking.ClientName, booking.ClaimentFirstName, booking.ClaimentLastName, booking.BookingDate, booking.CreatedDate, booking.CreatedByID, booking.UpdatedDate, booking.UpdatedByID, booking.TrialDate, booking.RequestedReportDate, booking.Time], callback);
     },
     deletebooking: function(id, callback) {
         return db.query("delete from bookings where Id=?", [id], callback)

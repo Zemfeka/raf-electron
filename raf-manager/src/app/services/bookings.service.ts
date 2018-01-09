@@ -36,8 +36,6 @@ export class BookingsService {
 
   saveBooking(booking: IBooking){
     if(booking.Id == 0){
-        console.log('saving booking...')
-        console.log(booking);
         return this._http.post(this._bookingURL, booking,this.options)
         .catch(this.handleError);
     }else{
@@ -87,4 +85,12 @@ export interface IAttorney {
   ContactPerson: string;
   PhoneNumber: string;
   Email: string;
+}
+
+export interface IDocument {
+  Id: number;
+  DocumentName: string;
+  DocumentType: string;
+  DocumentExtension: string;
+  Contents: any;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BookingsService, IBooking, IAttorney } from '../../services/bookings.service';
+import { BookingsService, IBooking, IAttorney, IDocument } from '../../services/bookings.service';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,9 +19,11 @@ const now = new Date();
 
 export class BookingsComponent implements OnInit {
     _bookings: IBooking[];
+    documents: IDocument[];
     closeResult: string;
     booking: IBooking = this.initialiseBooking();
     attorney: IAttorney = this.initialiseAttorney();
+    document: IDocument = this.initialiseDocument();
     constructor(private bookingsService: BookingsService, private modalService: NgbModal) {}
 
     getBookings(){
@@ -33,6 +35,9 @@ export class BookingsComponent implements OnInit {
     }
     initialiseAttorney() {
         return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
+    }
+    initialiseDocument() {
+        return {Id:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: {}}
     }
 
     saveBooking() {        
@@ -66,8 +71,7 @@ export class BookingsComponent implements OnInit {
 
     ngOnInit() {
        this.getBookings().subscribe(results => this._bookings = results,
-        error => console.log("Error :: " + error));
-        //this.booking.ClientName = "";
+        error => console.log("Error :: " + error));      
     }
 
     open(content, data, isNew) {        
@@ -104,6 +108,24 @@ export class BookingsComponent implements OnInit {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
     }
+
+    uploadDocument() {
+        this.documents.push(this.document);
+        console.log(this.document);
+    }
+
+    onFileChange(event) {
+        let reader = new FileReader();
+        if(event.target.files && event.target.files.length > 0) {
+          let file = event.target.files[0];          
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.document.DocumentName = file.name;
+            this.document.DocumentExtension = file.type;
+            this.document.Contents = reader.result.split(',')[1];
+          };
+        }
+      }
 
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {

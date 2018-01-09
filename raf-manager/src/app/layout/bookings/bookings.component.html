@@ -70,14 +70,17 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            <fieldset class="form-group">
-                                <label for="bookingtime">Booking Time</label>
-                                <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
-                            </fieldset>
-                            <fieldset class="form-group">
-                                <label for="bookingreference">Reference</label>
-                                <input name="bookingreference" class="form-control" placeholder="Enter Booking Reference" [(ngModel)]="booking.Reference">
-                            </fieldset>
+                            <div class="row">
+                                <fieldset class="form-group col col-xl-6 col-lg-6 col-xs-6">
+                                    <label for="bookingtime">Booking Time</label>
+                                    <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
+                                </fieldset>
+                                <fieldset class="form-group col col-xl-6 col-lg-6 col-xs-6">
+                                    <label for="bookingreference">Reference</label>
+                                    <input name="bookingreference" class="form-control" placeholder="Enter Booking Reference" [(ngModel)]="booking.Reference">
+                                </fieldset>
+
+                            </div>
                         </form>
                     </ng-template>
                 </ngb-tab>
@@ -129,7 +132,7 @@
                     <ng-template ngbTabContent>
                         <fieldset class="form-group">
                             <label for="doctype">Document Type</label>
-                            <select name="doctype" class="form-control">
+                            <select name="doctype" class="form-control" [(ngModel)]="document.DocumentType">
                                     <option>ID Document</option>
                                     <option>Instruction Letter</option>
                                     <option>Prem Report</option>
@@ -138,8 +141,9 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <label for="inputfile">File input</label>
-                            <input type="file" class="form-control-file" id="inputfile">
+                            <input type="file" class="form-control-file" id="doc" #fileInput (change)="onFileChange($event)">
                         </fieldset>
+                        <button type="button" class="btn btn-secondary" (click)="uploadDocument">Upload</button>
                         <div class="card mb-12">
                             <div class="card-header">
                                 Uploaded Documents
@@ -152,9 +156,9 @@
                                         <th>Document Type</th>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
+                                        <tr *ngFor="let doc of documents">
+                                            <td>{{doc.DocumentName}}</td>
+                                            <td>{{doc.DocumentType}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -12,8 +12,11 @@ var Users = {
             return db.query("select * from users where email=? and password=?",[user.username, user.password], callback);
         },
         adduser: function(user, callback) {
-            return db.query("INSERT INTO `test`.`users`(`Id`,`FullName`,`Email`,`Password`) VALUES (?,?,?,?)", [user.Id, user.FullName, user.email, user.password], callback);
+            return db.query("INSERT INTO `test`.`users`(`FullName`,`Email`,`Password`) VALUES (?,?,?)", [user.FullName, user.Email, user.Password], callback);
         },
+        updateuser: function(user, callback) {
+            return db.query("update users set `FullName`=?,`Email`=?,`Password`=? where Id = ?", [user.FullName, user.Email, user.Password, user.Id], callback);
+        }
     };
     
     module.exports = Users;

@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
         this.usersService.getUsers()
             .subscribe(results => this._users = results,
             error => console.log("Error :: " + error))
+        
     }
 
     saveUser() {        

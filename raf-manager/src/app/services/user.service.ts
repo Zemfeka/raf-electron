@@ -8,8 +8,10 @@ import { Time } from '@angular/common/src/i18n/locale_data_api';
 export class UserService  { 
   private _userServiceURL = "http://localhost:3000/users/profile";
   private userServiceURL = "http://localhost:3000/users/add";
+  private userServiceUpdateURL = "http://localhost:3000/users/update";
   headers: Headers;
   options: RequestOptions;
+  
   constructor(private _http: Http) { 
     this.headers = new Headers({ 'Content-Type': 'application/json', 
     'Accept': 'q=0.8;application/json;q=0.9' });
@@ -17,9 +19,13 @@ export class UserService  {
   }
 
   getUsers(): Observable<IUser[]> {
-    return this._http.get(this._userServiceURL)
+   
+            return this._http.get(this._userServiceURL)
             .map((response: Response) => {
-              return <IUser[]>response.json();
+              var mapped = <IUser[]>response.json();
+              console.log(mapped);
+              return mapped;
+              
             })
             .catch(this.handleError);
   }
@@ -29,7 +35,7 @@ export class UserService  {
         return this._http.post(this.userServiceURL, user,this.options)
         .catch(this.handleError);
     }else{
-      return this._http.put(this.userServiceURL, user,this.options)
+      return this._http.put(this.userServiceUpdateURL, user,this.options)
         .catch(this.handleError);
     }
     

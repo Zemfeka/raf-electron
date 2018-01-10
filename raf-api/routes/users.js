@@ -41,7 +41,7 @@ router.post('/authenticate', function(req, res, next) {
       
 });
 
-router.post('/Add', function(req, res, next) {
+router.post('/add', function(req, res, next) {
     User.adduser(req.body, function(err, rows) {
         if (err)
             res.json(err);
@@ -50,5 +50,13 @@ router.post('/Add', function(req, res, next) {
     })
 });
 
+router.put('/update', function(req, res, next) {
+    User.updateuser(req.body, function(err, rows) {
+        if (err)
+            res.json(err);
+        else
+            res.json(rows);
+    })
+});
 
 module.exports = router;

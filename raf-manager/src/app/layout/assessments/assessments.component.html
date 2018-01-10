@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Assessments'" [icon]="'fa-calendar'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-xs-12">
+            <div class="card mb-12">
+                <div class="card-header">
+                    Today's Assessments
+                </div>
+
+                <div class="card-body table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Claiment First Name</th>
+                                <th>Claiment Last Name</th>
+                                <th>Booking date</th>
+                                <th>Time</th>
+                                <th>Notes</th>
+                                <th>ShowNoShow</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let assessment of assessments" (click)="open(content,this.assessment, false)">
+                                <td>{{assessment.ClientName}}</td>
+                                <td>{{assessment.ClaimentFirstName}}</td>
+                                <td>{{assessment.ClaimentLastName}}</td>
+                                <td>{{assessment.BookingDate|date}}</td>
+                                <td>{{assessment.Time}}</td>
+                                <td>{{assessment.Notes}}</td>
+                                <td>{{assessment.ShowNoShow}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">User Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form role="form">
+                <fieldset class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Enter text" [(ngModel)]="assessment.Notes"></textarea>
+                    <!-- <input name="notes" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.Notes"> -->
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="shownoshow">ShowNoShow</label>
+                    <input type="checkbox" name="shownoshow" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.ShowNoShow">
+                </fieldset>
+             </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-secondary" (click)="saveAssessment() && c('Close click')">Save</button>
+        </div>
+    </ng-template>
+</div>

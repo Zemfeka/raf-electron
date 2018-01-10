@@ -10,6 +10,7 @@ var map = {
 	],
 	"./assessments/assessments.module": [
 		"../../../../../src/app/layout/assessments/assessments.module.ts",
+		"common",
 		"assessments.module"
 	],
 	"./blank-page/blank-page.module": [

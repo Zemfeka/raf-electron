@@ -1,8 +1,8 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Users'" [icon]="'fa-calendar'"></app-page-header>
     <div class="row">
-        <div class="col col-xl-6 col-lg-12 col-xs-12">
-            <div class="card mb-3">
+        <div class="col col-xl-12 col-lg-12 col-xs-12">
+            <div class="card mb-12">
                 <div class="card-header">
                     Active System Users
                     <button class="btn btn-primary pull-right" (click)="open(content, this.user, true)">New User</button>
@@ -46,8 +46,11 @@
                     <input name="fullname" class="form-control" placeholder="Enter text" [(ngModel)]="user.FullName">
                 </fieldset>
                 <fieldset class="form-group">
-                    <label for="email">Emai/Username</label>
-                    <input name="email" class="form-control" placeholder="Enter text" [(ngModel)]="user.Email">
+                    <label for="email">Email/Username</label>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon">@</span>
+                        <input type="email" name="email" class="form-control" placeholder="Enter text" [(ngModel)]="user.Email">
+                    </div>
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="password">Password</label>

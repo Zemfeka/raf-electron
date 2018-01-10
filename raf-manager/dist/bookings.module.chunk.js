@@ -42,7 +42,7 @@ var BookingsRoutingModule = (function () {
 /***/ "../../../../../src/app/layout/bookings/bookings.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [@routerTransition]>\r\n    <app-page-header [heading]=\"'Bookings'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n    <div class=\"row\">\r\n        <div class=\"col col-xl-12 col-lg-12 col-xs-12\">\r\n            <div class=\"card mb-12\">\r\n                <div class=\"card-header\">\r\n                    Upcoming bookings\r\n                    <button class=\"btn btn-primary pull-right\" (click)=\"open(content, this.booking, true)\">New Booking</button>\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>Client Name</th>\r\n                                <th>Claiment First Name</th>\r\n                                <th>Claiment Last Name</th>\r\n                                <th>Booking date</th>\r\n                                <th>Time</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let booking of _bookings\" (click)=\"open(content,this.booking, false)\">\r\n                                <td>{{booking.ClientName}}</td>\r\n                                <td>{{booking.ClaimentFirstName}}</td>\r\n                                <td>{{booking.ClaimentLastName}}</td>\r\n                                <td>{{booking.BookingDate|date}}</td>\r\n                                <td>{{booking.Time}}</td>\r\n                            </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n        <div class=\"modal-header\">\r\n            <h4 class=\"modal-title\">Booking Details</h4>\r\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"c('Close click')\">\r\n                <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n            <form role=\"form\">\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"clientname\">Client Name</label>\r\n                    <input name=\"clientname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClientName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"claimentfirstname\">Claiment First Name</label>\r\n                    <input name=\"claimentfirstname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentFirstName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"claimentlastname\">Claiment Last Name</label>\r\n                    <input name=\"claimentlastname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentLastName\">\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"bookingdate\">Booking Date</label>\r\n                    <!-- <input name=\"bookingdate\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.BookingDate\"> -->\r\n\r\n                    <div class=\"input-group\">\r\n                        <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"bookingdate\" [(ngModel)]=\"booking.Date\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                        <div class=\"input-group-addon\" (click)=\"d.toggle()\">\r\n                            <span class=\"fa fa-calendar\"></span>\r\n                        </div>\r\n                    </div>\r\n                </fieldset>\r\n                <fieldset class=\"form-group\">\r\n                    <label for=\"bookingtime\">Booking Time</label>\r\n                    <ngb-timepicker [(ngModel)]=\"booking.BookingTime\" name=\"bookingtime\"></ngb-timepicker>\r\n                </fieldset>\r\n            </form>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"saveBooking() && c('Close click')\">Save</button>\r\n        </div>\r\n    </ng-template>\r\n</div>"
+module.exports = "<div [@routerTransition]>\r\n    <app-page-header [heading]=\"'Bookings'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n    <div class=\"row\">\r\n        <div class=\"col col-xl-12 col-lg-12 col-xs-12\">\r\n            <div class=\"card mb-12\">\r\n                <div class=\"card-header\">\r\n                    Upcoming bookings\r\n                    <button class=\"btn btn-primary pull-right\" (click)=\"open(content, this.booking, true)\">New Booking</button>\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>Client Name</th>\r\n                                <th>Claiment First Name</th>\r\n                                <th>Claiment Last Name</th>\r\n                                <th>Booking date</th>\r\n                                <th>Time</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let booking of _bookings\" (click)=\"open(content,this.booking, false)\">\r\n                                <td>{{booking.ClientName}}</td>\r\n                                <td>{{booking.ClaimentFirstName}}</td>\r\n                                <td>{{booking.ClaimentLastName}}</td>\r\n                                <td>{{booking.BookingDate|date}}</td>\r\n                                <td>{{booking.Time}}</td>\r\n                            </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n        <div class=\"modal-header\">\r\n            <h4 class=\"modal-title\">Booking Details</h4>\r\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"c('Close click')\">\r\n                <span aria-hidden=\"true\">&times;</span>\r\n            </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n            <ngb-tabset>\r\n                <ngb-tab title=\"Booking\">\r\n                    <ng-template ngbTabContent>\r\n                        <form role=\"form\">\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"clientname\">Client Name</label>\r\n                                <input name=\"clientname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClientName\">\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"claimentfirstname\">Claiment First Name</label>\r\n                                <input name=\"claimentfirstname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentFirstName\">\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"claimentlastname\">Claiment Last Name</label>\r\n                                <input name=\"claimentlastname\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.ClaimentLastName\">\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"bookingdate\">Booking Date</label>\r\n                                <!-- <input name=\"bookingdate\" class=\"form-control\" placeholder=\"Enter text\" [(ngModel)]=\"booking.BookingDate\"> -->\r\n\r\n                                <div class=\"input-group\">\r\n                                    <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"bookingdate\" [(ngModel)]=\"booking.Date\" ngbDatepicker #b=\"ngbDatepicker\">\r\n                                    <div class=\"input-group-addon\" (click)=\"b.toggle()\">\r\n                                        <span class=\"fa fa-calendar\"></span>\r\n                                    </div>\r\n                                </div>\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"bookingtime\">Booking Time</label>\r\n                                <ngb-timepicker [(ngModel)]=\"booking.BookingTime\" name=\"bookingtime\"></ngb-timepicker>\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"bookingreference\">Reference</label>\r\n                                <input name=\"bookingreference\" class=\"form-control\" placeholder=\"Enter Booking Reference\" [(ngModel)]=\"booking.Reference\">\r\n                            </fieldset>\r\n                        </form>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n                <ngb-tab title=\"Attorney\">\r\n                    <ng-template ngbTabContent>\r\n                        <form role=\"form\">\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"contactperson\">Contact Person</label>\r\n                                <input name=\"contactperson\" class=\"form-control\" placeholder=\"Name of contact person\" [(ngModel)]=\"attorney.ContactPerson\">\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"contactnumber\">Phone Number</label>\r\n                                <input name=\"contactnumber\" class=\"form-control\" placeholder=\"Phone number of contact person\" [(ngModel)]=\"attorney.PhoneNumber\">\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"contactemail\">Email</label>\r\n                                <input name=\"contactemail\" class=\"form-control\" placeholder=\"Email of contact person\" [(ngModel)]=\"attorney.Email\">\r\n                            </fieldset>\r\n                        </form>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n                <ngb-tab title=\"more\">\r\n                    <ng-template ngbTabContent>\r\n                        <form role=\"form\">\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"trialdate\">Trial Date</label>\r\n                                <!-- <input name=\"trialdate\" class=\"form-control\" placeholder=\"Trial date\" [(ngModel)]=\"booking.ClientName\"> -->\r\n                                <div class=\"input-group\">\r\n                                    <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"trialdate\" [(ngModel)]=\"booking.TDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                                    <div class=\"input-group-addon\" (click)=\"d.toggle()\">\r\n                                        <span class=\"fa fa-calendar\"></span>\r\n                                    </div>\r\n                                </div>\r\n                            </fieldset>\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"requestedreportdate\">Requested Report Date</label>\r\n                                <!-- <input name=\"requestedreportdate\" class=\"form-control\" placeholder=\"Report Date\" [(ngModel)]=\"booking.ClientName\"> -->\r\n                                <div class=\"input-group\">\r\n                                    <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"requestedreportdate\" [(ngModel)]=\"booking.RDate\" ngbDatepicker #e=\"ngbDatepicker\">\r\n                                    <div class=\"input-group-addon\" (click)=\"e.toggle()\">\r\n                                        <span class=\"fa fa-calendar\"></span>\r\n                                    </div>\r\n                                </div>\r\n                            </fieldset>\r\n                        </form>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n                <ngb-tab title=\"Documents\">\r\n                    <ng-template ngbTabContent>\r\n                        <fieldset class=\"form-group\">\r\n                            <label for=\"doctype\">Document Type</label>\r\n                            <select name=\"doctype\" class=\"form-control\">\r\n                                    <option>ID Document</option>\r\n                                    <option>Instruction Letter</option>\r\n                                    <option>Prem Report</option>\r\n                                    <option>Full Report</option>                                    \r\n                            </select>\r\n                        </fieldset>\r\n                        <fieldset class=\"form-group\">\r\n                            <label for=\"inputfile\">File input</label>\r\n                            <input type=\"file\" class=\"form-control-file\" id=\"inputfile\">\r\n                        </fieldset>\r\n                        <div class=\"card mb-12\">\r\n                            <div class=\"card-header\">\r\n                                Uploaded Documents\r\n                            </div>\r\n\r\n                            <div class=\"card-body table-responsive\">\r\n                                <table class=\"table\">\r\n                                    <thead>\r\n                                        <th>Document Name</th>\r\n                                        <th>Document Type</th>\r\n                                    </thead>\r\n                                    <tbody>\r\n                                        <tr>\r\n                                            <td></td>\r\n                                            <td></td>\r\n                                        </tr>\r\n                                    </tbody>\r\n                                </table>\r\n                            </div>\r\n                        </div>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n            </ngb-tabset>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"saveBooking()\">Save</button>\r\n        </div>\r\n    </ng-template>\r\n</div>"
 
 /***/ }),
 
@@ -94,6 +94,7 @@ var BookingsComponent = (function () {
         this.bookingsService = bookingsService;
         this.modalService = modalService;
         this.booking = this.initialiseBooking();
+        this.attorney = this.initialiseAttorney();
     }
     BookingsComponent.prototype.getBookings = function () {
         var _this = this;
@@ -101,12 +102,33 @@ var BookingsComponent = (function () {
             .subscribe(function (results) { return _this._bookings = results; }, function (error) { return console.log("Error :: " + error); });
     };
     BookingsComponent.prototype.initialiseBooking = function () {
-        return { Id: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, Time: null, BookingTime: { hour: 0, minute: 0 }, Date: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() } };
+        return { Id: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now, TrialDate: null, RequestedReportDate: null, Reference: '', Time: null, BookingTime: { hour: 0, minute: 0 }, Date: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }, TDate: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() }, RDate: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() } };
+    };
+    BookingsComponent.prototype.initialiseAttorney = function () {
+        return { Id: 0, BookingId: 0, ClientName: '', ContactPerson: '', PhoneNumber: '', Email: '' };
     };
     BookingsComponent.prototype.saveBooking = function () {
         var _this = this;
-        this.booking.BookingDate = new Date(this.booking.Date.year, this.booking.Date.month - 1, this.booking.Date.day, this.booking.BookingTime.hour + 2, this.booking.BookingTime.minute);
-        this.bookingsService.saveBooking(this.booking).subscribe(function (o) { return _this.getBookings(); }, function (error) { return console.log("Error :: " + error); });
+        if (this.booking.Date != null) {
+            this.booking.BookingDate = new Date(this.booking.Date.year, this.booking.Date.month - 1, this.booking.Date.day, this.booking.BookingTime.hour, this.booking.BookingTime.minute, 0, 0);
+        }
+        if (this.booking.TDate != null) {
+            this.booking.TrialDate = new Date(this.booking.TDate.year, this.booking.TDate.month - 1, this.booking.TDate.day + 1, 0, 0, 0, 0);
+        }
+        if (this.booking.RDate != null) {
+            this.booking.RequestedReportDate = new Date(this.booking.RDate.year, this.booking.RDate.month - 1, this.booking.RDate.day + 1, 0, 0, 0, 0);
+        }
+        this.booking.Time = this.booking.BookingTime.hour + ":0" + this.booking.BookingTime.minute + ":0" + this.booking.BookingTime.second;
+        var returnId = 0;
+        this.bookingsService.saveBooking(this.booking).subscribe(function (o) {
+            _this.getBookings();
+            if (_this.booking.Id == 0)
+                returnId = o.Id;
+        }, function (error) { return console.log("Error :: " + error); });
+        //save the attorney details        
+        var bookingId = this.booking.Id > 0 ? this.booking.Id : returnId;
+        this.attorney.BookingId = bookingId;
+        this.bookingsService.saveAttorney(this.attorney).subscribe(function (a) { return console.log(''); }, function (error) { return console.log("Error :: " + error); });
     };
     BookingsComponent.prototype.ngOnInit = function () {
         this.getBookings();
@@ -116,15 +138,25 @@ var BookingsComponent = (function () {
         var _this = this;
         if (!isNew) {
             this.booking = data;
+            //get the attorney details
+            this.bookingsService.getAttorney(data.Id).subscribe(function (result) { return _this.attorney = result; }, function (error) { return console.log("Error :: " + error); });
         }
         else {
             this.booking = this.initialiseBooking();
+            this.attorney = this.initialiseAttorney();
         }
         var date = new Date(this.booking.BookingDate);
         this.booking.Date = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        if (this.booking.TrialDate != null) {
+            var tdate = new Date(this.booking.TrialDate);
+            this.booking.TDate = { year: tdate.getFullYear(), month: tdate.getMonth() + 1, day: tdate.getDate() };
+        }
+        if (this.booking.RequestedReportDate != null) {
+            var tdate = new Date(this.booking.RequestedReportDate);
+            this.booking.RDate = { year: tdate.getFullYear(), month: tdate.getMonth() + 1, day: tdate.getDate() };
+        }
         if (this.booking.Time != null)
             this.booking.BookingTime = { hour: this.booking.Time.toString().substr(0, 2), minute: this.booking.Time.toString().substr(3, 2) };
-        console.log(this.booking.BookingTime);
         this.modalService.open(content).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
@@ -227,6 +259,7 @@ var BookingsService = (function () {
     function BookingsService(_http) {
         this._http = _http;
         this._bookingURL = "http://localhost:3000/bookings";
+        this.attorneyURL = "http://localhost:3000/attorneys";
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json',
             'Accept': 'q=0.8;application/json;q=0.9' });
         this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
@@ -238,6 +271,13 @@ var BookingsService = (function () {
         })
             .catch(this.handleError);
     };
+    BookingsService.prototype.getAttorney = function (bookingId) {
+        return this._http.get(this.attorneyURL + "/" + bookingId)
+            .map(function (response) {
+            return response.json()[0];
+        })
+            .catch(this.handleError);
+    };
     BookingsService.prototype.saveBooking = function (booking) {
         if (booking.Id == 0) {
             return this._http.post(this._bookingURL, booking, this.options)
@@ -245,6 +285,16 @@ var BookingsService = (function () {
         }
         else {
             return this._http.put(this._bookingURL, booking, this.options)
+                .catch(this.handleError);
+        }
+    };
+    BookingsService.prototype.saveAttorney = function (attorney) {
+        if (attorney.Id == 0) {
+            return this._http.post(this.attorneyURL, attorney, this.options)
+                .catch(this.handleError);
+        }
+        else {
+            return this._http.put(this.attorneyURL, attorney, this.options)
                 .catch(this.handleError);
         }
     };

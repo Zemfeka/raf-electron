@@ -7,6 +7,8 @@ import { Time } from '@angular/common/src/i18n/locale_data_api';
 @Injectable()
 export class BookingsService { 
   private _bookingURL = "http://localhost:3000/bookings";
+  private attorneyURL = "http://localhost:3000/attorneys";
+
   headers: Headers;
   options: RequestOptions;
 
@@ -24,6 +26,14 @@ export class BookingsService {
             .catch(this.handleError);
   }
 
+  getAttorney(bookingId: number): Observable<IAttorney> {
+    return this._http.get(this.attorneyURL + "/" + bookingId)
+            .map((response: Response) => {
+              return <IAttorney>response.json()[0];
+            })
+            .catch(this.handleError);
+  }
+
   saveBooking(booking: IBooking){
     if(booking.Id == 0){
         return this._http.post(this._bookingURL, booking,this.options)
@@ -33,6 +43,16 @@ export class BookingsService {
         .catch(this.handleError);
     }
     
+  }
+
+  saveAttorney(attorney: IAttorney){
+    if(attorney.Id == 0){
+      return this._http.post(this.attorneyURL, attorney,this.options)
+      .catch(this.handleError);
+  }else{
+    return this._http.put(this.attorneyURL, attorney,this.options)
+      .catch(this.handleError);
+  }
   }
 
   private handleError(error: Response){
@@ -48,7 +68,21 @@ export interface IBooking {
   ClaimentFirstName: string;
   ClaimentLastName: string;
   BookingDate: Date;
-  Time: Time;
+  TrialDate: Date;
+  RequestedReportDate: Date;
+  Reference: string;
+  Time: any;
   Date: any;
-  BookingTime: any
+  BookingTime: any,
+  TDate: any,
+  RDate: any
+}
+
+export interface IAttorney {
+  Id: number;
+  BookingId: number;
+  ClientName: string;
+  ContactPerson: string;
+  PhoneNumber: string;
+  Email: string;
 }

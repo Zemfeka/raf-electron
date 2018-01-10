@@ -43,39 +43,130 @@
             </button>
         </div>
         <div class="modal-body">
-            <form role="form">
-                <fieldset class="form-group">
-                    <label for="clientname">Client Name</label>
-                    <input name="clientname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClientName">
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="claimentfirstname">Claiment First Name</label>
-                    <input name="claimentfirstname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentFirstName">
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="claimentlastname">Claiment Last Name</label>
-                    <input name="claimentlastname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentLastName">
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="bookingdate">Booking Date</label>
-                    <!-- <input name="bookingdate" class="form-control" placeholder="Enter text" [(ngModel)]="booking.BookingDate"> -->
+            <ngb-tabset>
+                <ngb-tab title="Booking">
+                    <ng-template ngbTabContent>
+                        <form role="form">
+                            <fieldset class="form-group">
+                                <label for="clientname">Client Name</label>
+                                <input name="clientname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClientName">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="claimentfirstname">Claiment First Name</label>
+                                <input name="claimentfirstname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentFirstName">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="claimentlastname">Claiment Last Name</label>
+                                <input name="claimentlastname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentLastName">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="bookingdate">Booking Date</label>
+                                <!-- <input name="bookingdate" class="form-control" placeholder="Enter text" [(ngModel)]="booking.BookingDate"> -->
 
-                    <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="bookingdate" [(ngModel)]="booking.Date" ngbDatepicker #d="ngbDatepicker">
-                        <div class="input-group-addon" (click)="d.toggle()">
-                            <span class="fa fa-calendar"></span>
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="bookingdate" [(ngModel)]="booking.Date" ngbDatepicker #b="ngbDatepicker">
+                                    <div class="input-group-addon" (click)="b.toggle()">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="bookingtime">Booking Time</label>
+                                <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="bookingreference">Reference</label>
+                                <input name="bookingreference" class="form-control" placeholder="Enter Booking Reference" [(ngModel)]="booking.Reference">
+                            </fieldset>
+                        </form>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Attorney">
+                    <ng-template ngbTabContent>
+                        <form role="form">
+                            <fieldset class="form-group">
+                                <label for="contactperson">Contact Person</label>
+                                <input name="contactperson" class="form-control" placeholder="Name of contact person" [(ngModel)]="attorney.ContactPerson">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="contactnumber">Phone Number</label>
+                                <input name="contactnumber" class="form-control" placeholder="Phone number of contact person" [(ngModel)]="attorney.PhoneNumber">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="contactemail">Email</label>
+                                <input name="contactemail" class="form-control" placeholder="Email of contact person" [(ngModel)]="attorney.Email">
+                            </fieldset>
+                        </form>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="more">
+                    <ng-template ngbTabContent>
+                        <form role="form">
+                            <fieldset class="form-group">
+                                <label for="trialdate">Trial Date</label>
+                                <!-- <input name="trialdate" class="form-control" placeholder="Trial date" [(ngModel)]="booking.ClientName"> -->
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="trialdate" [(ngModel)]="booking.TDate" ngbDatepicker #d="ngbDatepicker">
+                                    <div class="input-group-addon" (click)="d.toggle()">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="requestedreportdate">Requested Report Date</label>
+                                <!-- <input name="requestedreportdate" class="form-control" placeholder="Report Date" [(ngModel)]="booking.ClientName"> -->
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="requestedreportdate" [(ngModel)]="booking.RDate" ngbDatepicker #e="ngbDatepicker">
+                                    <div class="input-group-addon" (click)="e.toggle()">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Documents">
+                    <ng-template ngbTabContent>
+                        <fieldset class="form-group">
+                            <label for="doctype">Document Type</label>
+                            <select name="doctype" class="form-control">
+                                    <option>ID Document</option>
+                                    <option>Instruction Letter</option>
+                                    <option>Prem Report</option>
+                                    <option>Full Report</option>                                    
+                            </select>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="inputfile">File input</label>
+                            <input type="file" class="form-control-file" id="inputfile">
+                        </fieldset>
+                        <div class="card mb-12">
+                            <div class="card-header">
+                                Uploaded Documents
+                            </div>
+
+                            <div class="card-body table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <th>Document Name</th>
+                                        <th>Document Type</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="bookingtime">Booking Time</label>
-                    <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
-                </fieldset>
-            </form>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-            <button type="button" class="btn btn-secondary" (click)="saveBooking() && c('Close click')">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="saveBooking()">Save</button>
         </div>
     </ng-template>
 </div>

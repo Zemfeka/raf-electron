@@ -72,6 +72,7 @@ var map = {
 	],
 	"./reports/reports.module": [
 		"../../../../../src/app/layout/reports/reports.module.ts",
+		"common",
 		"reports.module"
 	],
 	"./server-error/server-error.module": [

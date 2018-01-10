@@ -5,34 +5,34 @@ import { Observable } from 'rxjs/Observable';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
 
 @Injectable()
-export class AssessmentService {
-  private assessmentServiceGetURL = "http://localhost:3000/assessments/get";
-  private assesmentServiceAddURL = "http://localhost:3000/assessments/add";
-  private assesmentServiceUpdateURL = "http://localhost:3000/assessments/update";
+export class ReportService {
+  private reportServiceGetURL = "http://localhost:3000/reports/get";
+  private reportServiceAddURL = "http://localhost:3000/reports/add";
+  private reportServiceUpdateURL = "http://localhost:3000/reports/update";
   headers: Headers;
   options: RequestOptions;
-
+  
   constructor(private http: Http) { 
     this.headers = new Headers({ 'Content-Type': 'application/json', 
     'Accept': 'q=0.8;application/json;q=0.9' });
     this.options = new RequestOptions({ headers: this.headers });
   }
 
-  getAssessments():Observable<IAssessment[]>{
-    return this.http.get(this.assessmentServiceGetURL)
+  getReports():Observable<IReport[]>{
+    return this.http.get(this.reportServiceGetURL)
     .map((response: Response) => {
-      var mapped = <IAssessment[]>response.json();
+      var mapped = <IReport[]>response.json();
       return mapped;
     })
     .catch(this.handleError);
   }
 
-  saveAssessment(assessment: IAssessment){
-    if(assessment.Id == 0 || assessment.Id == null){
-        return this.http.post(this.assesmentServiceAddURL, assessment,this.options)
+  saveReport(report: IReport){
+    if(report.Id == 0 || report.Id == null){
+        return this.http.post(this.reportServiceAddURL, report,this.options)
         .catch(this.handleError);
     }else{
-      return this.http.put(this.assesmentServiceUpdateURL, assessment ,this.options)
+      return this.http.put(this.reportServiceUpdateURL, report ,this.options)
         .catch(this.handleError);
     }
   }
@@ -40,15 +40,20 @@ export class AssessmentService {
   private handleError(error: Response){
     return Observable.throw(error.statusText);
   }
-
 }
 
-export interface IAssessment{
+export interface IReport{
   Id: any;
   Notes: any;
   UserId: any;
   BookingId: any;
-  ShowNoShow: boolean;
+
+  //assessment info
+  AssessmentId: any;
+  AssessmentNotes: any;
+  AssessmentUserId: any;
+  AssessmentBookingId: any;
+  AssessmentShowNoShow: any;
 
   //booking info
   ClientName: string;

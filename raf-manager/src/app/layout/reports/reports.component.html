@@ -1,0 +1,63 @@
+<div [@routerTransition]>
+        <app-page-header [heading]="'Reports'" [icon]="'fa-calendar'"></app-page-header>
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-xs-12">
+                <div class="card mb-12">
+                    <div class="card-header">
+                        Reports
+                    </div>
+    
+                    <div class="card-body table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Claiment First Name</th>
+                                    <th>Claiment Last Name</th>
+                                    <th>Booking date</th>
+                                    <th>Time</th>
+                                    <th>Assessment Notes</th>
+                                    <th>ShowNoShow</th>
+                                    <th>Report Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let report of reports" (click)="open(content,this.report, false)">
+                                    <td>{{report.ClientName}}</td>
+                                    <td>{{report.ClaimentFirstName}}</td>
+                                    <td>{{report.ClaimentLastName}}</td>
+                                    <td>{{report.BookingDate|date}}</td>
+                                    <td>{{report.Time}}</td>
+                                    <td>{{report.AssessmentNotes}}</td>
+                                    <td>{{report.AssessmentShowNoShow}}</td>
+                                    <td>{{report.Notes}}</td>
+                                </tr>
+                            </tbody>
+    
+                        </table>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title">User Details</h4>
+                <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <fieldset class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea name="notes" class="form-control" rows="3" placeholder="Enter text" [(ngModel)]="report.Notes"></textarea>
+                    </fieldset>
+                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="saveReport() && c('Close click')">Save</button>
+            </div>
+        </ng-template>
+    </div>

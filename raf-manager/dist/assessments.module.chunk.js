@@ -118,7 +118,6 @@ var AssessmentsComponent = (function () {
         else {
             this.assessment = this.initialiseAssessment();
         }
-        console.log(data);
         this.modalService.open(content).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
@@ -231,13 +230,12 @@ var AssessmentService = (function () {
         return this.http.get(this.assessmentServiceGetURL)
             .map(function (response) {
             var mapped = response.json();
-            console.log(mapped);
             return mapped;
         })
             .catch(this.handleError);
     };
     AssessmentService.prototype.saveAssessment = function (assessment) {
-        if (assessment.Id == 0) {
+        if (assessment.Id == 0 || assessment.Id == null) {
             return this.http.post(this.assesmentServiceAddURL, assessment, this.options)
                 .catch(this.handleError);
         }

@@ -36,7 +36,6 @@ export class AssessmentsComponent implements OnInit {
         this.assessmentService.saveAssessment(this.assessment).subscribe(o => this.getAssessments(),
         error => console.log("Error :: " + error))   
         
-        alert("Saved successfully");
     }
 
     ngOnInit() {
@@ -50,9 +49,7 @@ export class AssessmentsComponent implements OnInit {
             this.assessment = this.initialiseAssessment();
         }
         
-        console.log(data);
-
-        this.modalService.open(content).result.then((result) => {
+         this.modalService.open(content).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

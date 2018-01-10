@@ -10,9 +10,11 @@ var cors = require('cors');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var bookings = require('./routes/bookings');
+<<<<<<< HEAD
 var assessments = require('./routes/assessments');
+=======
 var attorneys = require('./routes/attorneys');
-var reports = require('./routes/reports');
+>>>>>>> da90a82642fcc96cf7c939492b4bfdebb50f7400
 
 var app = express();
 
@@ -33,9 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/bookings', bookings);
+<<<<<<< HEAD
 app.use('/assessments', assessments);
+
+=======
 app.use('/attorneys', attorneys);
-app.use('/reports', reports);
+>>>>>>> da90a82642fcc96cf7c939492b4bfdebb50f7400
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var assessment = require('../models/assessments');
+var report = require('../models/report');
 
-//get assessments
+//get report
 router.get('/get', function(req, res, next) {
     if (req.params.id) {
-        assessment.getAssessmentById(req.params.id, function(err, rows) {
+        report.getReportById(req.params.id, function(err, rows) {
             if (err)
                 res.json(err);
             else
                 res.json(rows);
         })
     } else {
-        assessment.getAllAssessments(function(err, rows) {
+        report.getAllReports(function(err, rows) {
             if (err)
                 res.json(err);
             else
@@ -22,7 +22,7 @@ router.get('/get', function(req, res, next) {
   });
 
   router.post('/add', function(req, res, next) {
-    assessment.addAssessments(req.body, function(err, rows) {
+    report.addReports(req.body, function(err, rows) {
         if (err)
             res.json(err);
         else
@@ -31,7 +31,7 @@ router.get('/get', function(req, res, next) {
 });
 
   router.put('/update', function(req, res, next) {
-    assessment.updateAssessments(req.body, function(err, rows) {
+    report.updateReports(req.body, function(err, rows) {
         if (err)
             res.json(err);
         else

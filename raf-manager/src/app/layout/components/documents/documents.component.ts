@@ -39,7 +39,7 @@ getDocuments(bookingId) {
 uploadDocument() {
   //save documents                
   if(this.document.DocumentName != null || this.document.DocumentName != ''){
-      this.document.BookingId = this.booking.Id;
+      this.document.BookingId = this.document.BookingId;
       this.bookingsService.saveDocument(this.document).subscribe(a => {
           this.documents.push(this.document);
           this.document = this.initialiseDocument();        

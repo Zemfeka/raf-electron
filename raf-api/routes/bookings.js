@@ -29,6 +29,24 @@ router.post('/', function(req, res, next) {
     })
 });
 
+router.post('/uploadDocument', function(req, res, next) {
+    booking.uploadDocument(req.body, function(err, rows) {
+        if (err)
+            res.json(err);
+        else
+            res.json(req.body);
+    })
+});
+
+router.get('/getDocuments/:bookingId', function(req, res, next) {
+    booking.getDocuments(req.params.bookingId, function(err, rows) {
+        if (err)
+            res.json(err);
+        else
+            res.json(rows);
+    })
+});
+
 router.delete('/:id', function(req, res, next) {
     booking.deletebooking(req.params.id, function(err, count) {
         if (err)
@@ -44,6 +62,24 @@ router.put('/', function(req, res, next) {
             res.json(err);
         else
             res.json(rows);
+    })
+});
+
+router.delete('/deleteDocumentBooking/:bookingId', function(req, res, next) {
+    booking.deleteDocumentByBooking(req.params.bookingId, function(err, count) {
+        if (err)
+            res.json(err);
+        else
+            res.json(count);
+    })
+});
+
+router.delete('/deleteDocument/:Id', function(req, res, next) {
+    booking.deleteDocument(req.params.Id, function(err, count) {
+        if (err)
+            res.json(err);
+        else
+            res.json(count);
     })
 });
 

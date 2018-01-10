@@ -15,8 +15,19 @@ var booking = {
     },
     updatebooking: function(booking, callback) {
         return db.query("update bookings set UpdatedDate=?, UpdatedByID=?, ClientName=?,ClaimentFirstName=?,ClaimentLastName=?,BookingDate=?, TrialDate=?,RequestedReportDate=?,Time=? where Id=?", [booking.UpdatedDate, booking.UpdatedByID, booking.ClientName, booking.ClaimentFirstName, booking.ClaimentLastName, booking.BookingDate, booking.TrialDate, booking.RequestedReportDate, booking.Time, booking.Id], callback);
+    },
+    uploadDocument: function(document, callback) {
+        return db.query("insert into documents(BookingId, DocumentName, DocumentType, DocumentExtension, Contents) values(?,?,?,?,?)", [document.BookingId, document.DocumentName, document.DocumentType, document.DocumentExtension, document.Contents], callback);
+    },
+    getDocuments: function(bookingId, callback) {
+        return db.query("select * from documents where BookingId=?", [bookingId], callback);
+    },
+    deleteDocumentByBooking: function(bookingId, callback) {
+        return db.query("delete from documents where BookingId=?", [bookingId], callback);
+    },
+    deleteDocument: function(Id, callback) {
+        return db.query("delete from documents where Id=?", [Id], callback);
     }
-
 };
 
 module.exports = booking;

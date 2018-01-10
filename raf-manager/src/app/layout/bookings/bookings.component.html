@@ -17,15 +17,26 @@
                                 <th>Claiment Last Name</th>
                                 <th>Booking date</th>
                                 <th>Time</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let booking of _bookings" (click)="open(content,this.booking, false)">
+                            <tr *ngFor="let booking of _bookings">
                                 <td>{{booking.ClientName}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
                                 <td>{{booking.BookingDate|date}}</td>
                                 <td>{{booking.Time}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn mce-btn-small" (click)="open(content,this.booking, false)">
+                                            <span class="fa fa-hand-pointer-o"></span>
+                                        </button>
+                                        <button class="btn mce-btn-small" (click)="deleteBooking(this.booking.Id)">
+                                            <span class="fa fa-remove"></span>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -154,11 +165,22 @@
                                     <thead>
                                         <th>Document Name</th>
                                         <th>Document Type</th>
+                                        <th></th>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let doc of documents">
                                             <td>{{doc.DocumentName}}</td>
                                             <td>{{doc.DocumentType}}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn mce-btn-small">
+                                                        <span class="fa fa-download"></span>
+                                                    </button>
+                                                    <button class="btn mce-btn-small" (click)="deleteDocument(doc.Id)">
+                                                        <span class="fa fa-remove"></span>
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

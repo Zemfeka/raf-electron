@@ -5,6 +5,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
 import { error } from 'util';
+import { window } from 'rxjs/operators/window';
 
 
 const now = new Date();
@@ -37,7 +38,7 @@ export class BookingsComponent implements OnInit {
         return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
     }
     initialiseDocument() {
-        return {Id:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: {}}
+        return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob()}
     }
 
     saveBooking() {        
@@ -59,12 +60,37 @@ export class BookingsComponent implements OnInit {
                 this._bookings = results;
                 var bookingId = results[results.length -1].Id;
                 //save the attorney details                
-                this.attorney.BookingId = bookingId;
-                this.attorney.ClientName = this.booking.ClientName;
-                this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
+                if(this.attorney.ContactPerson != null || this.attorney.ContactPerson != ''){
+                    this.attorney.BookingId = bookingId;
+                    this.attorney.ClientName = this.booking.ClientName;
+                    this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
+                }               
+                
             });                  
         },
         error => console.log("Error :: " + error));        
+    }
+
+    deleteBooking(bookingId){
+        this.bookingsService.deleteBooking(bookingId)
+        .subscribe(o => {
+            this.bookingsService.deleteAttorney(bookingId).subscribe(a =>{
+                this.bookingsService.deleteDocumentByBooking(bookingId).subscribe(d => {
+                    this.getBookings().subscribe(results => this._bookings = results,
+                        error => console.log("Error :: " + error));
+                })
+            })
+            
+        });
+    }
+
+    
+
+    deleteDocument(Id) {
+        this.bookingsService.deleteDocument(Id)
+        .subscribe(o => {
+            this.getDocuments(this.booking.Id);
+        },error => console.log("Error :: " + error))
     }
 
     ngOnInit() {
@@ -76,12 +102,20 @@ export class BookingsComponent implements OnInit {
         if(!isNew) {        
             this.booking = data;
             //get the attorney details
-            this.bookingsService.getAttorney(data.Id).subscribe(result => this.attorney = result,
-                error => console.log("Error :: " + error));
+            this.bookingsService.getAttorney(data.Id).subscribe(result => {
+                if(result != null)
+                    this.attorney = result
+                else
+                    this.attorney = this.initialiseAttorney();
+
+            },error => console.log("Error :: " + error));            
         } else{
             this.booking = this.initialiseBooking();
             this.attorney = this.initialiseAttorney();
         }
+
+        //get the documents
+        this.getDocuments(data.Id);
         
         var date = new Date(this.booking.BookingDate);        
         
@@ -107,9 +141,21 @@ export class BookingsComponent implements OnInit {
         });
     }
 
-    uploadDocument() {        
-        this.documents.push(this.document);
-        this.document = this.initialiseDocument();        
+    uploadDocument() {
+        //save documents                
+        if(this.document.DocumentName != null || this.document.DocumentName != ''){
+            this.document.BookingId = this.booking.Id;
+            this.bookingsService.saveDocument(this.document).subscribe(a => {
+                this.documents.push(this.document);
+                this.document = this.initialiseDocument();        
+            },error => console.log("Error :: " + error));
+        }                
+    }
+
+    getDocuments(bookingId) {
+        this.bookingsService.getDocuments(bookingId)
+            .subscribe(results => this.documents = results,
+                error => console.log("Error :: " + error));
     }
 
     onFileChange(event) {
@@ -121,7 +167,7 @@ export class BookingsComponent implements OnInit {
             this.document.DocumentName = file.name;
             this.document.DocumentExtension = file.type;
             this.document.Contents = reader.result.split(',')[1];
-          };
+          };          
         }
       }
 

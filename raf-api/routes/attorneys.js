@@ -29,8 +29,8 @@ router.put('/', function(req, res, next) {
     })
 });
 
-router.delete('/', function(req, res, next) {
-    attorney.deleteAttorney(req.body, function(err, count) {
+router.delete('/:bookingId', function(req, res, next) {
+    attorney.deleteAttorney(req.params.bookingId, function(err, count) {
         if (err)
             res.json(err);
         else

@@ -13,8 +13,8 @@ var attorney = {
         return db.query("update attorneys set ContactPerson=?, PhoneNumber=?,Email=? where Id=?", [attorney.ContactPerson, attorney.PhoneNumber, attorney.Email, attorney.Id], callback);
     },
 
-    deleteAttorney: function(attorney, callback) {
-        return db.query("delete from attorneys wehre Id=?", [attorney.Id], callback);
+    deleteAttorney: function(bookingId, callback) {
+        return db.query("delete from attorneys where BookingId=?", [bookingId], callback);
     }
 }
 module.exports = attorney;

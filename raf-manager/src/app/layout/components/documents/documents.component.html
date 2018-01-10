@@ -1,0 +1,47 @@
+<div class="row">
+    <fieldset class="form-group">
+        <label for="doctype">Document Type</label>
+        <select name="doctype" class="form-control" [(ngModel)]="document.DocumentType">
+            <option>ID Document</option>
+            <option>Instruction Letter</option>
+            <option>Prem Report</option>
+            <option>Full Report</option>                                    
+    </select>
+    </fieldset>
+    <fieldset class="form-group">
+        <label for="inputfile">File input</label>
+        <input type="file" class="form-control-file" id="doc" #fileInput (change)="onFileChange($event)">
+    </fieldset>
+    <button type="button" class="btn btn-secondary" (click)="uploadDocument()">Upload</button>
+    <div class="card mb-12">
+        <div class="card-header">
+            Uploaded Documents
+        </div>
+
+        <div class="card-body table-responsive">
+            <table class="table">
+                <thead>
+                    <th>Document Name</th>
+                    <th>Document Type</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let doc of documents">
+                        <td>{{doc.DocumentName}}</td>
+                        <td>{{doc.DocumentType}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn mce-btn-small">
+                                <span class="fa fa-download"></span>
+                            </button>
+                                <button class="btn mce-btn-small" (click)="deleteDocument(doc.Id)">
+                                <span class="fa fa-remove"></span>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

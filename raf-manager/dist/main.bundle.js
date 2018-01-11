@@ -10,6 +10,7 @@ var map = {
 	],
 	"./assessments/assessments.module": [
 		"../../../../../src/app/layout/assessments/assessments.module.ts",
+		"common",
 		"assessments.module"
 	],
 	"./blank-page/blank-page.module": [
@@ -71,6 +72,7 @@ var map = {
 	],
 	"./reports/reports.module": [
 		"../../../../../src/app/layout/reports/reports.module.ts",
+		"common",
 		"reports.module"
 	],
 	"./server-error/server-error.module": [

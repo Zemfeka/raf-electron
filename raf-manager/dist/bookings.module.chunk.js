@@ -125,27 +125,36 @@ var BookingsComponent = (function () {
             this.booking.RequestedReportDate = new Date(this.booking.RDate.year, this.booking.RDate.month - 1, this.booking.RDate.day + 1, 0, 0, 0, 0);
         }
         this.booking.Time = this.booking.BookingTime.hour + ":0" + this.booking.BookingTime.minute + ":0" + this.booking.BookingTime.second;
-        this.bookingsService.saveBooking(this.booking).subscribe(function (bookingId) {
+        this.bookingsService.saveBooking(this.booking).subscribe(function (results) {
             //TODO: change the save to return bookingId and then use it.                                       
             //save the attorney details                
+            var bookingId = _this.booking.Id > 0 ? _this.booking.Id : results;
             if (_this.attorney.ContactPerson != null || _this.attorney.ContactPerson != '') {
                 _this.attorney.BookingId = bookingId;
                 _this.attorney.ClientName = _this.booking.ClientName;
-                _this.bookingsService.saveAttorney(_this.attorney).subscribe(function (a) { return console.log(''); }, function (error) { return console.log("Error :: " + error); });
-            }
-            //save documents
-            if (_this.documents.length > 0) {
-                _this.documents.forEach(function (document) {
-                    if (document.IsNew) {
-                        document.BookingId = bookingId;
-                        this.bookingsService.saveDocument(document).subscribe(function (a) {
-                        }, function (error) { return console.log("Error :: " + error); });
+                _this.bookingsService.saveAttorney(_this.attorney).subscribe(function (a) {
+                    //save documents
+                    if (_this.documents.length > 0) {
+                        for (var i = 0; i < _this.documents.length; i++) {
+                            var document = _this.documents[i];
+                            if (document.IsNew) {
+                                document.BookingId = bookingId;
+                                _this.bookingsService.saveDocument(document).subscribe(function (d) {
+                                    _this.getBookings().subscribe(function (bookings) {
+                                        _this._bookings = bookings;
+                                    }, function (error) { return console.log("Error :: " + error); });
+                                }, function (error) { return console.log("Error :: " + error); });
+                            }
+                        }
+                        // for (let document of this.documents) {
+                        //     if(document.IsNew) {
+                        //         document.BookingId = bookingId;
+                        //         this.bookingsService.saveDocument(document);
+                        //     }
+                        // }                     
                     }
-                });
+                }, function (error) { return console.log("Error :: " + error); });
             }
-            _this.getBookings().subscribe(function (bookings) {
-                _this._bookings = bookings;
-            }, function (error) { return console.log("Error :: " + error); });
         }, function (error) { return console.log("Error :: " + error); });
     };
     BookingsComponent.prototype.deleteBooking = function (bookingId) {

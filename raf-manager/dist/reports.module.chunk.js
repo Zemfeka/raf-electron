@@ -104,7 +104,6 @@ var ReportsComponent = (function () {
     };
     ReportsComponent.prototype.saveReport = function () {
         var _this = this;
-        console.log(this.report);
         this.reportService.saveReport(this.report).subscribe(function (o) { return _this.getReports(); }, function (error) { return console.log("Error :: " + error); });
     };
     ReportsComponent.prototype.ngOnInit = function () {

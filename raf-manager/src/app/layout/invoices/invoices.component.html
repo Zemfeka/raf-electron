@@ -1,0 +1,77 @@
+<div [@routerTransition]>
+        <app-page-header [heading]="'Invoices'" [icon]="'fa-calendar'"></app-page-header>
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-xs-12">
+                <div class="card mb-12">
+                    <div class="card-header">
+                        Invoice
+                    </div>
+    
+                    <div class="card-body table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Client Name</th>
+                                    <th>Claiment First Name</th>
+                                    <th>Claiment Last Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let invoice of invoices" (click)="open(content,this.invoice, false)">
+                                    <td>{{invoice.Number}}</td>
+                                    <td>{{invoice.InvoiceDate}}</td>
+                                    <td>{{invoice.Total}}</td>
+                                    <td>{{invoice.ClientName}}</td>
+                                    <td>{{invoice.ClaimentFirstName}}</td>
+                                    <td>{{invoice.ClaimentLastName}}</td>
+                                    
+                                </tr>
+                            </tbody>
+    
+                        </table>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title">Invoice: {{invoice.Number}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <form role="form">
+                    <div class="form-group">
+                        <label for="businessname"></label>
+                        <input name="businessname" class="form-control" placeholder="Enter text" [(ngModel)]="invoice.BusinessName"></input>
+                    </div>
+                    <div class="form-group">
+                            <label for="businessregistrationnumber"></label>
+                            <input name="businessregistrationnumber" class="form-control" placeholder="Enter text" [(ngModel)]="invoice.BusinessRegistrationNumber"></input>
+                    </div>
+                    <div class="form-group">
+                            <label for="businessvatnumber"></label>
+                            <input name="businessvatnumber" class="form-control" placeholder="Enter text" [(ngModel)]="invoice.BusinessVatNumber"></v>
+                    </div>
+                 </form> -->
+                 <p>
+                      <b>{{invoice.BusinessName}}</b><br>
+                      Reg No:{{invoice.BusinessRegistrationNumber}}<br>
+                      Vat No:{{BusinessVatNumber}}
+                 </p>
+                 <p>
+                        <b>{{invoice.ClientName}}</b><br>
+                        
+                   </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="saveInvoice() && c('Close click')">Save</button>
+            </div>
+        </ng-template>
+    </div>

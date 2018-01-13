@@ -105,7 +105,6 @@ var AssessmentsComponent = (function () {
     AssessmentsComponent.prototype.saveAssessment = function () {
         var _this = this;
         this.assessmentService.saveAssessment(this.assessment).subscribe(function (o) { return _this.getAssessments(); }, function (error) { return console.log("Error :: " + error); });
-        alert("Saved successfully");
     };
     AssessmentsComponent.prototype.ngOnInit = function () {
         this.getAssessments();

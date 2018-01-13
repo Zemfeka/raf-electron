@@ -33,7 +33,6 @@ export class ReportsComponent implements OnInit {
     }
 
     saveReport() {        
-        console.log(this.report);
         this.reportService.saveReport(this.report).subscribe(o => this.getReports(),
         error => console.log("Error :: " + error))   
     }

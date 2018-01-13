@@ -13,6 +13,7 @@ var bookings = require('./routes/bookings');
 var assessments = require('./routes/assessments');
 var attorneys = require('./routes/attorneys');
 var reports = require('./routes/reports');
+var invoices = require('./routes/invoices');
 
 var app = express();
 
@@ -36,6 +37,8 @@ app.use('/bookings', bookings);
 app.use('/assessments', assessments);
 app.use('/attorneys', attorneys);
 app.use('/reports', reports);
+app.use('/invoices', invoices);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

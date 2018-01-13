@@ -54,6 +54,7 @@ var map = {
 	],
 	"./invoices/invoices.module": [
 		"../../../../../src/app/layout/invoices/invoices.module.ts",
+		"common",
 		"invoices.module"
 	],
 	"./layout/layout.module": [

@@ -62,7 +62,7 @@ export class BookingsComponent implements OnInit {
             //TODO: change the save to return bookingId and then use it.                                       
                 //save the attorney details                
                 var bookingId = this.booking.Id > 0 ? this.booking.Id : results;
-
+                var counter = 0;
                 if(this.attorney.ContactPerson != null || this.attorney.ContactPerson != ''){
                     this.attorney.BookingId = bookingId;
                     this.attorney.ClientName = this.booking.ClientName;
@@ -86,17 +86,19 @@ export class BookingsComponent implements OnInit {
                                 if(document.IsNew) {
                                     document.BookingId = bookingId;
                                     this.bookingsService.saveDocument(document).subscribe(d => {
-                                        this.getBookings().subscribe(bookings => {
-                                            this._bookings = bookings;
-                                        },
-                                        error => console.log("Error :: " + error));
+                                        console.log(counter);
+                                        counter++;
                                     },
                                     error => console.log("Error :: " + error));
                                 }
                             }                     
                         }
                     },error => console.log("Error :: " + error));
-                }                                               
+                }
+                this.getBookings().subscribe(bookings => {
+                    this._bookings = bookings;                                            
+                },
+                error => console.log("Error :: " + error));                                               
         },
         error => console.log("Error :: " + error));        
     }

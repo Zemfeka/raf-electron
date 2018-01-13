@@ -129,32 +129,31 @@ var BookingsComponent = (function () {
             //TODO: change the save to return bookingId and then use it.                                       
             //save the attorney details                
             var bookingId = _this.booking.Id > 0 ? _this.booking.Id : results;
+            var counter = 0;
             if (_this.attorney.ContactPerson != null || _this.attorney.ContactPerson != '') {
                 _this.attorney.BookingId = bookingId;
                 _this.attorney.ClientName = _this.booking.ClientName;
                 _this.bookingsService.saveAttorney(_this.attorney).subscribe(function (a) {
                     //save documents
                     if (_this.documents.length > 0) {
-                        for (var i = 0; i < _this.documents.length; i++) {
-                            var document = _this.documents[i];
-                            if (document.IsNew) {
-                                document.BookingId = bookingId;
-                                _this.bookingsService.saveDocument(document).subscribe(function (d) {
-                                    _this.getBookings().subscribe(function (bookings) {
-                                        _this._bookings = bookings;
-                                    }, function (error) { return console.log("Error :: " + error); });
+                        var _loop_1 = function (document_1) {
+                            if (document_1.IsNew) {
+                                document_1.BookingId = bookingId;
+                                _this.bookingsService.saveDocument(document_1).subscribe(function (d) {
+                                    document_1.IsNew = false;
                                 }, function (error) { return console.log("Error :: " + error); });
                             }
+                        };
+                        for (var _i = 0, _a = _this.documents; _i < _a.length; _i++) {
+                            var document_1 = _a[_i];
+                            _loop_1(document_1);
                         }
-                        // for (let document of this.documents) {
-                        //     if(document.IsNew) {
-                        //         document.BookingId = bookingId;
-                        //         this.bookingsService.saveDocument(document);
-                        //     }
-                        // }                     
                     }
                 }, function (error) { return console.log("Error :: " + error); });
             }
+            _this.getBookings().subscribe(function (bookings) {
+                _this._bookings = bookings;
+            }, function (error) { return console.log("Error :: " + error); });
         }, function (error) { return console.log("Error :: " + error); });
     };
     BookingsComponent.prototype.deleteBooking = function (bookingId) {

@@ -68,39 +68,25 @@ export class BookingsComponent implements OnInit {
                     this.attorney.ClientName = this.booking.ClientName;
                     this.bookingsService.saveAttorney(this.attorney).subscribe(a => {
                         //save documents
-                        if(this.documents.length > 0) {
-                            // for (let i=0; i < this.documents.length; i++) {
-                            //     var document = this.documents[i];
-                            //     if(document.IsNew) {
-                            //         document.BookingId = bookingId;
-                            //         this.bookingsService.saveDocument(document).subscribe(d => {
-                            //             this.getBookings().subscribe(bookings => {
-                            //                 this._bookings = bookings;
-                            //             },
-                            //             error => console.log("Error :: " + error));
-                            //         },
-                            //         error => console.log("Error :: " + error));
-                            //     }
-                            // }
+                        if(this.documents.length > 0) {                            
                             for (let document of this.documents) {
                                 if(document.IsNew) {
                                     document.BookingId = bookingId;
                                     this.bookingsService.saveDocument(document).subscribe(d => {
-                                        console.log(counter);
-                                        counter++;
+                                        document.IsNew = false;
                                     },
                                     error => console.log("Error :: " + error));
                                 }
                             }                     
                         }
                     },error => console.log("Error :: " + error));
-                }
+                }                
                 this.getBookings().subscribe(bookings => {
                     this._bookings = bookings;                                            
                 },
-                error => console.log("Error :: " + error));                                               
+                error => console.log("Error :: " + error));
         },
-        error => console.log("Error :: " + error));        
+        error => console.log("Error :: " + error));                                                               
     }
 
     deleteBooking(bookingId){

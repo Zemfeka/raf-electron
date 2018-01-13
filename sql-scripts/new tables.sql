@@ -17,7 +17,6 @@ CREATE TABLE `bookings` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-SELECT * FROM test.documents;
 
 CREATE TABLE `documents` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,

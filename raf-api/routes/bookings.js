@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
         if (err)
             res.json(err);
         else
-            res.json(req.body);
+            res.json(rows.insertId);
     })
 });
 

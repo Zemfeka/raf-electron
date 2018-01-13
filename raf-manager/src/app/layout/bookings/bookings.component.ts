@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
 import { error } from 'util';
 import { window } from 'rxjs/operators/window';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 const now = new Date();
@@ -38,9 +39,11 @@ export class BookingsComponent implements OnInit {
         return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
     }
     initialiseDocument() {
-        return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob()}
+        return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob(), IsNew: true}
     }
-
+    getRandomArbitrary(min, max) {
+        return this.booking.ClientName + Math.random() * (max - min) + min;
+    }
     saveBooking() {        
        
         if(this.booking.Date != null){
@@ -55,18 +58,28 @@ export class BookingsComponent implements OnInit {
        
        this.booking.Time =  this.booking.BookingTime.hour + ":0" + this.booking.BookingTime.minute + ":0" + this.booking.BookingTime.second; 
        
-        this.bookingsService.saveBooking(this.booking).subscribe(o => {          
-            this.getBookings().subscribe(results => {
-                this._bookings = results;
-                var bookingId = results[results.length -1].Id;
+        this.bookingsService.saveBooking(this.booking).subscribe(bookingId => {    
+            //TODO: change the save to return bookingId and then use it.                                       
                 //save the attorney details                
                 if(this.attorney.ContactPerson != null || this.attorney.ContactPerson != ''){
                     this.attorney.BookingId = bookingId;
                     this.attorney.ClientName = this.booking.ClientName;
                     this.bookingsService.saveAttorney(this.attorney).subscribe(a => console.log(''),error => console.log("Error :: " + error));
                 }               
-                
-            });                  
+                //save documents
+                if(this.documents.length > 0) {
+                    for (let document of this.documents) {
+                        if(document.IsNew) {
+                            document.BookingId = bookingId;
+                            this.bookingsService.saveDocument(document).subscribe(a => {                            
+                            },error => console.log("Error :: " + error));
+                        }
+                    }                     
+                }
+                this.getBookings().subscribe(bookings => {
+                    this._bookings = bookings;
+                },
+                error => console.log("Error :: " + error));
         },
         error => console.log("Error :: " + error));        
     }
@@ -100,7 +113,7 @@ export class BookingsComponent implements OnInit {
 
     open(content, data, isNew) {        
         if(!isNew) {        
-            this.booking = data;
+            this.booking = data;            
             //get the attorney details
             this.bookingsService.getAttorney(data.Id).subscribe(result => {
                 if(result != null)
@@ -111,6 +124,8 @@ export class BookingsComponent implements OnInit {
             },error => console.log("Error :: " + error));            
         } else{
             this.booking = this.initialiseBooking();
+            this.booking.Reference = this.getRandomArbitrary(100, 200);
+
             this.attorney = this.initialiseAttorney();
         }
 
@@ -142,14 +157,8 @@ export class BookingsComponent implements OnInit {
     }
 
     uploadDocument() {
-        //save documents                
-        if(this.document.DocumentName != null || this.document.DocumentName != ''){
-            this.document.BookingId = this.booking.Id;
-            this.bookingsService.saveDocument(this.document).subscribe(a => {
-                this.documents.push(this.document);
-                this.document = this.initialiseDocument();        
-            },error => console.log("Error :: " + error));
-        }                
+        this.documents.push(this.document);
+        this.document = this.initialiseDocument();                
     }
 
     getDocuments(bookingId) {

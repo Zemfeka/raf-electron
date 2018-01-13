@@ -38,6 +38,9 @@ export class BookingsService {
   saveBooking(booking: IBooking){
     if(booking.Id == 0){
         return this._http.post(this._bookingURL, booking,this.options)
+        .map((response: Response) => {
+          return <number>response.json()
+        }) 
         .catch(this.handleError);
     }else{
       return this._http.put(this._bookingURL, booking,this.options)
@@ -134,4 +137,5 @@ export interface IDocument {
   DocumentType: string;
   DocumentExtension: string;
   Contents: Blob;
+  IsNew: boolean;
 }

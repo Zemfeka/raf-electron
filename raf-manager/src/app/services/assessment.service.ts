@@ -3,6 +3,7 @@ import {Http, Response, Headers, RequestOptions, URLSearchParams} from "@angular
 import "rxjs/Rx";
 import { Observable } from 'rxjs/Observable';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
+import { IBooking } from '../services/bookings.service';
 
 @Injectable()
 export class AssessmentService {
@@ -49,13 +50,16 @@ export interface IAssessment{
   UserId: any;
   BookingId: any;
   ShowNoShow: boolean;
-
+  //Booking: IBooking;
   //booking info
+  Reference: string;
   ClientName: string;
   ClaimentFirstName: string;
   ClaimentLastName: string;
   BookingDate: Date;
-  Time: Time;
+  TrialDate: Date;
+  RequestedReportDate: Date;
+  Time: any;
   Date: any;
   BookingTime: any
 }

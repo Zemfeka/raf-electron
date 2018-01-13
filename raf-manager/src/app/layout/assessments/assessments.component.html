@@ -11,22 +11,28 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Ref#</th>
                                 <th>Client Name</th>
                                 <th>Claiment First Name</th>
                                 <th>Claiment Last Name</th>
-                                <th>Booking date</th>
+                                <th>Booking Date</th>
                                 <th>Time</th>
+                                <th>Trial date</th>
+                                <th>Requested Report Date</th>
                                 <th>Notes</th>
                                 <th>ShowNoShow</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let assessment of assessments" (click)="open(content,this.assessment, false)">
+                                <td>{{assessment.Reference}}</td>
                                 <td>{{assessment.ClientName}}</td>
                                 <td>{{assessment.ClaimentFirstName}}</td>
                                 <td>{{assessment.ClaimentLastName}}</td>
                                 <td>{{assessment.BookingDate|date}}</td>
                                 <td>{{assessment.Time}}</td>
+                                <td>{{assessment.TrialDate|date}}</td>
+                                <td>{{assessment.RequestedReportDate|date}}</td>
                                 <td>{{assessment.Notes}}</td>
                                 <td>{{assessment.ShowNoShow}}</td>
                             </tr>
@@ -56,7 +62,7 @@
                     <label for="shownoshow">ShowNoShow</label>
                     <input type="checkbox" name="shownoshow" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.ShowNoShow">
                 </fieldset>
-             </form>
+            </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>

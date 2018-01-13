@@ -22,7 +22,7 @@ export class AssessmentsComponent implements OnInit {
     constructor(private assessmentService: AssessmentService, private modalService: NgbModal) {}
 
     initialiseAssessment() {
-        return {Id:0, Notes:'',UserId:0,BookingId:0,ShowNoShow:false,ClientName: '',ClaimentFirstName: '',  ClaimentLastName: '',  BookingDate: null,  Time: null,  Date: null,  BookingTime: null};
+        return {Id:0, Notes:'',UserId:0,BookingId:0,ShowNoShow:false,Reference:'',ClientName: '',ClaimentFirstName: '',  ClaimentLastName: '',  BookingDate: null,TrialDate:null,RequestedReportDate:null,  Time: null,  Date: null,  BookingTime: null};
     }
 
     getAssessments(){

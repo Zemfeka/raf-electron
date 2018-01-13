@@ -17,7 +17,7 @@ export class DocumentsComponent implements OnInit {
   constructor(private bookingsService: BookingsService, private modalService: NgbModal) { }
   
   initialiseDocument() {
-    return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob()}
+    return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob(), IsNew:true}
   }
 
   deleteDocument(document: IDocument) {
@@ -37,7 +37,7 @@ getDocuments(bookingId) {
 }
 
 uploadDocument() {
-  //save documents                
+  //save documents
   if(this.document.DocumentName != null || this.document.DocumentName != ''){
       this.document.BookingId = this.document.BookingId;
       this.bookingsService.saveDocument(this.document).subscribe(a => {

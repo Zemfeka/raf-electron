@@ -12,4 +12,12 @@ export class DataService {
   changeBooking(data: number){     
     this.bookingSource.next(data);
   }
+
+  getNativeWindow() {
+    return window;
+  }
+
+  getGlobalUrl(): typeof URL {
+    return window.URL || (<any>window).webkitURL;
+  }
 }

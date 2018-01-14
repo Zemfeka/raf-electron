@@ -2,6 +2,7 @@ import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 import { BookingsService, IDocument} from '../../../services/bookings.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataService } from '../../../services/data.service';
 
 
 
@@ -9,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss'],
-  providers: [BookingsService, NgbModal, FormsModule, ReactiveFormsModule],
+  providers: [BookingsService, NgbModal, FormsModule, ReactiveFormsModule,DataService],
 })
 export class DocumentsComponent implements OnInit {
   documents: IDocument[] = [];
@@ -17,8 +18,12 @@ export class DocumentsComponent implements OnInit {
 
   @Input() bookingId: number;
   @Output() uploadClick: EventEmitter<IDocument> = new EventEmitter<IDocument>();
+  
+  nativeWindow: any;
 
-  constructor(private bookingsService: BookingsService, private modalService: NgbModal) { }
+  constructor(private bookingsService: BookingsService, private modalService: NgbModal, private data: DataService) {
+    this.nativeWindow = data.getNativeWindow();
+   }
   
   initialiseDocument() {
     return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob(), IsNew:true}
@@ -46,6 +51,15 @@ export class DocumentsComponent implements OnInit {
     this.uploadClick.emit(document);
     this.documents.push(document);
     this.document = this.initialiseDocument();                        
+  }
+
+  downloadDocument(data : IDocument) {    
+    console.log(data.Contents)
+    console.log(data.DocumentExtension);
+    let url = this.data.getGlobalUrl().createObjectURL(new Blob([data.Contents.data], { type: data.DocumentExtension }));    
+    console.log(url);
+    this.data.getNativeWindow().open(url);
+    this.data.getGlobalUrl().revokeObjectURL(url);
   }
 
 onFileChange(event) {

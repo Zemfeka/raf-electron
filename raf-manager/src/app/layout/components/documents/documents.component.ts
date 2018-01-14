@@ -54,25 +54,57 @@ export class DocumentsComponent implements OnInit {
   }
 
   downloadDocument(data : IDocument) {    
-    console.log(data.Contents)
-    console.log(data.DocumentExtension);
-    let url = this.data.getGlobalUrl().createObjectURL(new Blob([data.Contents.data], { type: data.DocumentExtension }));    
-    console.log(url);
-    this.data.getNativeWindow().open(url);
-    this.data.getGlobalUrl().revokeObjectURL(url);
+    // console.log(data.Contents)
+    // console.log(data.DocumentExtension);
+    // let url = this.data.getGlobalUrl().createObjectURL(new Blob([data.Contents.data], { type: data.DocumentExtension }));    
+    // console.log(url);
+    // this.data.getNativeWindow().open(url);
+    // this.data.getGlobalUrl().revokeObjectURL(url);
+    this.saveTextAsFile(data);
   }
 
 onFileChange(event) {
     let reader = new FileReader();
     if(event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];          
-      reader.readAsDataURL(file);
+      reader.readAsBinaryString(file);
       reader.onload = () => {
         this.document.DocumentName = file.name;
         this.document.DocumentExtension = file.type;
-        this.document.Contents = reader.result.split(',')[1];
+        this.document.Contents = reader.result;
       };          
     }
+  }
+
+  saveTextAsFile (data: IDocument){
+    
+    console.log(data.Contents);
+
+    let reader = new FileReader();
+    reader.readAsBinaryString(new Blob([data.Contents], {type: "arraybuffer"}));
+
+    if(!data) {
+        console.error('Console.save: No data')
+        return;
+    }
+    var blob = new Blob([data.Contents], {type: data.DocumentExtension}),
+        e    = document.createEvent('MouseEvents'),
+        a    = document.createElement('a')
+// FOR IE:
+
+if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+  window.navigator.msSaveOrOpenBlob(blob, data.DocumentName);
+}
+else{
+  var e = document.createEvent('MouseEvents'),
+      a = document.createElement('a');
+
+  a.download = data.DocumentName;
+  a.href = window.URL.createObjectURL(blob);
+  a.dataset.downloadurl = [data.DocumentExtension, a.download, a.href].join(':');
+  e.initEvent('click', true, false);
+  a.dispatchEvent(e);
+}
   }
 
 }

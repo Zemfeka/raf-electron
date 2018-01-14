@@ -71,6 +71,7 @@ export class BookingsComponent implements OnInit {
                             for (let document of this.documents) {
                                 if(document.IsNew) {
                                     document.BookingId = bookingId;
+                                    //document.Contents = null;
                                     this.bookingsService.saveDocument(document).subscribe(d => {
                                         document.IsNew = false;
                                     },

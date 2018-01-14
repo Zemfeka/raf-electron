@@ -14,6 +14,7 @@ var assessments = require('./routes/assessments');
 var attorneys = require('./routes/attorneys');
 var reports = require('./routes/reports');
 var invoices = require('./routes/invoices');
+var dashboards = require('./routes/dashboards');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use('/assessments', assessments);
 app.use('/attorneys', attorneys);
 app.use('/reports', reports);
 app.use('/invoices', invoices);
+app.use('/dashboards', dashboards);
 
 
 // catch 404 and forward to error handler

@@ -42,7 +42,7 @@ var LoginRoutingModule = (function () {
 /***/ "../../../../../src/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-page\" [@routerTransition]>\r\n    <div class=\"row justify-content-md-center\">\r\n        <div class=\"col-md-4\">\r\n            <img src=\"assets/images/logo.png\" width=\"150px\" class=\"user-avatar\" />\r\n            <h1>Dytelligence RAF Manager</h1>\r\n            <form role=\"form\">\r\n                <div class=\"form-content\">\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" ng-model=\"name\" class=\"form-control input-underline input-lg\" id=\"email\" placeholder=\"Email\">\r\n                    </div>\r\n\r\n                    <div class=\"form-group\">\r\n                        <input type=\"password\" class=\"form-control input-underline input-lg\" id=\"\" placeholder=\"Password\">\r\n                    </div>\r\n                </div>\r\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/dashboard']\" (click)=\"onLoggedin()\"> Log in </a>\r\n                &nbsp;\r\n                <!-- <a class=\"btn rounded-btn\" [routerLink]=\"['/signup']\">Register</a>\r\n                <a class=\"btn rounded-btn\" (click)=\"launchWindow()\">Testing ngx-electron</a> -->\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"login-page\" [@routerTransition]>\r\n    <div class=\"row justify-content-md-center\">\r\n        <div class=\"col-md-4\">\r\n            <img src=\"assets/images/logo.png\" width=\"150px\" class=\"user-avatar\" />\r\n            <h1>Dytelligence RAF Manager</h1>\r\n            <form role=\"form\">\r\n                <div class=\"form-content\">\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" ng-model=\"name\" class=\"form-control input-underline input-lg\" id=\"email\" placeholder=\"Email\">\r\n                    </div>\r\n\r\n                    <div class=\"form-group\">\r\n                        <input type=\"password\" class=\"form-control input-underline input-lg\" id=\"\" placeholder=\"Password\">\r\n                    </div>\r\n                </div>\r\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/dashboard']\" (click)=\"onLoggedin()\"> Log in </a>\r\n                &nbsp;\r\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/signup']\">Register</a>\r\n                <a class=\"btn rounded-btn\" (click)=\"launchWindow()\">Testing ngx-electron</a>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -103,8 +103,31 @@ var LoginComponent = (function () {
     }
     LoginComponent.prototype.ngOnInit = function () { };
     LoginComponent.prototype.launchWindow = function () {
-        console.log("kgang");
-        this._electronService.shell.openExternal('https://coursetro.com');
+        //this._electronService.shell.openExternal('https://coursetro.com');
+        var fileText = "I am the first part of the info being emailed.\r\nI am the second part.\r\nI am the third part.";
+        var fileName = "newfile001.txt";
+        this.saveTextAsFile(fileText, fileName);
+    };
+    LoginComponent.prototype.saveTextAsFile = function (data, filename) {
+        if (!data) {
+            console.error('Console.save: No data');
+            return;
+        }
+        if (!filename)
+            filename = 'console.json';
+        var blob = new Blob([data], { type: 'text/plain' }), e = document.createEvent('MouseEvents'), a = document.createElement('a');
+        // FOR IE:
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, filename);
+        }
+        else {
+            var e = document.createEvent('MouseEvents'), a = document.createElement('a');
+            a.download = filename;
+            a.href = window.URL.createObjectURL(blob);
+            a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
+            e.initEvent('click', true, false);
+            a.dispatchEvent(e);
+        }
     };
     LoginComponent.prototype.onLoggedin = function () {
         var _this = this;

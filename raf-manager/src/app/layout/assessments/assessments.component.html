@@ -21,10 +21,11 @@
                                 <th>Requested Report Date</th>
                                 <th>Notes</th>
                                 <th>ShowNoShow</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let assessment of assessments" (click)="open(content,this.assessment, false)">
+                            <tr *ngFor="let assessment of assessments">
                                 <td>{{assessment.Reference}}</td>
                                 <td>{{assessment.ClientName}}</td>
                                 <td>{{assessment.ClaimentFirstName}}</td>
@@ -35,6 +36,13 @@
                                 <td>{{assessment.RequestedReportDate|date}}</td>
                                 <td>{{assessment.Notes}}</td>
                                 <td>{{assessment.ShowNoShow}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn mce-btn-small" (click)="open(content,this.assessment, false)">
+                                                <span class="fa fa-hand-pointer-o"></span>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -52,17 +60,28 @@
             </button>
         </div>
         <div class="modal-body">
-            <form role="form">
-                <fieldset class="form-group">
-                    <label for="notes">Notes</label>
-                    <textarea name="notes" class="form-control" rows="3" placeholder="Enter text" [(ngModel)]="assessment.Notes"></textarea>
-                    <!-- <input name="notes" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.Notes"> -->
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="shownoshow">ShowNoShow</label>
-                    <input type="checkbox" name="shownoshow" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.ShowNoShow">
-                </fieldset>
-            </form>
+            <ngb-tabset>
+                <ngb-tab title="Details">
+                    <ng-template ngbTabContent>
+                        <form role="form">
+                            <fieldset class="form-group">
+                                <label for="notes">Notes</label>
+                                <textarea name="notes" class="form-control" rows="3" placeholder="Enter text" [(ngModel)]="assessment.Notes"></textarea>
+                                <!-- <input name="notes" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.Notes"> -->
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="shownoshow">ShowNoShow</label>
+                                <input type="checkbox" name="shownoshow" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.ShowNoShow">
+                            </fieldset>
+                        </form>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Documents">
+                    <ng-template ngbTabContent>
+                        <app-documents [bookingId]="assessment.BookingId" (uploadClick)="uploadDocument($event)"></app-documents>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>

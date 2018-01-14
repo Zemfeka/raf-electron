@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReportsRoutingModule } from './reports-routing.module';
 import { ReportsComponent } from './reports.component';
 import { PageHeaderModule } from './../../shared';
+import { DocumentsModule } from '../components/documents/documents.module';
 
 @NgModule({
-    imports: [CommonModule, ReportsRoutingModule,PageHeaderModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule,],
+    imports: [CommonModule, ReportsRoutingModule,PageHeaderModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule,DocumentsModule],
     declarations: [ReportsComponent]
 })
 export class ReportsModule {}

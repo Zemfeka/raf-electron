@@ -42,7 +42,7 @@ var ReportsRoutingModule = (function () {
 /***/ "../../../../../src/app/layout/reports/reports.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [@routerTransition]>\r\n        <app-page-header [heading]=\"'Reports'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n        <div class=\"row\">\r\n            <div class=\"col col-xl-12 col-lg-12 col-xs-12\">\r\n                <div class=\"card mb-12\">\r\n                    <div class=\"card-header\">\r\n                        Reports\r\n                    </div>\r\n    \r\n                    <div class=\"card-body table-responsive\">\r\n                        <table class=\"table\">\r\n                            <thead>\r\n                                <tr>\r\n                                    <th>Client Name</th>\r\n                                    <th>Claiment First Name</th>\r\n                                    <th>Claiment Last Name</th>\r\n                                    <th>Booking date</th>\r\n                                    <th>Time</th>\r\n                                    <th>Assessment Notes</th>\r\n                                    <th>ShowNoShow</th>\r\n                                    <th>Report Notes</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                                <tr *ngFor=\"let report of reports\" (click)=\"open(content,this.report, false)\">\r\n                                    <td>{{report.ClientName}}</td>\r\n                                    <td>{{report.ClaimentFirstName}}</td>\r\n                                    <td>{{report.ClaimentLastName}}</td>\r\n                                    <td>{{report.BookingDate|date}}</td>\r\n                                    <td>{{report.Time}}</td>\r\n                                    <td>{{report.AssessmentNotes}}</td>\r\n                                    <td>{{report.AssessmentShowNoShow}}</td>\r\n                                    <td>{{report.Notes}}</td>\r\n                                </tr>\r\n                            </tbody>\r\n    \r\n                        </table>\r\n                    </div>\r\n    \r\n                </div>\r\n            </div>\r\n        </div>\r\n        <ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n            <div class=\"modal-header\">\r\n                <h4 class=\"modal-title\">Report Details</h4>\r\n                <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"c('Close click')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <form role=\"form\">\r\n                    <fieldset class=\"form-group\">\r\n                        <label for=\"notes\">Notes</label>\r\n                        <textarea name=\"notes\" class=\"form-control\" rows=\"3\" placeholder=\"Enter text\" [(ngModel)]=\"report.Notes\"></textarea>\r\n                    </fieldset>\r\n                 </form>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\r\n                <button type=\"button\" class=\"btn btn-secondary\" (click)=\"saveReport() && c('Close click')\">Save</button>\r\n            </div>\r\n        </ng-template>\r\n    </div>"
+module.exports = "<div [@routerTransition]>\r\n    <app-page-header [heading]=\"'Reports'\" [icon]=\"'fa-calendar'\"></app-page-header>\r\n    <div class=\"row\">\r\n        <div class=\"col col-xl-12 col-lg-12 col-xs-12\">\r\n            <div class=\"card mb-12\">\r\n                <div class=\"card-header\">\r\n                    Reports\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>Client Name</th>\r\n                                <th>Claiment First Name</th>\r\n                                <th>Claiment Last Name</th>\r\n                                <th>Booking date</th>\r\n                                <th>Time</th>\r\n                                <th>Assessment Notes</th>\r\n                                <th>ShowNoShow</th>\r\n                                <th>Report Notes</th>\r\n                                <th></th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let report of reports\">\r\n                                <td>{{report.ClientName}}</td>\r\n                                <td>{{report.ClaimentFirstName}}</td>\r\n                                <td>{{report.ClaimentLastName}}</td>\r\n                                <td>{{report.BookingDate|date}}</td>\r\n                                <td>{{report.Time}}</td>\r\n                                <td>{{report.AssessmentNotes}}</td>\r\n                                <td>{{report.AssessmentShowNoShow}}</td>\r\n                                <td>{{report.Notes}}</td>\r\n                                <td>\r\n                                    <div class=\"btn-group\">\r\n                                        <button class=\"btn mce-btn-small\" (click)=\"open(content,this.report, false)\">\r\n                                                <span class=\"fa fa-hand-pointer-o\"></span>\r\n                                        </button>\r\n                                    </div>\r\n                                </td>\r\n                            </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n        <div class=\"modal-header\">\r\n            <h4 class=\"modal-title\">Report Details</h4>\r\n            <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"c('Close click')\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n            <ngb-tabset>\r\n                <ngb-tab title=\"Details\">\r\n                    <ng-template ngbTabContent>\r\n                        <form role=\"form\">\r\n                            <fieldset class=\"form-group\">\r\n                                <label for=\"notes\">Notes</label>\r\n                                <textarea name=\"notes\" class=\"form-control\" rows=\"3\" placeholder=\"Enter text\" [(ngModel)]=\"report.Notes\"></textarea>\r\n                            </fieldset>\r\n                        </form>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n                <ngb-tab title=\"Documents\">\r\n                    <ng-template ngbTabContent>\r\n                        <app-documents [bookingId]=\"report.BookingId\" (uploadClick)=\"uploadDocument($event)\"></app-documents>\r\n                    </ng-template>\r\n                </ngb-tab>\r\n            </ngb-tabset>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\r\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"saveReport() && c('Close click')\">Save</button>\r\n        </div>\r\n    </ng-template>\r\n</div>"
 
 /***/ }),
 
@@ -71,9 +71,10 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_report_service__ = __webpack_require__("../../../../../src/app/services/report.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router_animations__ = __webpack_require__("../../../../../src/app/router.animations.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_bookings_service__ = __webpack_require__("../../../../../src/app/services/bookings.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__router_animations__ = __webpack_require__("../../../../../src/app/router.animations.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -88,11 +89,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ReportsComponent = (function () {
-    function ReportsComponent(reportService, modalService) {
+    function ReportsComponent(reportService, modalService, bookingsService) {
         this.reportService = reportService;
         this.modalService = modalService;
+        this.bookingsService = bookingsService;
         this.report = this.initialiseReport();
+        this.documents = [];
     }
     ReportsComponent.prototype.initialiseReport = function () {
         return { Id: 0, Notes: '', UserId: 0, BookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: false, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null };
@@ -104,13 +108,32 @@ var ReportsComponent = (function () {
     };
     ReportsComponent.prototype.saveReport = function () {
         var _this = this;
-        this.reportService.saveReport(this.report).subscribe(function (o) { return _this.getReports(); }, function (error) { return console.log("Error :: " + error); });
+        this.reportService.saveReport(this.report).subscribe(function (o) {
+            //save documents
+            if (_this.documents.length > 0) {
+                var _loop_1 = function (document_1) {
+                    if (document_1.IsNew) {
+                        document_1.BookingId = _this.report.BookingId;
+                        _this.bookingsService.saveDocument(document_1).subscribe(function (d) {
+                            document_1.IsNew = false;
+                        }, function (error) { return console.log("Error :: " + error); });
+                    }
+                };
+                for (var _i = 0, _a = _this.documents; _i < _a.length; _i++) {
+                    var document_1 = _a[_i];
+                    _loop_1(document_1);
+                }
+            }
+            _this.getReports();
+        }, function (error) { return console.log("Error :: " + error); });
     };
     ReportsComponent.prototype.ngOnInit = function () {
         this.getReports();
     };
     ReportsComponent.prototype.open = function (content, data, isNew) {
         var _this = this;
+        //we need to clear this list everytime we open as the actual list is mained on the child component.
+        this.documents = [];
         if (!isNew) {
             this.report = data;
         }
@@ -120,11 +143,14 @@ var ReportsComponent = (function () {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
         });
     };
+    ReportsComponent.prototype.uploadDocument = function (document) {
+        this.documents.push(document);
+    };
     ReportsComponent.prototype.getDismissReason = function (reason) {
-        if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
+        if (reason === __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
             return 'by pressing ESC';
         }
-        else if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
+        else if (reason === __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
             return 'by clicking on a backdrop';
         }
         else {
@@ -136,10 +162,10 @@ var ReportsComponent = (function () {
             selector: 'app-reports',
             template: __webpack_require__("../../../../../src/app/layout/reports/reports.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/reports/reports.component.scss")],
-            providers: [__WEBPACK_IMPORTED_MODULE_1__services_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_4__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_4__angular_forms__["e" /* ReactiveFormsModule */],],
-            animations: [Object(__WEBPACK_IMPORTED_MODULE_2__router_animations__["a" /* routerTransition */])()]
+            providers: [__WEBPACK_IMPORTED_MODULE_1__services_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["e" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_2__services_bookings_service__["a" /* BookingsService */]],
+            animations: [Object(__WEBPACK_IMPORTED_MODULE_3__router_animations__["a" /* routerTransition */])()]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_report_service__["a" /* ReportService */], __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_2__services_bookings_service__["a" /* BookingsService */]])
     ], ReportsComponent);
     return ReportsComponent;
 }());
@@ -161,6 +187,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reports_routing_module__ = __webpack_require__("../../../../../src/app/layout/reports/reports-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reports_component__ = __webpack_require__("../../../../../src/app/layout/reports/reports.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_documents_documents_module__ = __webpack_require__("../../../../../src/app/layout/components/documents/documents.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -174,12 +201,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var ReportsModule = (function () {
     function ReportsModule() {
     }
     ReportsModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_4__reports_routing_module__["a" /* ReportsRoutingModule */], __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* PageHeaderModule */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* ReactiveFormsModule */],],
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_4__reports_routing_module__["a" /* ReportsRoutingModule */], __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* PageHeaderModule */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_7__components_documents_documents_module__["a" /* DocumentsModule */]],
             declarations: [__WEBPACK_IMPORTED_MODULE_5__reports_component__["a" /* ReportsComponent */]]
         })
     ], ReportsModule);

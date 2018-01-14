@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssessmentService, IAssessment } from '../../services/assessment.service';
+import { BookingsService, IDocument } from '../../services/bookings.service';
 import { routerTransition } from '../../router.animations';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -12,14 +13,16 @@ import { Alert } from 'selenium-webdriver';
     selector: 'app-assessments',
     templateUrl: './assessments.component.html',
     styleUrls: ['./assessments.component.scss'],
-    providers: [AssessmentService, NgbModal, FormsModule, ReactiveFormsModule,],
+    providers: [AssessmentService, NgbModal, FormsModule, ReactiveFormsModule,BookingsService],
     animations: [routerTransition()]
 })
 export class AssessmentsComponent implements OnInit {
     assessments: IAssessment[];
     closeResult: string;
     assessment: IAssessment = this.initialiseAssessment();
-    constructor(private assessmentService: AssessmentService, private modalService: NgbModal) {}
+    documents: IDocument[] = [];
+
+    constructor(private assessmentService: AssessmentService, private modalService: NgbModal, private bookingsService: BookingsService) {}
 
     initialiseAssessment() {
         return {Id:0, Notes:'',UserId:0,BookingId:0,ShowNoShow:false,Reference:'',ClientName: '',ClaimentFirstName: '',  ClaimentLastName: '',  BookingDate: null,TrialDate:null,RequestedReportDate:null,  Time: null,  Date: null,  BookingTime: null};
@@ -33,7 +36,22 @@ export class AssessmentsComponent implements OnInit {
     }
 
     saveAssessment() {        
-        this.assessmentService.saveAssessment(this.assessment).subscribe(o => this.getAssessments(),
+        this.assessmentService.saveAssessment(this.assessment).subscribe(o => {
+            //save documents
+            if(this.documents.length > 0) {                            
+                for (let document of this.documents) {
+                    if(document.IsNew) {
+                        document.BookingId = this.assessment.BookingId;
+                        this.bookingsService.saveDocument(document).subscribe(d => {
+                            document.IsNew = false;
+                        },
+                        error => console.log("Error :: " + error));
+                    }
+                }                     
+            }
+
+            this.getAssessments();
+        },
         error => console.log("Error :: " + error))   
         
     }
@@ -42,7 +60,10 @@ export class AssessmentsComponent implements OnInit {
         this.getAssessments();
     }
 
-    open(content, data, isNew) {        
+    open(content, data, isNew) {      
+        //we need to clear this list everytime we open as the actual list is mained on the child component.
+        this.documents = [];
+
         if(!isNew) {        
             this.assessment = data;
         } else{
@@ -54,6 +75,10 @@ export class AssessmentsComponent implements OnInit {
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
+    }
+
+    uploadDocument(document) {        
+        this.documents.push(document);        
     }
 
     private getDismissReason(reason: any): string {

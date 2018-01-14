@@ -61,21 +61,19 @@
                     <ng-template ngbTabContent>
                         <form role="form">
                             <fieldset class="form-group">
-                                <label for="clientname">Client Name</label>
-                                <input name="clientname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClientName">
+                                <label for="clientname">Client Name/Attorney</label>
+                                <input name="clientname" class="form-control" placeholder="Enter client name" [(ngModel)]="booking.ClientName">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="claimentfirstname">Claiment First Name</label>
-                                <input name="claimentfirstname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentFirstName">
+                                <input name="claimentfirstname" class="form-control" placeholder="Enter claiment first name" [(ngModel)]="booking.ClaimentFirstName">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="claimentlastname">Claiment Last Name</label>
-                                <input name="claimentlastname" class="form-control" placeholder="Enter text" [(ngModel)]="booking.ClaimentLastName">
+                                <input name="claimentlastname" class="form-control" placeholder="Enter claiment last name" [(ngModel)]="booking.ClaimentLastName">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="bookingdate">Booking Date</label>
-                                <!-- <input name="bookingdate" class="form-control" placeholder="Enter text" [(ngModel)]="booking.BookingDate"> -->
-
                                 <div class="input-group">
                                     <input class="form-control" placeholder="yyyy-mm-dd" name="bookingdate" [(ngModel)]="booking.Date" ngbDatepicker #b="ngbDatepicker">
                                     <div class="input-group-addon" (click)="b.toggle()">

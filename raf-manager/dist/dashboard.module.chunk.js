@@ -239,7 +239,7 @@ var DashboardRoutingModule = (function () {
 /***/ "../../../../../src/app/layout/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [@routerTransition]>\r\n    <h2 class=\"text-muted\">Dashboard <small>Statistics Overview</small></h2>\r\n    <!-- <div class=\"row\">\r\n        <div class=\"col-md-12\">\r\n            <ngb-carousel>\r\n                <ng-template ngbSlide *ngFor=\"let slider of sliders\">\r\n                    <img class=\"img-fluid mx-auto d-block\" [src]=\"slider.imagePath\" alt=\"Random first slide\" width=\"100%\">\r\n                    <div class=\"carousel-caption\">\r\n                        <h3>{{slider.label}}</h3>\r\n                        <p>{{slider.text}}</p>\r\n                    </div>\r\n                </ng-template>\r\n            </ngb-carousel>\r\n        </div>\r\n    </div>\r\n    <hr> -->\r\n    <div class=\"row\">\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'primary'\" [icon]=\"'fa-comments'\" [count]=\"26\" [label]=\"'New Comments!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'warning'\" [icon]=\"'fa-tasks'\" [count]=\"12\" [label]=\"'New task!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'success'\" [icon]=\"'fa-shopping-cart'\" [count]=\"124\" [label]=\"'New Orders!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'danger'\" [icon]=\"'fa-support'\" [count]=\"13\" [label]=\"'New Tickets!'\"></app-stat>\r\n        </div>\r\n    </div>\r\n    <hr />\r\n    <ngb-alert [type]=\"alert.type\" (close)=\"closeAlert(alert)\" *ngFor=\"let alert of alerts\">{{ alert.message }}</ngb-alert>\r\n    <hr />\r\n    <div class=\"row\">\r\n        <div class=\"col-lg-8\">\r\n            <div class=\"card card-default\">\r\n                <div class=\"card-header\">\r\n                    <i class=\"fa fa-clock-o fa-fw\"></i> Responsive Timeline\r\n                </div>\r\n                <!-- /.card-header -->\r\n                <app-timeline></app-timeline>\r\n                <!-- /.card-body -->\r\n            </div>\r\n            <!-- /.card -->\r\n        </div>\r\n        <!-- /.col-lg-8 -->\r\n        <div class=\"col-lg-4\">\r\n            <div class=\"card card-default mb-3\">\r\n                <div class=\"card-header\">\r\n                    <i class=\"fa fa-bell fa-fw\"></i> Notifications card\r\n                </div>\r\n                <!-- /.card-header -->\r\n                <app-notification></app-notification>\r\n                <!-- /.card-body -->\r\n            </div>\r\n            <!-- /.card -->\r\n\r\n            <app-chat></app-chat>\r\n            <!-- /.card .chat-card -->\r\n        </div>\r\n        <!-- /.col-lg-4 -->\r\n    </div>\r\n</div>"
+module.exports = "<div [@routerTransition]>\r\n    <h2 class=\"text-muted\">Dashboard <small>Statistics Overview</small></h2>\r\n    <div class=\"row\">\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'primary'\" [icon]=\"'fa-comments'\" [count]=\"bookingCount\" [label]=\"'booking(s) in the next 30 days!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'warning'\" [icon]=\"'fa-tasks'\" [count]=\"todayBookingCount\" [label]=\"'booking(s) scheduled for today!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'success'\" [icon]=\"'fa-shopping-cart'\" [count]=\"bookingsWithoutAssessmentCoun\" [label]=\"'booking(s) pending assessment!'\"></app-stat>\r\n        </div>\r\n        <div class=\"col-xl-3 col-lg-6\">\r\n            <app-stat [bgClass]=\"'danger'\" [icon]=\"'fa-support'\" [count]=\"assessmentsWithoutReports\" [label]=\"'report(s) that need to be started!'\"></app-stat>\r\n        </div>\r\n    </div>\r\n    "
 
 /***/ }),
 
@@ -268,6 +268,7 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__router_animations__ = __webpack_require__("../../../../../src/app/router.animations.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_dashboard_service__ = __webpack_require__("../../../../../src/app/services/dashboard.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -279,34 +280,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var DashboardComponent = (function () {
-    function DashboardComponent() {
+    function DashboardComponent(DashboardService) {
+        this.DashboardService = DashboardService;
         this.alerts = [];
         this.sliders = [];
-        this.sliders.push({
-            imagePath: 'assets/images/slider1.jpg',
-            label: 'First slide label',
-            text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.'
-        }, {
-            imagePath: 'assets/images/slider2.jpg',
-            label: 'Second slide label',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        }, {
-            imagePath: 'assets/images/slider3.jpg',
-            label: 'Third slide label',
-            text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
-        });
-        this.alerts.push({
-            id: 1,
-            type: 'success',
-            message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.\n                Voluptates est animi quibusdam praesentium quam, et perspiciatis,\n                consectetur velit culpa molestias dignissimos\n                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum"
-        }, {
-            id: 2,
-            type: 'warning',
-            message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.\n                Voluptates est animi quibusdam praesentium quam, et perspiciatis,\n                consectetur velit culpa molestias dignissimos\n                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum"
-        });
+        this.bookingCount = 0;
+        this.todayBookingCount = 0;
+        this.bookingsWithoutAssessmentCoun = 0;
+        this.assessmentsWithoutReports = 0;
     }
-    DashboardComponent.prototype.ngOnInit = function () { };
+    DashboardComponent.prototype.getBookingCount = function () {
+        var _this = this;
+        this.DashboardService.getBookingCount()
+            .subscribe(function (results) { return _this.bookingCount = results; }, function (error) { return console.log("Error :: " + error); });
+    };
+    DashboardComponent.prototype.getTodayBookingCount = function () {
+        var _this = this;
+        this.DashboardService.getTodayBookingCount()
+            .subscribe(function (results) { return _this.todayBookingCount = results; }, function (error) { return console.log("Error :: " + error); });
+    };
+    DashboardComponent.prototype.getBookingsWithoutAssessmentCount = function () {
+        var _this = this;
+        this.DashboardService.getBookingsWithoutAssessmentCount()
+            .subscribe(function (results) { return _this.bookingsWithoutAssessmentCoun = results; }, function (error) { return console.log("Error :: " + error); });
+    };
+    DashboardComponent.prototype.getAssessmentsWithoutReports = function () {
+        var _this = this;
+        this.DashboardService.getAssessmentsWithoutReports()
+            .subscribe(function (results) { return _this.assessmentsWithoutReports = results; }, function (error) { return console.log("Error :: " + error); });
+    };
+    DashboardComponent.prototype.ngOnInit = function () {
+        this.getBookingCount();
+        this.getTodayBookingCount();
+        this.getBookingsWithoutAssessmentCount();
+        this.getAssessmentsWithoutReports();
+    };
     DashboardComponent.prototype.closeAlert = function (alert) {
         var index = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
@@ -316,9 +326,10 @@ var DashboardComponent = (function () {
             selector: 'app-dashboard',
             template: __webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.scss")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__services_dashboard_service__["a" /* DashboardService */]],
             animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_dashboard_service__["a" /* DashboardService */]])
     ], DashboardComponent);
     return DashboardComponent;
 }());
@@ -374,6 +385,93 @@ var DashboardModule = (function () {
         })
     ], DashboardModule);
     return DashboardModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/dashboard.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var DashboardService = (function () {
+    function DashboardService(http) {
+        this.http = http;
+        this.assessmentServicegetBookingCountURL = "http://localhost:3000/dashboards/getBookingCount";
+        this.getTodayBookingCounturl = "http://localhost:3000/dashboards/getTodayBookingCount";
+        this.getBookingsWithoutAssessmentCounturl = "http://localhost:3000/dashboards/getBookingsWithoutAssessmentCount";
+        this.getAssessmentsWithoutReportsurl = "http://localhost:3000/dashboards/getAssessmentsWithoutReports";
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json',
+            'Accept': 'q=0.8;application/json;q=0.9' });
+        this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
+    }
+    DashboardService.prototype.getBookingCount = function () {
+        return this.http.get(this.assessmentServicegetBookingCountURL)
+            .map(function (response) {
+            var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
+            return mapped;
+        })
+            .catch(this.handleError);
+    };
+    DashboardService.prototype.getTodayBookingCount = function () {
+        return this.http.get(this.getTodayBookingCounturl)
+            .map(function (response) {
+            var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
+            return mapped;
+        })
+            .catch(this.handleError);
+    };
+    DashboardService.prototype.getBookingsWithoutAssessmentCount = function () {
+        return this.http.get(this.getBookingsWithoutAssessmentCounturl)
+            .map(function (response) {
+            var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
+            return mapped;
+        })
+            .catch(this.handleError);
+    };
+    DashboardService.prototype.getAssessmentsWithoutReports = function () {
+        return this.http.get(this.getAssessmentsWithoutReportsurl)
+            .map(function (response) {
+            var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
+            return mapped;
+        })
+            .catch(this.handleError);
+    };
+    DashboardService.prototype.handleError = function (error) {
+        return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].throw(error.statusText);
+    };
+    DashboardService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    ], DashboardService);
+    return DashboardService;
 }());
 
 

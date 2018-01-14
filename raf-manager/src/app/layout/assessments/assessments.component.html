@@ -4,7 +4,7 @@
         <div class="col col-xl-12 col-lg-12 col-xs-12">
             <div class="card mb-12">
                 <div class="card-header">
-                    Today's Assessments
+                    Assessments for the next 30 days
                 </div>
 
                 <div class="card-body table-responsive">
@@ -55,8 +55,7 @@
             <form role="form">
                 <fieldset class="form-group">
                     <label for="notes">Notes</label>
-                    <textarea name="notes" class="form-control" rows="3" placeholder="Enter text" [(ngModel)]="assessment.Notes"></textarea>
-                    <!-- <input name="notes" class="form-control" placeholder="Enter text" [(ngModel)]="assessment.Notes"> -->
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Enter notes about the assessment" [(ngModel)]="assessment.Notes"></textarea>
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="shownoshow">ShowNoShow</label>

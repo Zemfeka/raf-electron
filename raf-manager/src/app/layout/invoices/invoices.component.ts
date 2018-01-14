@@ -20,6 +20,8 @@ export class InvoicesComponent implements OnInit {
     invoiceItems: IInvoiceItem[];
     closeResult: string;
     invoice: IInvoice = this.initialiseinvoice();
+    showDetail: boolean = false;
+    showInvoice: boolean = true;
     constructor(private invoiceService: InvoiceService, private modalService: NgbModal) {}
 
     initialiseinvoice() {
@@ -31,6 +33,12 @@ export class InvoicesComponent implements OnInit {
             .subscribe(results => this.invoices = results,
             error => console.log("Error :: " + error))
         
+    }
+
+    toggle() {
+        console.log('in');
+        this.showDetail == true; // ? false : true;
+        this.showInvoice == false; // ? false : true;
     }
 
     saveReport() {        

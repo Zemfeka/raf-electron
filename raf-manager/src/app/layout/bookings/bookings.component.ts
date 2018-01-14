@@ -8,14 +8,13 @@ import { error } from 'util';
 import { window } from 'rxjs/operators/window';
 import { forEach } from '@angular/router/src/utils/collection';
 
-
 const now = new Date();
 
 @Component({
     selector: 'app-bookings',
     templateUrl: './bookings.component.html',
     styleUrls: ['./bookings.component.scss'],
-    providers: [BookingsService, NgbModal, FormsModule, ReactiveFormsModule,],
+    providers: [BookingsService, NgbModal, FormsModule, ReactiveFormsModule],
     animations: [routerTransition()]
 })
 
@@ -23,9 +22,9 @@ export class BookingsComponent implements OnInit {
     _bookings: IBooking[];
     documents: IDocument[] = [];
     closeResult: string;
-    booking: IBooking = this.initialiseBooking();
+    booking: IBooking;
     attorney: IAttorney = this.initialiseAttorney();
-    document: IDocument = this.initialiseDocument();
+    
     constructor(private bookingsService: BookingsService, private modalService: NgbModal) {}
 
     getBookings(){
@@ -38,9 +37,9 @@ export class BookingsComponent implements OnInit {
     initialiseAttorney() {
         return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
     }
-    initialiseDocument() {
-        return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob(), IsNew: true}
-    }
+    // initialiseDocument() {
+    //     return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: {}, IsNew: true}
+    // }
     getRandomArbitrary(min, max) {
         return this.booking.ClientName + Math.random() * (max - min) + min;
     }
@@ -68,39 +67,26 @@ export class BookingsComponent implements OnInit {
                     this.attorney.ClientName = this.booking.ClientName;
                     this.bookingsService.saveAttorney(this.attorney).subscribe(a => {
                         //save documents
-                        if(this.documents.length > 0) {
-                            // for (let i=0; i < this.documents.length; i++) {
-                            //     var document = this.documents[i];
-                            //     if(document.IsNew) {
-                            //         document.BookingId = bookingId;
-                            //         this.bookingsService.saveDocument(document).subscribe(d => {
-                            //             this.getBookings().subscribe(bookings => {
-                            //                 this._bookings = bookings;
-                            //             },
-                            //             error => console.log("Error :: " + error));
-                            //         },
-                            //         error => console.log("Error :: " + error));
-                            //     }
-                            // }
+                        if(this.documents.length > 0) {                            
                             for (let document of this.documents) {
                                 if(document.IsNew) {
                                     document.BookingId = bookingId;
                                     this.bookingsService.saveDocument(document).subscribe(d => {
-                                        console.log(counter);
-                                        counter++;
+                                        document.IsNew = false;
                                     },
                                     error => console.log("Error :: " + error));
                                 }
                             }                     
                         }
                     },error => console.log("Error :: " + error));
-                }
+                }      
+
                 this.getBookings().subscribe(bookings => {
                     this._bookings = bookings;                                            
                 },
-                error => console.log("Error :: " + error));                                               
+                error => console.log("Error :: " + error));
         },
-        error => console.log("Error :: " + error));        
+        error => console.log("Error :: " + error));                                                               
     }
 
     deleteBooking(bookingId){
@@ -118,19 +104,22 @@ export class BookingsComponent implements OnInit {
 
     
 
-    deleteDocument(Id) {
-        this.bookingsService.deleteDocument(Id)
-        .subscribe(o => {
-            this.getDocuments(this.booking.Id);
-        },error => console.log("Error :: " + error))
-    }
+    // deleteDocument(Id) {
+    //     this.bookingsService.deleteDocument(Id)
+    //     .subscribe(o => {
+    //         this.getDocuments(this.booking.Id);
+    //     },error => console.log("Error :: " + error))
+    // }
 
-    ngOnInit() {
+    ngOnInit() {       
        this.getBookings().subscribe(results => this._bookings = results,
         error => console.log("Error :: " + error));      
     }
 
-    open(content, data, isNew) {        
+    open(content, data, isNew) { 
+        //we need to clear this list everytime we open as the actual list is mained on the child component.
+        this.documents = [];
+
         if(!isNew) {        
             this.booking = data;            
             //get the attorney details
@@ -147,9 +136,6 @@ export class BookingsComponent implements OnInit {
 
             this.attorney = this.initialiseAttorney();
         }
-
-        //get the documents
-        this.getDocuments(data.Id);
         
         var date = new Date(this.booking.BookingDate);        
         
@@ -175,29 +161,28 @@ export class BookingsComponent implements OnInit {
         });
     }
 
-    uploadDocument() {
-        this.documents.push(this.document);
-        this.document = this.initialiseDocument();                
+    uploadDocument(document) {        
+        this.documents.push(document);        
     }
 
-    getDocuments(bookingId) {
-        this.bookingsService.getDocuments(bookingId)
-            .subscribe(results => this.documents = results,
-                error => console.log("Error :: " + error));
-    }
+    // getDocuments(bookingId) {
+    //     this.bookingsService.getDocuments(bookingId)
+    //         .subscribe(results => this.documents = results,
+    //             error => console.log("Error :: " + error));
+    // }
 
-    onFileChange(event) {
-        let reader = new FileReader();
-        if(event.target.files && event.target.files.length > 0) {
-          let file = event.target.files[0];          
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            this.document.DocumentName = file.name;
-            this.document.DocumentExtension = file.type;
-            this.document.Contents = reader.result.split(',')[1];
-          };          
-        }
-      }
+    // onFileChange(event) {
+    //     let reader = new FileReader();
+    //     if(event.target.files && event.target.files.length > 0) {
+    //       let file = event.target.files[0];          
+    //       reader.readAsDataURL(file);
+    //       reader.onload = () => {
+    //         this.document.DocumentName = file.name;
+    //         this.document.DocumentExtension = file.type;
+    //         this.document.Contents = reader.result.split(',')[1];
+    //       };          
+    //     }
+    //   }
 
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {

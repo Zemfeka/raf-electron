@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookingsRoutingModule } from './bookings-routing.module';
 import { BookingsComponent } from './bookings.component';
 import { PageHeaderModule } from './../../shared';
+import { DocumentsModule } from '../components/documents/documents.module';
 
 @NgModule({
-    imports: [CommonModule, BookingsRoutingModule, PageHeaderModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule,],
+    imports: [CommonModule, BookingsRoutingModule, PageHeaderModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule,DocumentsModule],
     declarations: [BookingsComponent]
 })
 export class BookingsModule {}

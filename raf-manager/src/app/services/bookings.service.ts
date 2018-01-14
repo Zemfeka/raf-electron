@@ -12,12 +12,12 @@ export class BookingsService {
 
   headers: Headers;
   options: RequestOptions;
-
+  
   constructor(private _http: Http) {
     this.headers = new Headers({ 'Content-Type': 'application/json', 
     'Accept': 'q=0.8;application/json;q=0.9' });
     this.options = new RequestOptions({ headers: this.headers });    
-   }
+   }  
 
   getBookings(): Observable<IBooking[]> {
     return this._http.get(this._bookingURL)
@@ -136,6 +136,6 @@ export interface IDocument {
   DocumentName: string;
   DocumentType: string;
   DocumentExtension: string;
-  Contents: Blob;
+  Contents: any;
   IsNew: boolean;
 }

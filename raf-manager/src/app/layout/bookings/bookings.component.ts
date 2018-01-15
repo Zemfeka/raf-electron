@@ -154,7 +154,7 @@ export class BookingsComponent implements OnInit {
         if(this.booking.Time != null)
             this.booking.BookingTime = {hour: this.booking.Time.toString().substr(0,2), minute: this.booking.Time.toString().substr(3,2)};
 
-        this.modalService.open(content).result.then((result) => {
+        this.modalService.open(content,{size: 'lg'}).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

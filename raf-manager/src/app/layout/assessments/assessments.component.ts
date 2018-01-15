@@ -70,7 +70,7 @@ export class AssessmentsComponent implements OnInit {
             this.assessment = this.initialiseAssessment();
         }
         
-         this.modalService.open(content).result.then((result) => {
+         this.modalService.open(content,{size: 'lg'}).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

@@ -22,14 +22,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let invoice of invoices" (click)="toggle()">
+                            <tr *ngFor="let invoice of invoices">
                                 <td>{{invoice.Number}}</td>
                                 <td>{{invoice.InvoiceDate}}</td>
                                 <td>{{invoice.Total}}</td>
                                 <td>{{invoice.ClientName}}</td>
                                 <td>{{invoice.ClaimentFirstName}}</td>
                                 <td>{{invoice.ClaimentLastName}}</td>
-
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn mce-btn-small" (click)="open(content,this.invoice, false)">
+                                                <span class="fa fa-hand-pointer-o"></span>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -39,15 +45,16 @@
             </div>
         </div>
     </div>
+    
     <input [(ngModel)]="showDetail" />
-    <div class="row" *ngIf="showDetail">
+    <!-- <div class="row">
         <div class="padding-10">
             <br>
             <div class="pull-left">
                 <img src="assets/img/logo-blacknwhite.png" width="150" height="32" alt="invoice icon">
                 <address>
                             <br>
-                            <strong>SmartAdmin, Inc.</strong>
+                            <strong>{{invoice.ClientName}}</strong>
                             <br>
                             231 Ajax Rd,
                             <br>
@@ -167,5 +174,87 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+
+    <ng-template #content let-c="close" let-d="dismiss" width="1000">
+        <div class="modal-header">
+            <h4 class="modal-title">Invoice: {{invoice.Number}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- <div class="modal-body">
+             <p>
+                  <b>{{invoice.BusinessName}}</b><br>
+                  Reg No:{{invoice.BusinessRegistrationNumber}}<br>
+                  Vat No:{{BusinessVatNumber}}
+             </p>
+             <p>
+                    <b>{{invoice.ClientName}}</b><br>
+                    
+               </p>
+        </div> -->
+
+        <div class="modal-body">
+            <ngb-tabset>
+                <ngb-tab title="Invoice Details">
+                    <ng-template ngbTabContent>
+                            {{invoice.ClientName}}
+                        <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Quantity</th>
+                                                <th>ITEM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th>DESCRIPTION</th>
+                                                <th>PRICE</th>
+                                                <th>SUBTOTAL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <input type="number" name="quantity" class="form-control" placeholder="QTY">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="quantity" class="form-control" placeholder="Enter text">
+                                                </td>
+                                                <td>
+                                                    <textarea name="description" class="form-control" rows="1" placeholder="Enter text"></textarea>
+                                                </td>
+                                                <td>
+                                                        <input type="number" name="quantity" class="form-control" placeholder="Enter text">
+                                                </td>
+                                                <td>$1,300.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Total</td>
+                                                <td><strong>$4,400.00</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Invoice">
+                    <ng-template ngbTabContent>
+                        <p>
+                            <b>{{invoice.BusinessName}}</b><br>
+                            Reg No:{{invoice.BusinessRegistrationNumber}}<br>
+                            Vat No:{{BusinessVatNumber}}
+                       </p>
+                       <p>
+                            <b>{{invoice.ClientName}}</b><br>
+                              
+                        </p>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-secondary" (click)="saveInvoice() && c('Close click')">Save</button>
+        </div>
+    </ng-template>
 </div>

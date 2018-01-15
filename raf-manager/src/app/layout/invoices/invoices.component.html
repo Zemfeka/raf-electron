@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body table-responsive">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Number</th>
@@ -204,8 +204,8 @@
                                 <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">Quantity</th>
-                                                <th>ITEM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th>QTY</th>
+                                                <th>ITEM</th>
                                                 <th>DESCRIPTION</th>
                                                 <th>PRICE</th>
                                                 <th>SUBTOTAL</th>
@@ -217,15 +217,17 @@
                                                     <input type="number" name="quantity" class="form-control" placeholder="QTY">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="quantity" class="form-control" placeholder="Enter text">
+                                                    <input type="text" name="item" class="form-control" placeholder="Enter text">
                                                 </td>
                                                 <td>
-                                                    <textarea name="description" class="form-control" rows="1" placeholder="Enter text"></textarea>
+                                                    <textarea name="description" class="form-control" rows="1" placeholder="Description"></textarea>
                                                 </td>
                                                 <td>
-                                                        <input type="number" name="quantity" class="form-control" placeholder="Enter text">
+                                                    <input type="text" name="price" class="form-control" placeholder="0.00">
                                                 </td>
-                                                <td>$1,300.00</td>
+                                                <td>
+                                                        $1,300.00
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Total</td>

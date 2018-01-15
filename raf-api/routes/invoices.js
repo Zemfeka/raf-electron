@@ -21,6 +21,19 @@ router.get('/get', function(req, res, next) {
     }
   });
 
+  router.get('/getinvoiceitems', function(req, res, next) {
+    if (req.params.invoiceid) {
+        invoice.getinvoiceitemsByBookingId(req.params.invoiceid, function(err, rows) {
+            if (err)
+                res.json(err);
+            else
+                res.json(rows);
+        })
+    } 
+  });
+
+  
+
   router.post('/add', function(req, res, next) {
     invoice.addInvoices(req.body, function(err, rows) {
         if (err)

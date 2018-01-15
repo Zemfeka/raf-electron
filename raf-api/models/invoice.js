@@ -7,6 +7,9 @@ var invoice = {
     getInvoiceById: function(id, callback) {
         return db.query("select * from reports where Id=?", [id], callback);
     },
+    getinvoiceitemsByBookingId: function(invoiceid, callback) {
+        return db.query("select * from invoiceitems where invoiceid=?", [invoiceid], callback);
+    },
     addInvoices: function(report, callback) {
         return db.query("INSERT INTO reports(Notes,UserId,BookingId) VALUES (?,?,?)", [report.Notes, report.UserId, report.BookingId], callback);
     },

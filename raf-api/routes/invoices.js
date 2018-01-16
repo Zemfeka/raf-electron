@@ -21,9 +21,9 @@ router.get('/get', function(req, res, next) {
     }
   });
 
-  router.get('/getinvoiceitems', function(req, res, next) {
-    if (req.params.invoiceid) {
-        invoice.getinvoiceitemsByBookingId(req.params.invoiceid, function(err, rows) {
+  router.get('/getinvoiceitems/:invoiceId?', function(req, res, next) {
+    if (req.params.invoiceId) {
+        invoice.getinvoiceitemsByInvoiceId(req.params.invoiceId, function(err, rows) {
             if (err)
                 res.json(err);
             else

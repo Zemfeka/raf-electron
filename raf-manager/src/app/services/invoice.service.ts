@@ -9,7 +9,7 @@ export class InvoiceService {
   private invoiceServiceGetURL = "http://localhost:3000/invoices/get";
   private invoiceServiceAddURL = "http://localhost:3000/invoices/add";
   private invoiceServiceUpdateURL = "http://localhost:3000/invoices/update";
-  private invoiceItemsServiceGetURL = "http://localhost:3000/invoices/getinvoiceitems";
+  private invoiceItemsServiceGetURL = "http://localhost:3000/invoices/getinvoiceitems/";
   headers: Headers;
   options: RequestOptions;
 
@@ -28,7 +28,7 @@ export class InvoiceService {
   }
 
   getInvoiceItems(invoiceid: number):Observable<IInvoiceItem[]>{
-    return this.http.get(this.invoiceItemsServiceGetURL)
+    return this.http.get(this.invoiceItemsServiceGetURL + invoiceid)
     .map((response: Response) => {
       var mapped = <IInvoiceItem[]>response.json();
       return mapped;

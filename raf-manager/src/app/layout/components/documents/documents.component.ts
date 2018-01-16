@@ -3,6 +3,7 @@ import { BookingsService, IDocument} from '../../../services/bookings.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
+import { FileUploader } from 'ng2-file-upload';
 
 
 
@@ -17,12 +18,13 @@ export class DocumentsComponent implements OnInit {
   document: IDocument = this.initialiseDocument();
 
   @Input() bookingId: number;
-  @Output() uploadClick: EventEmitter<IDocument> = new EventEmitter<IDocument>();
-  
+  @Output() uploadClick: EventEmitter<IDocument> = new EventEmitter<IDocument>();  
   nativeWindow: any;
+  public uploader:FileUploader = new FileUploader({url:'http://localhost:3000/bookings/uploadDocumentFileSystem'});
 
   constructor(private bookingsService: BookingsService, private modalService: NgbModal, private data: DataService) {
     this.nativeWindow = data.getNativeWindow();
+    this.uploader.onAfterAddingFile = (file) => {file.withCredentials = false};    
    }
   
   initialiseDocument() {

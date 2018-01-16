@@ -139,7 +139,7 @@
                         </form>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Documents">
+                <ngb-tab title="Documents" *ngIf="booking.Id > 0">
                     <ng-template ngbTabContent>
                         <app-documents [bookingId]="booking.Id"></app-documents>
                     </ng-template>

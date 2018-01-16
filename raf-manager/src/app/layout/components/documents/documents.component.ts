@@ -4,6 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { FileUploader, FileItem } from 'ng2-file-upload';
+import { Router } from '@angular/router';
 
 const URL = 'http://localhost:3000/documents';
 
@@ -22,7 +23,8 @@ export class DocumentsComponent implements OnInit {
   nativeWindow: any;
   public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'file'});
 
-  constructor(private bookingsService: BookingsService, private modalService: NgbModal, private data: DataService) {
+  constructor(private bookingsService: BookingsService, private modalService: NgbModal,
+     private data: DataService, private router: Router) {
     this.nativeWindow = data.getNativeWindow();    
    }
   
@@ -71,8 +73,7 @@ export class DocumentsComponent implements OnInit {
     // this.documents.push(document);
     // this.document = this.initialiseDocument();     
 
-    //save the documents
-    console.log(document);
+    //save the documents    
     this.bookingsService.saveDocument(document).subscribe(d => {
       this.documents.push(document);
       this.document = this.initialiseDocument();
@@ -92,6 +93,13 @@ export class DocumentsComponent implements OnInit {
     // this.data.getGlobalUrl().revokeObjectURL(url);
 
     //download document using file path.
+    var url = this.router.url + "/" + data.Path + this.getFileExtension(data.DocumentName);
+    console.log(url);
+    //this.data.getNativeWindow().open(url.toString());
+  }
+
+  getFileExtension(filename) {
+    return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 1);
   }
 
 onFileChange(event) {

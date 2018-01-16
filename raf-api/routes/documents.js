@@ -7,7 +7,13 @@ var multer = require('multer');
 // set the directory for the uploads to the uploaded to
 var DIR = './uploads/';
 //define the type of upload multer would be doing and pass in its destination, in our case, its a single file with the name photo
-var upload = multer({ dest: DIR }).single('file');
+var upload = multer({
+    dest: DIR,
+    filename: function(req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    }
+}).single('file');
 
 //our file upload function.
 router.post('/', function(req, res, next) {

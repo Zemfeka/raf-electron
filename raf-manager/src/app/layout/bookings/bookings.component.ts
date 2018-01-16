@@ -45,7 +45,7 @@ export class BookingsComponent implements OnInit {
     }
     saveBooking() {        
        
-        if(this.booking.Date != null){+
+        if(this.booking.Date != null){
             this.booking.BookingDate = new Date(this.booking.Date.year,this.booking.Date.month - 1,this.booking.Date.day, this.booking.BookingTime.hour,this.booking.BookingTime.minute,0,0);
         }        
         if(this.booking.TDate != null){

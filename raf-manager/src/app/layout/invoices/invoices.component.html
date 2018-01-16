@@ -34,6 +34,9 @@
                                         <button class="btn mce-btn-small" (click)="open(content,this.invoice, false)">
                                                 <span class="fa fa-hand-pointer-o"></span>
                                         </button>
+                                        <button class="btn mce-btn-small" (click)="printInvoice(this.invoice.Id)">
+                                            <span class="fa fa-print"></span>
+                                    </button>
                                     </div>
                                 </td>
                             </tr>
@@ -45,7 +48,7 @@
             </div>
         </div>
     </div>
-    
+
     <input [(ngModel)]="showDetail" />
     <!-- <div class="row">
         <div class="padding-10">
@@ -200,63 +203,61 @@
                 <ngb-tab title="Invoice Details">
                     <ng-template ngbTabContent>
                         <div class="btn-group">
-                                <button type="button" class="btn btn-secondary" (click)="addItem()">Add Item</button>
+                            <button type="button" class="btn btn-secondary" (click)="addItem()">Add Item</button>
                         </div>
                         <div class="card-body table-responsive">
-                                <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>QTY</th>
-                                                <th>ITEM</th>
-                                                <th>DESCRIPTION</th>
-                                                <th>PRICE</th>
-                                                <th>SUBTOTAL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let invoiceItem of invoiceItems">
-                                                <td class="text-center">
-                                                    <input type="number" name="quantity" class="form-control" placeholder="QTY" [(ngModel)]="invoiceItem.Quantity">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="item" class="form-control" placeholder="Enter text" [(ngModel)]="invoiceItem.Name">
-                                                </td>
-                                                <td>
-                                                    <textarea name="description" class="form-control" rows="1" placeholder="Description" [(ngModel)]="invoiceItem.Description"></textarea>
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="price" class="form-control" placeholder="0.00" [(ngModel)]="invoiceItem.Price">
-                                                </td>
-                                                <td>
-                                                        R {{getSub(invoiceItem)}}
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button class="btn mce-btn-small" (click)="deleteInvoiceItem(invoiceItem)">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>QTY</th>
+                                        <th>ITEM</th>
+                                        <th>DESCRIPTION</th>
+                                        <th>PRICE</th>
+                                        <th>SUBTOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let invoiceItem of invoiceItems">
+                                        <td class="text-center">
+                                            <input type="number" name="quantity" class="form-control" placeholder="QTY" [(ngModel)]="invoiceItem.Quantity">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="item" class="form-control" placeholder="Enter text" [(ngModel)]="invoiceItem.Name">
+                                        </td>
+                                        <td>
+                                            <textarea name="description" class="form-control" rows="1" placeholder="Description" [(ngModel)]="invoiceItem.Description"></textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="price" class="form-control" placeholder="0.00" [(ngModel)]="invoiceItem.Price">
+                                        </td>
+                                        <td>
+                                            R {{getSub(invoiceItem)}}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn mce-btn-small" (click)="deleteInvoiceItem(invoiceItem)">
                                                                 <span class="fa fa-remove"></span>
                                                             </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">Total</td>
-                                                <td><strong >{{getSum()}}</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Total</td>
+                                        <td><strong>{{getSum()}}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Invoice">
                     <ng-template ngbTabContent>
                         <p>
-                            <b>{{invoice.BusinessName}}</b><br>
-                            Reg No:{{invoice.BusinessRegistrationNumber}}<br>
-                            Vat No:{{BusinessVatNumber}}
-                       </p>
-                       <p>
+                            <b>{{invoice.BusinessName}}</b><br> Reg No:{{invoice.BusinessRegistrationNumber}}<br> Vat No:{{BusinessVatNumber}}
+                        </p>
+                        <p>
                             <b>{{invoice.ClientName}}</b><br>
-                              
+
                         </p>
                     </ng-template>
                 </ngb-tab>

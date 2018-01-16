@@ -7,8 +7,18 @@ export class DataService {
   private bookingSource = new BehaviorSubject<number>(0);
   bookingId = this.bookingSource.asObservable();
 
+  invoiceId: any = undefined;
+  
+
   constructor() { }
 
+  setInvoiceId(invoiceId : any) {
+    this.invoiceId = invoiceId;
+  }
+  getInvoiceId() {
+    return this.invoiceId;
+  }
+  
   changeBooking(data: number){     
     this.bookingSource.next(data);
   }

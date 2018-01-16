@@ -8,12 +8,14 @@ import { Time } from '@angular/common/src/i18n/locale_data_api';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Alert } from 'selenium-webdriver';
 import { forEach } from '@angular/router/src/utils/collection';
+import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-invoices',
     templateUrl: './invoices.component.html',
     styleUrls: ['./invoices.component.scss'],
-    providers: [InvoiceService, NgbModal, FormsModule, ReactiveFormsModule,],
+    providers: [InvoiceService, NgbModal, FormsModule, ReactiveFormsModule,DataService],
     animations: [routerTransition()]
 })
 export class InvoicesComponent implements OnInit {
@@ -25,7 +27,8 @@ export class InvoicesComponent implements OnInit {
     showDetail: boolean = false;
     showInvoice: boolean = true;
     tot: number = 0;
-    constructor(private invoiceService: InvoiceService, private modalService: NgbModal) {}
+    constructor(private invoiceService: InvoiceService, private modalService: NgbModal,
+         private dataService: DataService, private router: Router) {}
 
     initialiseinvoice() {
         return { Id: 0, Number: '', InvoiceDate: null, Total: 0, UserId: 0, BookingId: 0, InvoiceBusinessId: 0, BusinessId: 0, BusinessName: '', BusinessRegistrationNumber: '', BusinessVatNumber: '', AttorneyId: 0, AttorneyBookingId: 0, AttorneyClientName: '', AttorneyContactPerson: '', AttorneyPhoneNumber: '', AttorneyEmail: '', ReportId: 0, ReportNotes: '', ReportUserId: 0, ReportBookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: 0, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null};
@@ -129,6 +132,14 @@ export class InvoicesComponent implements OnInit {
         } else {
             return  `with: ${reason}`;
         }
+    }
+
+    printInvoice(invoiceId) {
+        this.dataService.setInvoiceId(invoiceId);
+        console.log(invoiceId);
+        console.log(this.router.url);
+
+        this.router.navigate(["/blank-page"]);
     }
 }
 

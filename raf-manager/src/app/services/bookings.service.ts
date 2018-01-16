@@ -138,4 +138,5 @@ export interface IDocument {
   DocumentExtension: string;
   Contents: any;
   IsNew: boolean;
+  Path: string;
 }

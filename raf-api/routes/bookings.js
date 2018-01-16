@@ -3,19 +3,10 @@ var router = express.Router();
 var booking = require('../models/booking');
 var multer = require('multer');
 
-var storage = multer.diskStorage({ //multers disk storage settings
-    destination: function(req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function(req, file, cb) {
-        var datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
-    }
-});
-
-var upload = multer({ //multer settings
-    storage: storage
-}).single('file');
+// set the directory for the uploads to the uploaded to
+var DIR = './uploads/';
+//define the type of upload multer would be doing and pass in its destination, in our case, its a single file with the name photo
+var upload = multer({ dest: DIR }).single('photo');
 
 router.get('/:id?', function(req, res, next) {
     if (req.params.id) {
@@ -96,18 +87,6 @@ router.delete('/deleteDocument/:Id', function(req, res, next) {
         else
             res.json(count);
     })
-});
-
-router.post('/uploadDocumentFileSystem', function(req, res, next) {
-    console.log(console.log(req.file));
-    upload(req, res, function(err) {
-        console.log(req.file);
-        if (err) {
-            res.json({ error_code: 1, err_desc: err });
-            return;
-        }
-        res.json({ error_code: 0, err_desc: null });
-    });
 });
 
 module.exports = router;

@@ -65,19 +65,7 @@ export class BookingsComponent implements OnInit {
                 if(this.attorney.ContactPerson != null || this.attorney.ContactPerson != ''){
                     this.attorney.BookingId = bookingId;
                     this.attorney.ClientName = this.booking.ClientName;
-                    this.bookingsService.saveAttorney(this.attorney).subscribe(a => {
-                        //save documents
-                        if(this.documents.length > 0) {                            
-                            for (let document of this.documents) {
-                                if(document.IsNew) {
-                                    document.BookingId = bookingId;
-                                    this.bookingsService.saveDocument(document).subscribe(d => {
-                                        document.IsNew = false;
-                                    },
-                                    error => console.log("Error :: " + error));
-                                }
-                            }                     
-                        }
+                    this.bookingsService.saveAttorney(this.attorney).subscribe(a => {                        
                     },error => console.log("Error :: " + error));
                 }      
 

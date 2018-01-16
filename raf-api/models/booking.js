@@ -17,7 +17,7 @@ var booking = {
         return db.query("update bookings set Reference=?,UpdatedDate=?, UpdatedByID=?, ClientName=?,ClaimentFirstName=?,ClaimentLastName=?,BookingDate=?, TrialDate=?,RequestedReportDate=?,Time=? where Id=?", [booking.Reference, booking.UpdatedDate, booking.UpdatedByID, booking.ClientName, booking.ClaimentFirstName, booking.ClaimentLastName, booking.BookingDate, booking.TrialDate, booking.RequestedReportDate, booking.Time, booking.Id], callback);
     },
     uploadDocument: function(document, callback) {
-        return db.query("insert into documents(BookingId, DocumentName, DocumentType, DocumentExtension, Contents) values(?,?,?,?,?)", [document.BookingId, document.DocumentName, document.DocumentType, document.DocumentExtension, document.Contents], callback);
+        return db.query("insert into documents(BookingId, DocumentName, DocumentType, DocumentExtension, Contents, Path) values(?,?,?,?,?,?)", [document.BookingId, document.DocumentName, document.DocumentType, document.DocumentExtension, document.Contents, document.Path], callback);
     },
     getDocuments: function(bookingId, callback) {
         return db.query("select * from documents where BookingId=?", [bookingId], callback);

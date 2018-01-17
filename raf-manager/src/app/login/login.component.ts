@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { ElectronService } from 'ngx-electron';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService, IUser } from '../services/login.service';
 
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from "@angular/http";
@@ -13,11 +13,13 @@ import "rxjs/Rx";
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    providers: [LoginService],
+    providers: [LoginService, FormsModule, ReactiveFormsModule],
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {save 
     _users: IUser[];
+    email:any;
+    password:any;
     constructor(public router: Router, private _electronService: ElectronService, private http: Http, private loginService: LoginService) {
 
     }
@@ -60,15 +62,24 @@ export class LoginComponent implements OnInit {save
         }
 
     onLoggedin() {
-        this.loginService.GetUsers()
-        .subscribe(results => this._users = results,
-        error => console.log("Error :: " + error))
-
-        //console.log("length " + this._users.length);
-        //if(this._users.length > 0){
+        this.login();
+        if(this._users != undefined && this._users.length > 0){
             localStorage.setItem('isLoggedin', 'true');
-        //}
+            console.log(this._users[0].FullName);
+            localStorage.setItem('username', this._users[0].FullName);
+        }
     }
+
+    login(){
+        this.loginService.GetUsers(this.email,this.password)
+        .subscribe(results => {
+            this._users = results;
+            
+        },
+        error => console.log("Error :: " + error))
+    }
+
+
 
     private handleError(error: Response) {
         return Observable.throw(error.statusText);

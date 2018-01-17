@@ -23,8 +23,6 @@ export class DashboardService {
     return this.http.get(this.assessmentServicegetBookingCountURL)
     .map((response: Response) => {
       var mapped = <number>response.json();
-      console.log(mapped);
-      console.log(response.json());
       return mapped;
     })
     .catch(this.handleError);
@@ -34,8 +32,6 @@ export class DashboardService {
     return this.http.get(this.getTodayBookingCounturl)
     .map((response: Response) => {
       var mapped = <number>response.json();
-      console.log(mapped);
-      console.log(response.json());
       return mapped;
     })
     .catch(this.handleError);
@@ -45,8 +41,6 @@ export class DashboardService {
     return this.http.get(this.getBookingsWithoutAssessmentCounturl)
     .map((response: Response) => {
       var mapped = <number>response.json();
-      console.log(mapped);
-      console.log(response.json());
       return mapped;
     })
     .catch(this.handleError);
@@ -56,8 +50,6 @@ export class DashboardService {
     return this.http.get(this.getAssessmentsWithoutReportsurl)
     .map((response: Response) => {
       var mapped = <number>response.json();
-      console.log(mapped);
-      console.log(response.json());
       return mapped;
     })
     .catch(this.handleError);

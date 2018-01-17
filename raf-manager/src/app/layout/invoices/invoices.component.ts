@@ -11,6 +11,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
 
+const now = new Date();
+
 @Component({
     selector: 'app-invoices',
     templateUrl: './invoices.component.html',
@@ -26,12 +28,11 @@ export class InvoicesComponent implements OnInit {
     invoice: IInvoice = this.initialiseinvoice();
     showDetail: boolean = false;
     showInvoice: boolean = true;
-    tot: number = 0;
     constructor(private invoiceService: InvoiceService, private modalService: NgbModal,
          private dataService: DataService, private router: Router) {}
 
     initialiseinvoice() {
-        return { Id: 0, Number: '', InvoiceDate: null, Total: 0, UserId: 0, BookingId: 0, InvoiceBusinessId: 0, BusinessId: 0, BusinessName: '', BusinessRegistrationNumber: '', BusinessVatNumber: '', AttorneyId: 0, AttorneyBookingId: 0, AttorneyClientName: '', AttorneyContactPerson: '', AttorneyPhoneNumber: '', AttorneyEmail: '', ReportId: 0, ReportNotes: '', ReportUserId: 0, ReportBookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: 0, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null};
+        return { Id: 0, Number: '', InvoiceDate: now, Total: 0, UserId: 0, BookingId: 0, InvoiceBusinessId: 0, BusinessId: 0, BusinessName: '', BusinessRegistrationNumber: '', BusinessVatNumber: '', AttorneyId: 0, AttorneyBookingId: 0, AttorneyClientName: '', AttorneyContactPerson: '', AttorneyPhoneNumber: '', AttorneyEmail: '', ReportId: 0, ReportNotes: '', ReportUserId: 0, ReportBookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: 0, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null, BookingRef:'', Items:[]};
     }
 
     initialiseinvoiceitem() {
@@ -47,7 +48,7 @@ export class InvoicesComponent implements OnInit {
 
     getSum(){
         var b = 0;
-
+        console.log(this.invoiceItems);
         if(this.invoiceItems != undefined){
             for(let i=0; i < this.invoiceItems.length;i++){
                 b += this.invoiceItems[i].SubTotal;
@@ -62,13 +63,55 @@ export class InvoicesComponent implements OnInit {
     
 
     toggle() {
-        this.showDetail == true; // ? false : true;
-        this.showInvoice == false; // ? false : true;
+        this.showDetail == true;
+        this.showInvoice == false;
     }
 
-    saveReport() {        
-        this.invoiceService.saveInvoices(this.invoice).subscribe(o => this.getInvoices(),
-        error => console.log("Error :: " + error))   
+    saveInvoice() {  
+        this.invoice.Items = this.invoiceItems;
+        
+        var total = 0;
+        for (let item of this.invoice.Items) {
+            item.SubTotal = item.Quantity*item.Price;
+            total = total + item.SubTotal;
+            this.invoice.Total = total;
+        }
+
+        this.invoiceService.saveInvoices(this.invoice,total).subscribe(results => {                
+            //TODO: change the save to return bookingId and then use it.                                       
+                //save the attorney details                
+                var invoiceid = this.invoice.Id > 0 ? this.invoice.Id : results;
+                var counter = 0;
+                this.invoice.Id = invoiceid;
+
+                        //save invoice items
+                if(this.invoice.Items.length > 0) {                            
+                    for (let item of this.invoice.Items) {
+                        if(item.Id == 0) {
+                            item.InvoiceId = invoiceid;
+                            this.invoiceService.saveInvoiceItem(item).subscribe(d => {
+                            },
+                            error => console.log("Error :: " + error));
+                        }     
+                        else{
+                            item.InvoiceId = invoiceid;
+                            this.invoiceService.updateInvoiceItem(item).subscribe(d => {
+                            },
+                            error => console.log("Error :: " + error));
+                        }                
+                    }
+                }
+                   
+                
+                this.invoiceService.getInvoices().subscribe(b => {
+                    this.invoices = b;                                            
+                },
+                error => console.log("Error :: " + error));
+        },
+        error => console.log("Error :: " + error)); 
+              
+  
+        
     }
 
     ngOnInit() {
@@ -103,20 +146,6 @@ export class InvoicesComponent implements OnInit {
             .subscribe(results => this.invoiceItems = results,
             error => console.log("Error :: " + error));
         
-        
-        // console.log(this.invoice.Id);
-
-        // if(this.invoice.Id == 0 || this.invoice.Id == null){
-            
-        //     this.invoiceItems = [{"Id": 0, "Quantity": 0, "Name": '', "Description": '', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id},
-        //     {"Id": 0, "Quantity": 0, "Name": '', "Description": '', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id},
-        //     {"Id": 0, "Quantity": 0, "Name": '', "Description": '', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id},]
-
-        //     console.log(this.invoiceItems);
-        // }
-        
-
-
         this.modalService.open(content,{size: 'lg'}).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
@@ -136,10 +165,11 @@ export class InvoicesComponent implements OnInit {
 
     printInvoice(invoiceId) {
         this.dataService.setInvoiceId(invoiceId);
+        localStorage.setItem('invoiceId', invoiceId);
         console.log(invoiceId);
-        console.log(this.router.url);
+        
 
-        this.router.navigate(["/blank-page"]);
+        this.router.navigate(["/invoiceprint"]);
     }
 }
 

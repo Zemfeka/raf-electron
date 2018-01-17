@@ -9,7 +9,7 @@ var Users = {
         return db.query("select * from users where Id=?", [id], callback);
     },
     authenticateUser: function(user, callback) {
-        return db.query("select * from users where email=? and password=?", [user.username, user.password], callback);
+        return db.query("select * from users where Email=? and Password=?", [user.username, user.password], callback);
     },
     adduser: function(user, callback) {
         return db.query("INSERT INTO users(FullName,Email,Password) VALUES (?,?,?)", [user.FullName, user.Email, user.Password], callback);

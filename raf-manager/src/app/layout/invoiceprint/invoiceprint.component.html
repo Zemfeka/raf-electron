@@ -1,16 +1,115 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Invoices'" [icon]="'fa-calendar'"></app-page-header>
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12 col-xs-12">
-            <div class="card mb-12">
-                <div class="card-header">
-                    Invoice
+        <app-page-header [heading]="'Invoice'" [icon]="'fa-calendar'"></app-page-header>
+    <div class="row" *ngIf="invoice != undefined">
+        <div class="padding-10">
+            <br>
+            <div class="pull-left">
+                <!-- <img src="assets/img/logo-blacknwhite.png" width="150" height="32" alt="invoice icon"> -->
+                <address>
+                            <strong>{{invoice.BusinessName}}</strong><br>
+                            <strong>Registration Number: </strong>{{invoice.BusinessRegistrationNumber}}<br>
+                            <strong>Vat Number: </strong>{{invoice.BusinessVatNumber}}
+                            <!-- <br>
+                            <strong></strong>
+                            <br>
+                            231 Ajax Rd,
+                            <br>
+                            Detroit MI - 48212, USA
+                            <br>
+                            <abbr title="Phone">P:</abbr> (123) 456-7890 -->
+                          </address>
+            </div>
+            <div class="pull-right">
+                <h1 class="font-400">Invoice: {{invoice.Number}}</h1>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-9">
+                    <!-- <h4 class="semi-bold">Rogers, Inc.</h4>
+                    <address>
+                              <strong>Mr. Simon Hedger</strong>
+                              <br>
+                              342 Mirlington Road,
+                              <br>
+                              Calfornia, CA 431464
+                              <br>
+                              <abbr title="Phone">P:</abbr> (467) 143-4317
+                            </address> -->
                 </div>
-
-                <div class="card-body table-responsive">
-
+                <div class="col-sm-3">
+                    <div>
+                        <div>
+                            <strong>INVOICE NO :</strong>
+                            <span> {{invoice.Number}} </span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-md">
+                            <strong>INVOICE DATE :</strong>
+                            <span> <i class="fa fa-calendar"></i> {{invoice.InvoiceDate|date:'shortDate'}} </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="well well-sm  bg-color-darken txt-color-white no-border">
+                        <div class="fa-lg">
+                            Total Due :
+                            <span> R {{invoice.Total}}** </span>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
                 </div>
-
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">QTY</th>
+                        <th>ITEM</th>
+                        <th>DESCRIPTION</th>
+                        <th>PRICE</th>
+                        <th>SUBTOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoiceItem of invoiceItems">
+                        <td class="text-center"><strong>{{invoiceItem.Quantity}}</strong></td>
+                        <td><a (click)="(null)">{{invoiceItem.Name}}</a></td>
+                        <td width="100px">{{invoiceItem.Description}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+                        </td>
+                        <td>R {{invoiceItem.Price}}</td>
+                        <td>R{{invoiceItem.SubTotal}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td colspan="4">Total</td>
+                        <td><strong>R{{invoice.Total}}</strong></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <div class="invoice-footer">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <!-- <div class="payment-methods">
+                            <h5>Payment Methods</h5>
+                            <img src="assets/img/invoice/paypal.png" width="64" height="64" alt="paypal">
+                            <img src="assets/img/invoice/americanexpress.png" width="64" height="64" alt="american express">
+                            <img src="assets/img/invoice/mastercard.png" width="64" height="64" alt="mastercard">
+                            <img src="assets/img/invoice/visa.png" width="64" height="64" alt="visa">
+                        </div> -->
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="invoice-sum-total pull-right">
+                            <h3><strong>Total: <span class="text-success">R {{invoice.Total}}</span></strong></h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-sm-12">
+                        <p class="note">**To avoid any excess penalty charges, please make payments within 30 days of the due date. There will be a 2% interest charge per month on all late invoices.</p>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>

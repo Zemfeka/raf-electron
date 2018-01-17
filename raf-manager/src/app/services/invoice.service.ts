@@ -3,6 +3,7 @@ import {Http, Response, Headers, RequestOptions, URLSearchParams} from "@angular
 import "rxjs/Rx";
 import { Observable } from 'rxjs/Observable';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
+const now = new Date();
 
 @Injectable()
 export class InvoiceService {
@@ -10,6 +11,8 @@ export class InvoiceService {
   private invoiceServiceAddURL = "http://localhost:3000/invoices/add";
   private invoiceServiceUpdateURL = "http://localhost:3000/invoices/update";
   private invoiceItemsServiceGetURL = "http://localhost:3000/invoices/getinvoiceitems/";
+  private invoiceitemsServiceAddURL = "http://localhost:3000/invoices/addInvoiceitems";
+  private invoiceitemsServiceUpdateURL = "http://localhost:3000/invoices/updateInvoiceitems";
   headers: Headers;
   options: RequestOptions;
 
@@ -18,11 +21,21 @@ export class InvoiceService {
     'Accept': 'q=0.8;application/json;q=0.9' });
     this.options = new RequestOptions({ headers: this.headers });
   }
+  
   getInvoices():Observable<IInvoice[]>{
     return this.http.get(this.invoiceServiceGetURL)
     .map((response: Response) => {
       var mapped = <IInvoice[]>response.json();
       return mapped;
+    })
+    .catch(this.handleError);
+  }
+
+  getInvoice(id: number):Observable<IInvoice>{
+    return this.http.get(this.invoiceServiceGetURL + "/" + id)
+    .map((response: Response) => {
+      var mapped = <IInvoice>response.json();
+      return mapped[0];
     })
     .catch(this.handleError);
   }
@@ -36,17 +49,38 @@ export class InvoiceService {
     .catch(this.handleError);
   }
 
-  saveInvoices(invoice: IInvoice){
+  saveInvoices(invoice: IInvoice, total:number){
+
     if(invoice.Id == 0 || invoice.Id == null){
+      invoice.Number = invoice.BookingRef.toString();
+      invoice.InvoiceDate = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate();
+      invoice.Total = total;
+      console.log(invoice);
         return this.http.post(this.invoiceServiceAddURL, invoice,this.options)
+        .map((response: Response) => {
+          return <number>response.json()
+        }) 
         .catch(this.handleError);
     }else{
+      invoice.Number = invoice.BookingRef.toString();
+      
       return this.http.put(this.invoiceServiceUpdateURL, invoice ,this.options)
         .catch(this.handleError);
     }
   }
 
+  saveInvoiceItem(invoiceitem: IInvoiceItem){
+    return this.http.post(this.invoiceitemsServiceAddURL, invoiceitem, this.options)
+            .catch(this.handleError);
+  }
+
+  updateInvoiceItem(invoiceitem: IInvoiceItem){
+    return this.http.post(this.invoiceitemsServiceUpdateURL, invoiceitem, this.options)
+            .catch(this.handleError);
+  }
+
   private handleError(error: Response){
+    console.log(error.statusText);
     return Observable.throw(error.statusText);
   }
 }
@@ -55,7 +89,7 @@ export interface IInvoice{
   //invoice
   Id: number;
   Number: string;
-  InvoiceDate: Date;
+  InvoiceDate: any;
   Total: number;
   UserId: number;
   BookingId: number;
@@ -95,7 +129,9 @@ export interface IInvoice{
   BookingDate: Date;
   Time: Time;
   Date: any;
-  BookingTime: any
+  BookingTime: any;
+  BookingRef: any;
+  Items: IInvoiceItem[]
 }
 
 export interface IInvoiceItem{

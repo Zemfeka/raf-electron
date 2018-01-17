@@ -15,8 +15,8 @@ export class LoginService {
 
   }
 
-  GetUsers(): Observable<IUser[]> {
-    var body = '{"username": "eichlefoko@gmail.com","password": "lefoko@1"}';
+  GetUsers(username,password): Observable<IUser[]> {
+    var body = '{"username":"' + username + '","password":"' + password + '"}';
     console.log(body);
     return this._http
         .post(this._logingURL,body,this.options)

@@ -3,7 +3,7 @@ webpackJsonp(["common"],{
 /***/ "../../../../../src/app/layout/components/documents/documents.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<fieldset class=\"form-group\">\r\n    <label for=\"doctype\">Document Type</label>\r\n    <select name=\"doctype\" class=\"form-control\" [(ngModel)]=\"document.DocumentType\">\r\n            <option>ID Document</option>\r\n            <option>Instruction Letter</option>\r\n            <option>Prem Report</option>\r\n            <option>Full Report</option>                                    \r\n    </select>\r\n</fieldset>\r\n<!-- <fieldset class=\"form-group\">\r\n    <label for=\"inputfile\">File input</label>\r\n    <input type=\"file\" class=\"form-control-file\" id=\"doc\" #fileInput (change)=\"onFileChange($event)\">\r\n</fieldset> -->\r\n<fieldset class=\"form-group\">\r\n    <label for=\"single\">File input</label>\r\n    <input type=\"file\" class=\"form-control\" name=\"single\" ng2FileSelect [uploader]=\"uploader\" />\r\n</fieldset>\r\n<button type=\"button\" class=\"btn btn-secondary\" (click)=\"uploadDocument($event, document)\">Upload</button>\r\n<div class=\"card mb-12\">\r\n    <div class=\"card-header\">\r\n        Uploaded Documents\r\n    </div>\r\n\r\n    <div class=\"card-body table-responsive\">\r\n        <table class=\"table\">\r\n            <thead>\r\n                <th>Document Name</th>\r\n                <th>Document Size</th>\r\n                <th>Progress</th>\r\n                <th>Status</th>\r\n                <th>Actions</th>\r\n            </thead>\r\n            <tbody>\r\n                <tr *ngFor=\"let item of uploader.queue\">\r\n                    <td><strong>{{ item.file.name }}</strong></td>\r\n                    <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>\r\n                    <td class=\"text-center\">\r\n                        <span *ngIf=\"item.isSuccess\"><i class=\"glyphicon glyphicon-ok\"></i></span>\r\n                        <span *ngIf=\"item.isCancel\"><i class=\"glyphicon glyphicon-ban-circle\"></i></span>\r\n                        <span *ngIf=\"item.isError\"><i class=\"glyphicon glyphicon-remove\"></i></span>\r\n                    </td>\r\n                    <td>\r\n                        <div class=\"progress\" style=\"margin-bottom: 0;\">\r\n                            <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': item.progress + '%' }\"></div>\r\n                        </div>\r\n                    </td>\r\n                    <td nowrap>\r\n                        <button type=\"button\" class=\"btn btn-success btn-xs\" (click)=\"item.upload()\" [disabled]=\"item.isReady || item.isUploading || item.isSuccess\">\r\n                            <span class=\"glyphicon glyphicon-upload\"></span> Upload\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-warning btn-xs\" (click)=\"item.cancel()\" [disabled]=\"!item.isUploading\">\r\n                            <span class=\"glyphicon glyphicon-ban-circle\"></span> Cancel\r\n                        </button>\r\n                        <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"item.remove()\">\r\n                            <span class=\"glyphicon glyphicon-trash\"></span> Remove\r\n                        </button>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>"
+module.exports = "<ngb-tabset type=\"pills\">\r\n    <ngb-tab title=\"View\">\r\n        <ng-template ngbTabContent>\r\n            <div class=\"card mb-12\">\r\n                <div class=\"card-header\">\r\n                    Uploaded Documents\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <th>Document Name</th>\r\n                            <th>DocumentType</th>\r\n                            <th>Actions</th>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let document of documents\">\r\n                                <td><strong>{{ document.DocumentName }}</strong></td>\r\n                                <td>{{ document.DocumentType }}</td>\r\n                                <td nowrap>\r\n                                    <div class=\"btn-group\">\r\n                                        <button class=\"btn mce-btn-small\" (click)=\"downloadDocument(document)\">\r\n                                                    <span class=\"fa fa-download\"></span>\r\n                                                </button>\r\n                                        <button class=\"btn mce-btn-small\" (click)=\"deleteDocument(document)\">\r\n                                                    <span class=\"fa fa-remove\"></span>\r\n                                                </button>\r\n                                    </div>\r\n                                </td>\r\n                            </tr>\r\n                        </tbody>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n        </ng-template>\r\n    </ngb-tab>\r\n    <ngb-tab title=\"Upload\">\r\n        <ng-template ngbTabContent>\r\n            <fieldset class=\"form-group\">\r\n                <label for=\"doctype\">Document Type</label>\r\n                <select name=\"doctype\" class=\"form-control\" [(ngModel)]=\"document.DocumentType\">\r\n                                <option>ID Document</option>\r\n                                <option>Instruction Letter</option>\r\n                                <option>Prem Report</option>\r\n                                <option>Full Report</option>                                    \r\n                        </select>\r\n            </fieldset>\r\n            <fieldset class=\"form-group\">\r\n                <label for=\"single\">File input</label>\r\n                <input type=\"file\" class=\"form-control\" name=\"single\" ng2FileSelect [uploader]=\"uploader\" />\r\n            </fieldset>\r\n            <div class=\"card mb-12\">\r\n                <div class=\"card-header\">\r\n                    Upload Documents\r\n                    <button type=\"button\" class=\"btn btn-success btn-s pull-right\" (click)=\"uploader.uploadAll()\" [disabled]=\"!uploader.getNotUploadedItems().length\"><span class=\"fa fa-upload\"></span> Upload all</button>\r\n                </div>\r\n\r\n                <div class=\"card-body table-responsive\">\r\n                    <table class=\"table\">\r\n                        <thead>\r\n                            <th>Document Name</th>\r\n                            <th>Progress</th>\r\n                            <th>Status</th>\r\n                            <th>Actions</th>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let item of uploader.queue\">\r\n                                <td><strong>{{ item.file.name }}</strong></td>\r\n                                <td class=\"text-center\">\r\n                                    <span *ngIf=\"item.isSuccess\"><i class=\"fa fa-thumbs-up\"></i></span>\r\n                                    <span *ngIf=\"item.isCancel\"><i class=\"fa fa-remove\"></i></span>\r\n                                    <span *ngIf=\"item.isError\"><i class=\"fa fa-thumbs-down\"></i></span>\r\n                                </td>\r\n                                <td>\r\n                                    <div class=\"progress\" style=\"margin-bottom: 0;\">\r\n                                        <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': item.progress + '%' }\"></div>\r\n                                    </div>\r\n                                </td>\r\n                                <td nowrap>\r\n                                    <button type=\"button\" class=\"btn btn-success mce-btn-small\" (click)=\"item.upload()\" [disabled]=\"item.isReady || item.isUploading || item.isSuccess\">\r\n                                                <span class=\"fa fa-upload\"></span>\r\n                                            </button>\r\n                                    <button type=\"button\" class=\"btn btn-warning mce-btn-small\" (click)=\"item.cancel()\" [disabled]=\"!item.isUploading\">\r\n                                                <span class=\"fa fa-remove\"></span>\r\n                                            </button>\r\n                                    <button type=\"button\" class=\"btn btn-danger mce-btn-small\" (click)=\"item.remove()\">\r\n                                                <span class=\"fa fa-trash\"></span>\r\n                                            </button>\r\n                                </td>\r\n                            </tr>\r\n                        </tbody>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n        </ng-template>\r\n    </ngb-tab>\r\n</ngb-tabset>"
 
 /***/ }),
 
@@ -37,6 +37,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -52,20 +53,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+var URL = 'http://localhost:3000/documents';
 var DocumentsComponent = (function () {
-    function DocumentsComponent(bookingsService, modalService, data) {
+    function DocumentsComponent(bookingsService, modalService, data, router) {
         this.bookingsService = bookingsService;
         this.modalService = modalService;
         this.data = data;
+        this.router = router;
         this.documents = [];
         this.document = this.initialiseDocument();
         this.uploadClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.uploader = new __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__["FileUploader"]({ url: 'http://localhost:3000/bookings/uploadDocumentFileSystem' });
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__["FileUploader"]({ url: URL, itemAlias: 'file' });
         this.nativeWindow = data.getNativeWindow();
-        this.uploader.onAfterAddingFile = function (file) { file.withCredentials = false; };
     }
     DocumentsComponent.prototype.initialiseDocument = function () {
-        return { Id: 0, BookingId: 0, DocumentType: '', DocumentName: '', DocumentExtension: '', Contents: new Blob(), IsNew: true };
+        return { Id: 0, BookingId: 0, DocumentType: '', DocumentName: '', DocumentExtension: '', Contents: new Blob(), IsNew: true, Path: '' };
     };
     DocumentsComponent.prototype.deleteDocument = function (document) {
         var _this = this;
@@ -75,6 +78,23 @@ var DocumentsComponent = (function () {
         }, function (error) { return console.log("Error :: " + error); });
     };
     DocumentsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
+        this.uploader.onAfterAddingFile = function (file) { file.withCredentials = false; };
+        //overide the onCompleteItem property of the uploader so we are 
+        //able to deal with the server response.
+        this.uploader.onCompleteItem = function (item, response, status, headers) {
+            //add the file record to the documents table       
+            if (status != "422") {
+                _this.document.BookingId = _this.bookingId;
+                _this.document.DocumentExtension = item.file.type;
+                _this.document.DocumentName = item.file.name;
+                _this.document.Contents = null; //item.file.rawFile;
+                //uploads                    
+                _this.document.Path = response;
+                _this.uploadDocument(_this.document);
+            }
+        };
         this.getDocuments(this.bookingId);
     };
     DocumentsComponent.prototype.getDocuments = function (bookingId) {
@@ -82,19 +102,33 @@ var DocumentsComponent = (function () {
         this.bookingsService.getDocuments(bookingId)
             .subscribe(function (results) { return _this.documents = results; }, function (error) { return console.log("Error :: " + error); });
     };
-    DocumentsComponent.prototype.uploadDocument = function (event, document) {
-        document.BookingId = this.bookingId;
-        this.uploadClick.emit(document);
-        this.documents.push(document);
-        this.document = this.initialiseDocument();
+    DocumentsComponent.prototype.uploadDocument = function (document) {
+        // document.BookingId = this.bookingId;
+        // this.uploadClick.emit(document);
+        // this.documents.push(document);
+        // this.document = this.initialiseDocument();     
+        var _this = this;
+        //save the documents    
+        this.bookingsService.saveDocument(document).subscribe(function (d) {
+            _this.documents.push(document);
+            _this.document = _this.initialiseDocument();
+        }, function (error) { return console.log("Error :: " + error); });
     };
     DocumentsComponent.prototype.downloadDocument = function (data) {
-        console.log(data.Contents);
-        console.log(data.DocumentExtension);
-        var url = this.data.getGlobalUrl().createObjectURL(new Blob([data.Contents.data], { type: data.DocumentExtension }));
+        //download document using File/Blob
+        // console.log(data.Contents)
+        // console.log(data.DocumentExtension);
+        // let url = this.data.getGlobalUrl().createObjectURL(new Blob([data.Contents.data], { type: data.DocumentExtension }));    
+        // console.log(url);
+        // this.data.getNativeWindow().open(url);
+        // this.data.getGlobalUrl().revokeObjectURL(url);
+        //download document using file path.
+        var url = this.router.url + "/" + data.Path + this.getFileExtension(data.DocumentName);
         console.log(url);
-        this.data.getNativeWindow().open(url);
-        this.data.getGlobalUrl().revokeObjectURL(url);
+        //this.data.getNativeWindow().open(url.toString());
+    };
+    DocumentsComponent.prototype.getFileExtension = function (filename) {
+        return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 1);
     };
     DocumentsComponent.prototype.onFileChange = function (event) {
         var _this = this;
@@ -124,7 +158,8 @@ var DocumentsComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/layout/components/documents/documents.component.scss")],
             providers: [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */]],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_router__["b" /* Router */]])
     ], DocumentsComponent);
     return DocumentsComponent;
 }());

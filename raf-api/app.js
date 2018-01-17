@@ -15,6 +15,7 @@ var attorneys = require('./routes/attorneys');
 var reports = require('./routes/reports');
 var invoices = require('./routes/invoices');
 var dashboards = require('./routes/dashboards');
+var documents = require('./routes/documents');
 
 var app = express();
 
@@ -24,14 +25,16 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
-// app.use(function(req, res, next) { //allow cross origin requests
-//     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-//     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-// });
+//app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
+//create a cors middleware
+app.use(function(req, res, next) {
+    //set headers to allow cross origin request.
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json({ limit: '150mb' }));
 app.use(bodyParser.urlencoded({ limit: '150mb', extended: true }));
@@ -47,6 +50,7 @@ app.use('/attorneys', attorneys);
 app.use('/reports', reports);
 app.use('/invoices', invoices);
 app.use('/dashboards', dashboards);
+app.use('/documents', documents);
 
 
 // catch 404 and forward to error handler

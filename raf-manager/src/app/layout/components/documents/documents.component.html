@@ -1,62 +1,97 @@
-<fieldset class="form-group">
-    <label for="doctype">Document Type</label>
-    <select name="doctype" class="form-control" [(ngModel)]="document.DocumentType">
-            <option>ID Document</option>
-            <option>Instruction Letter</option>
-            <option>Prem Report</option>
-            <option>Full Report</option>                                    
-    </select>
-</fieldset>
-<!-- <fieldset class="form-group">
-    <label for="inputfile">File input</label>
-    <input type="file" class="form-control-file" id="doc" #fileInput (change)="onFileChange($event)">
-</fieldset> -->
-<fieldset class="form-group">
-    <label for="single">File input</label>
-    <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />
-</fieldset>
-<button type="button" class="btn btn-secondary" (click)="uploadDocument($event, document)">Upload</button>
-<div class="card mb-12">
-    <div class="card-header">
-        Uploaded Documents
-    </div>
+<ngb-tabset type="pills">
+    <ngb-tab title="View">
+        <ng-template ngbTabContent>
+            <div class="card mb-12">
+                <div class="card-header">
+                    Uploaded Documents
+                </div>
 
-    <div class="card-body table-responsive">
-        <table class="table">
-            <thead>
-                <th>Document Name</th>
-                <th>Document Size</th>
-                <th>Progress</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                    <td><strong>{{ item.file.name }}</strong></td>
-                    <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>
-                    <td class="text-center">
-                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>
-                    <td>
-                        <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                    </td>
-                    <td nowrap>
-                        <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>
-                        <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                <div class="card-body table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>Document Name</th>
+                            <th>DocumentType</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let document of documents">
+                                <td><strong>{{ document.DocumentName }}</strong></td>
+                                <td>{{ document.DocumentType }}</td>
+                                <td nowrap>
+                                    <div class="btn-group">
+                                        <button class="btn mce-btn-small" (click)="downloadDocument(document)">
+                                                    <span class="fa fa-download"></span>
+                                                </button>
+                                        <button class="btn mce-btn-small" (click)="deleteDocument(document)">
+                                                    <span class="fa fa-remove"></span>
+                                                </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Upload">
+        <ng-template ngbTabContent>
+            <fieldset class="form-group">
+                <label for="doctype">Document Type</label>
+                <select name="doctype" class="form-control" [(ngModel)]="document.DocumentType">
+                                <option>ID Document</option>
+                                <option>Instruction Letter</option>
+                                <option>Prem Report</option>
+                                <option>Full Report</option>                                    
+                        </select>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="single">File input</label>
+                <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />
+            </fieldset>
+            <div class="card mb-12">
+                <div class="card-header">
+                    Upload Documents
+                    <button type="button" class="btn btn-success btn-s pull-right" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length"><span class="fa fa-upload"></span> Upload all</button>
+                </div>
+
+                <div class="card-body table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>Document Name</th>
+                            <th>Progress</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of uploader.queue">
+                                <td><strong>{{ item.file.name }}</strong></td>
+                                <td class="text-center">
+                                    <span *ngIf="item.isSuccess"><i class="fa fa-thumbs-up"></i></span>
+                                    <span *ngIf="item.isCancel"><i class="fa fa-remove"></i></span>
+                                    <span *ngIf="item.isError"><i class="fa fa-thumbs-down"></i></span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="margin-bottom: 0;">
+                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                    </div>
+                                </td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-success mce-btn-small" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                <span class="fa fa-upload"></span>
+                                            </button>
+                                    <button type="button" class="btn btn-warning mce-btn-small" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                <span class="fa fa-remove"></span>
+                                            </button>
+                                    <button type="button" class="btn btn-danger mce-btn-small" (click)="item.remove()">
+                                                <span class="fa fa-trash"></span>
+                                            </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

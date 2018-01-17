@@ -2,7 +2,7 @@ var db = require('../dbconnection');
 var Assessments = {
 
     getAllAssessments: function(callback) {
-        return db.query("select a.*,b.Id BookingId,b.ClientName, b.ClaimentFirstName,b.ClaimentLastName,b.BookingDate,b.TrialDate,b.RequestedReportDate,b.Reference,b.Time from bookings b left join assessments a on a.BookingId = b.id where b.BookingDate BETWEEN NOW() - 1 AND DATE_ADD(NOW(), INTERVAL 30 DAY);", callback);
+        return db.query("select a.*,b.Id BookingId,b.ClientName, b.ClaimentFirstName,b.ClaimentLastName,b.BookingDate,b.TrialDate,b.RequestedReportDate,b.Reference,b.Time from bookings b left join assessments a on a.BookingId = b.id;", callback);
     },
     getAssessmentById: function(id, callback) {
         return db.query("select * from assessments where Id=?", [id], callback);

@@ -3,11 +3,6 @@ var router = express.Router();
 var booking = require('../models/booking');
 var multer = require('multer');
 
-// set the directory for the uploads to the uploaded to
-var DIR = './uploads/';
-//define the type of upload multer would be doing and pass in its destination, in our case, its a single file with the name photo
-var upload = multer({ dest: DIR }).single('photo');
-
 router.get('/:id?', function(req, res, next) {
     if (req.params.id) {
         booking.getbookingById(req.params.id, function(err, rows) {

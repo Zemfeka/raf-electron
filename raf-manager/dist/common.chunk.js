@@ -32,12 +32,16 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DocumentsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_bookings_service__ = __webpack_require__("../../../../../src/app/services/bookings.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_documents_service__ = __webpack_require__("../../../../../src/app/services/documents.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_file_saver__ = __webpack_require__("../../../../file-saver/FileSaver.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_file_saver__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -54,18 +58,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
 var URL = 'http://localhost:3000/documents';
 var DocumentsComponent = (function () {
-    function DocumentsComponent(bookingsService, modalService, data, router) {
+    function DocumentsComponent(bookingsService, modalService, documentsService, data) {
         this.bookingsService = bookingsService;
         this.modalService = modalService;
+        this.documentsService = documentsService;
         this.data = data;
-        this.router = router;
         this.documents = [];
         this.document = this.initialiseDocument();
         this.uploadClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.uploader = new __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__["FileUploader"]({ url: URL, itemAlias: 'file' });
-        this.nativeWindow = data.getNativeWindow();
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_6_ng2_file_upload__["FileUploader"]({ url: URL, itemAlias: 'file' });
+        this.headers = new __WEBPACK_IMPORTED_MODULE_7__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json',
+            'Accept': 'q=0.8;application/json;q=0.9' });
+        this.options = new __WEBPACK_IMPORTED_MODULE_7__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
     }
     DocumentsComponent.prototype.initialiseDocument = function () {
         return { Id: 0, BookingId: 0, DocumentType: '', DocumentName: '', DocumentExtension: '', Contents: new Blob(), IsNew: true, Path: '' };
@@ -123,9 +132,15 @@ var DocumentsComponent = (function () {
         // this.data.getNativeWindow().open(url);
         // this.data.getGlobalUrl().revokeObjectURL(url);
         //download document using file path.
-        var url = this.router.url + "/" + data.Path + this.getFileExtension(data.DocumentName);
-        console.log(url);
-        //this.data.getNativeWindow().open(url.toString());
+        this.documentsService.downloadDocument({ path: data.Path.replace("\\", "/"), filename: data.DocumentName, type: data.DocumentExtension }).subscribe(function (results) {
+            var response = results;
+            console.log(response);
+            var blob = new Blob([response.blob()], { type: data.DocumentExtension });
+            Object(__WEBPACK_IMPORTED_MODULE_9_file_saver__["saveAs"])(blob, data.DocumentName);
+        });
+    };
+    DocumentsComponent.prototype.replaceCharecter = function (word, charecterToRelace, replacement) {
+        return word.replace(charecterToRelace, replacement);
     };
     DocumentsComponent.prototype.getFileExtension = function (filename) {
         return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 1);
@@ -156,10 +171,10 @@ var DocumentsComponent = (function () {
             selector: 'app-documents',
             template: __webpack_require__("../../../../../src/app/layout/components/documents/documents.component.html"),
             styles: [__webpack_require__("../../../../../src/app/layout/components/documents/documents.component.scss")],
-            providers: [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__services_documents_service__["a" /* DocumentsService */], __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["e" /* ReactiveFormsModule */]],
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_router__["b" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_bookings_service__["a" /* BookingsService */], __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_2__services_documents_service__["a" /* DocumentsService */], __WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */]])
     ], DocumentsComponent);
     return DocumentsComponent;
 }());
@@ -417,7 +432,7 @@ var DataService = (function () {
     function DataService() {
         this.bookingSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
         this.bookingId = this.bookingSource.asObservable();
-        this.invoiceId = 0;
+        this.invoiceId = undefined;
     }
     DataService.prototype.setInvoiceId = function (invoiceId) {
         this.invoiceId = invoiceId;
@@ -445,11 +460,11 @@ var DataService = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/services/invoice.service.ts":
+/***/ "../../../../../src/app/services/documents.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InvoiceService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DocumentsService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
@@ -467,79 +482,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var now = new Date();
-var InvoiceService = (function () {
-    function InvoiceService(http) {
+var DocumentsService = (function () {
+    function DocumentsService(http) {
         this.http = http;
-        this.invoiceServiceGetURL = "http://localhost:3000/invoices/get";
-        this.invoiceServiceAddURL = "http://localhost:3000/invoices/add";
-        this.invoiceServiceUpdateURL = "http://localhost:3000/invoices/update";
-        this.invoiceItemsServiceGetURL = "http://localhost:3000/invoices/getinvoiceitems/";
-        this.invoiceitemsServiceAddURL = "http://localhost:3000/invoices/addInvoiceitems";
-        this.invoiceitemsServiceUpdateURL = "http://localhost:3000/invoices/updateInvoiceitems";
+        this.URL = "http://localhost:3000/documents";
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json',
             'Accept': 'q=0.8;application/json;q=0.9' });
-        this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
+        this.responseContentType = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* ResponseContentType */].Blob;
+        this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers, responseType: this.responseContentType });
     }
-    InvoiceService.prototype.getInvoices = function () {
-        return this.http.get(this.invoiceServiceGetURL)
-            .map(function (response) {
-            var mapped = response.json();
-            return mapped;
-        })
+    DocumentsService.prototype.downloadDocument = function (data) {
+        console.log(data);
+        return this.http.post(this.URL + "/download", data, this.options)
             .catch(this.handleError);
     };
-    InvoiceService.prototype.getInvoice = function (id) {
-        return this.http.get(this.invoiceServiceGetURL + "/" + id)
-            .map(function (response) {
-            var mapped = response.json();
-            return mapped[0];
-        })
-            .catch(this.handleError);
-    };
-    InvoiceService.prototype.getInvoiceItems = function (invoiceid) {
-        return this.http.get(this.invoiceItemsServiceGetURL + invoiceid)
-            .map(function (response) {
-            var mapped = response.json();
-            return mapped;
-        })
-            .catch(this.handleError);
-    };
-    InvoiceService.prototype.saveInvoices = function (invoice, total) {
-        if (invoice.Id == 0 || invoice.Id == null) {
-            invoice.Number = invoice.BookingRef.toString();
-            invoice.InvoiceDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-            invoice.Total = total;
-            console.log(invoice);
-            return this.http.post(this.invoiceServiceAddURL, invoice, this.options)
-                .map(function (response) {
-                return response.json();
-            })
-                .catch(this.handleError);
-        }
-        else {
-            invoice.Number = invoice.BookingRef.toString();
-            return this.http.put(this.invoiceServiceUpdateURL, invoice, this.options)
-                .catch(this.handleError);
-        }
-    };
-    InvoiceService.prototype.saveInvoiceItem = function (invoiceitem) {
-        return this.http.post(this.invoiceitemsServiceAddURL, invoiceitem, this.options)
-            .catch(this.handleError);
-    };
-    InvoiceService.prototype.updateInvoiceItem = function (invoiceitem) {
-        return this.http.post(this.invoiceitemsServiceUpdateURL, invoiceitem, this.options)
-            .catch(this.handleError);
-    };
-    InvoiceService.prototype.handleError = function (error) {
-        console.log(error.statusText);
+    DocumentsService.prototype.handleError = function (error) {
         return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].throw(error.statusText);
     };
-    InvoiceService = __decorate([
+    DocumentsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
-    ], InvoiceService);
-    return InvoiceService;
+    ], DocumentsService);
+    return DocumentsService;
 }());
 
 
@@ -6621,6 +6585,202 @@ function regExpEscape(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
 //# sourceMappingURL=util.js.map
+
+/***/ }),
+
+/***/ "../../../../file-saver/FileSaver.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
+ * A saveAs() FileSaver implementation.
+ * 1.3.2
+ * 2016-06-16 18:25:19
+ *
+ * By Eli Grey, http://eligrey.com
+ * License: MIT
+ *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+ */
+
+/*global self */
+/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
+
+/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+
+var saveAs = saveAs || (function(view) {
+	"use strict";
+	// IE <10 is explicitly unsupported
+	if (typeof view === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
+		return;
+	}
+	var
+		  doc = view.document
+		  // only get URL when necessary in case Blob.js hasn't overridden it yet
+		, get_URL = function() {
+			return view.URL || view.webkitURL || view;
+		}
+		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
+		, can_use_save_link = "download" in save_link
+		, click = function(node) {
+			var event = new MouseEvent("click");
+			node.dispatchEvent(event);
+		}
+		, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
+		, is_chrome_ios =/CriOS\/[\d]+/.test(navigator.userAgent)
+		, throw_outside = function(ex) {
+			(view.setImmediate || view.setTimeout)(function() {
+				throw ex;
+			}, 0);
+		}
+		, force_saveable_type = "application/octet-stream"
+		// the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
+		, arbitrary_revoke_timeout = 1000 * 40 // in ms
+		, revoke = function(file) {
+			var revoker = function() {
+				if (typeof file === "string") { // file is an object URL
+					get_URL().revokeObjectURL(file);
+				} else { // file is a File
+					file.remove();
+				}
+			};
+			setTimeout(revoker, arbitrary_revoke_timeout);
+		}
+		, dispatch = function(filesaver, event_types, event) {
+			event_types = [].concat(event_types);
+			var i = event_types.length;
+			while (i--) {
+				var listener = filesaver["on" + event_types[i]];
+				if (typeof listener === "function") {
+					try {
+						listener.call(filesaver, event || filesaver);
+					} catch (ex) {
+						throw_outside(ex);
+					}
+				}
+			}
+		}
+		, auto_bom = function(blob) {
+			// prepend BOM for UTF-8 XML and text/* types (including HTML)
+			// note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
+			if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+				return new Blob([String.fromCharCode(0xFEFF), blob], {type: blob.type});
+			}
+			return blob;
+		}
+		, FileSaver = function(blob, name, no_auto_bom) {
+			if (!no_auto_bom) {
+				blob = auto_bom(blob);
+			}
+			// First try a.download, then web filesystem, then object URLs
+			var
+				  filesaver = this
+				, type = blob.type
+				, force = type === force_saveable_type
+				, object_url
+				, dispatch_all = function() {
+					dispatch(filesaver, "writestart progress write writeend".split(" "));
+				}
+				// on any filesys errors revert to saving with object URLs
+				, fs_error = function() {
+					if ((is_chrome_ios || (force && is_safari)) && view.FileReader) {
+						// Safari doesn't allow downloading of blob urls
+						var reader = new FileReader();
+						reader.onloadend = function() {
+							var url = is_chrome_ios ? reader.result : reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
+							var popup = view.open(url, '_blank');
+							if(!popup) view.location.href = url;
+							url=undefined; // release reference before dispatching
+							filesaver.readyState = filesaver.DONE;
+							dispatch_all();
+						};
+						reader.readAsDataURL(blob);
+						filesaver.readyState = filesaver.INIT;
+						return;
+					}
+					// don't create more object URLs than needed
+					if (!object_url) {
+						object_url = get_URL().createObjectURL(blob);
+					}
+					if (force) {
+						view.location.href = object_url;
+					} else {
+						var opened = view.open(object_url, "_blank");
+						if (!opened) {
+							// Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
+							view.location.href = object_url;
+						}
+					}
+					filesaver.readyState = filesaver.DONE;
+					dispatch_all();
+					revoke(object_url);
+				}
+			;
+			filesaver.readyState = filesaver.INIT;
+
+			if (can_use_save_link) {
+				object_url = get_URL().createObjectURL(blob);
+				setTimeout(function() {
+					save_link.href = object_url;
+					save_link.download = name;
+					click(save_link);
+					dispatch_all();
+					revoke(object_url);
+					filesaver.readyState = filesaver.DONE;
+				});
+				return;
+			}
+
+			fs_error();
+		}
+		, FS_proto = FileSaver.prototype
+		, saveAs = function(blob, name, no_auto_bom) {
+			return new FileSaver(blob, name || blob.name || "download", no_auto_bom);
+		}
+	;
+	// IE 10+ (native saveAs)
+	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
+		return function(blob, name, no_auto_bom) {
+			name = name || blob.name || "download";
+
+			if (!no_auto_bom) {
+				blob = auto_bom(blob);
+			}
+			return navigator.msSaveOrOpenBlob(blob, name);
+		};
+	}
+
+	FS_proto.abort = function(){};
+	FS_proto.readyState = FS_proto.INIT = 0;
+	FS_proto.WRITING = 1;
+	FS_proto.DONE = 2;
+
+	FS_proto.error =
+	FS_proto.onwritestart =
+	FS_proto.onprogress =
+	FS_proto.onwrite =
+	FS_proto.onabort =
+	FS_proto.onerror =
+	FS_proto.onwriteend =
+		null;
+
+	return saveAs;
+}(
+	   typeof self !== "undefined" && self
+	|| typeof window !== "undefined" && window
+	|| this.content
+));
+// `self` is undefined in Firefox for Android content script context
+// while `this` is nsIContentFrameMessageManager
+// with an attribute `content` that corresponds to the window
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports.saveAs = saveAs;
+} else if (("function" !== "undefined" && __webpack_require__("../../node_modules/webpack/buildin/amd-define.js") !== null) && (__webpack_require__("../../node_modules/webpack/buildin/amd-options.js") !== null)) {
+  !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+    return saveAs;
+  }.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+}
+
 
 /***/ }),
 
@@ -28234,6 +28394,26 @@ function not(pred, thisArg) {
 }
 //# sourceMappingURL=not.js.map 
 
+
+/***/ }),
+
+/***/ "../../node_modules/webpack/buildin/amd-define.js":
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
+
+/***/ }),
+
+/***/ "../../node_modules/webpack/buildin/amd-options.js":
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ })
 

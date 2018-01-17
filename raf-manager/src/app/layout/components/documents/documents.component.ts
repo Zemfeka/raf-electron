@@ -1,10 +1,17 @@
 import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 import { BookingsService, IDocument} from '../../../services/bookings.service';
+import { DocumentsService} from '../../../services/documents.service'
+import { DataService} from '../../../services/data.service'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataService } from '../../../services/data.service';
+
 import { FileUploader, FileItem } from 'ng2-file-upload';
-import { Router } from '@angular/router';
+
+import {Http, Response, Headers, RequestOptions, URLSearchParams} from "@angular/http";
+import "rxjs/Rx";
+import { Observable } from 'rxjs/Observable';
+
+import {saveAs} from 'file-saver';
 
 const URL = 'http://localhost:3000/documents';
 
@@ -12,7 +19,7 @@ const URL = 'http://localhost:3000/documents';
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss'],
-  providers: [BookingsService, NgbModal, FormsModule, ReactiveFormsModule,DataService],
+  providers: [DataService,BookingsService,DocumentsService, NgbModal, FormsModule, ReactiveFormsModule],
 })
 export class DocumentsComponent implements OnInit {
   documents: IDocument[] = [];
@@ -23,14 +30,22 @@ export class DocumentsComponent implements OnInit {
   nativeWindow: any;
   public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'file'});
 
+  headers: Headers;
+  options: RequestOptions;
+  response: Response;
+
   constructor(private bookingsService: BookingsService, private modalService: NgbModal,
-     private data: DataService, private router: Router) {
-    this.nativeWindow = data.getNativeWindow();    
+     private documentsService: DocumentsService, private data: DataService) {
+    
+    this.headers = new Headers({ 'Content-Type': 'application/json', 
+    'Accept': 'q=0.8;application/json;q=0.9' });
+    this.options = new RequestOptions({ headers: this.headers });    
    }
   
   initialiseDocument() {
     return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: new Blob(), IsNew:true,Path: ''}
   }
+  
 
   deleteDocument(document: IDocument) {
     this.bookingsService.deleteDocument(document.Id)
@@ -93,9 +108,19 @@ export class DocumentsComponent implements OnInit {
     // this.data.getGlobalUrl().revokeObjectURL(url);
 
     //download document using file path.
-    var url = this.router.url + "/" + data.Path + this.getFileExtension(data.DocumentName);
-    console.log(url);
-    //this.data.getNativeWindow().open(url.toString());
+    this.documentsService.downloadDocument({path: data.Path.replace("\\", "/"), filename: data.DocumentName, type: data.DocumentExtension}).subscribe(results => {
+      let response: Response = results;
+      console.log(response);
+      var blob = new Blob([response.blob()], {type: data.DocumentExtension});
+      
+
+      saveAs(blob, data.DocumentName);
+      
+    });
+  }
+
+  replaceCharecter(word: string, charecterToRelace: string, replacement: string) {
+    return word.replace(charecterToRelace, replacement);
   }
 
   getFileExtension(filename) {

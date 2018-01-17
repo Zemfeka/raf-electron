@@ -428,6 +428,8 @@ var DashboardService = (function () {
         return this.http.get(this.assessmentServicegetBookingCountURL)
             .map(function (response) {
             var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
             return mapped;
         })
             .catch(this.handleError);
@@ -436,6 +438,8 @@ var DashboardService = (function () {
         return this.http.get(this.getTodayBookingCounturl)
             .map(function (response) {
             var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
             return mapped;
         })
             .catch(this.handleError);
@@ -444,6 +448,8 @@ var DashboardService = (function () {
         return this.http.get(this.getBookingsWithoutAssessmentCounturl)
             .map(function (response) {
             var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
             return mapped;
         })
             .catch(this.handleError);
@@ -452,6 +458,8 @@ var DashboardService = (function () {
         return this.http.get(this.getAssessmentsWithoutReportsurl)
             .map(function (response) {
             var mapped = response.json();
+            console.log(mapped);
+            console.log(response.json());
             return mapped;
         })
             .catch(this.handleError);

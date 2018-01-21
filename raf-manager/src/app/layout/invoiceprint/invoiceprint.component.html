@@ -1,115 +1,155 @@
 <div [@routerTransition]>
-        <app-page-header [heading]="'Invoice'" [icon]="'fa-calendar'"></app-page-header>
-    <div class="row" *ngIf="invoice != undefined">
-        <div class="padding-10">
-            <br>
-            <div class="pull-left">
-                <!-- <img src="assets/img/logo-blacknwhite.png" width="150" height="32" alt="invoice icon"> -->
-                <address>
-                            <strong>{{invoice.BusinessName}}</strong><br>
-                            <strong>Registration Number: </strong>{{invoice.BusinessRegistrationNumber}}<br>
-                            <strong>Vat Number: </strong>{{invoice.BusinessVatNumber}}
-                            <!-- <br>
-                            <strong></strong>
-                            <br>
-                            231 Ajax Rd,
-                            <br>
-                            Detroit MI - 48212, USA
-                            <br>
-                            <abbr title="Phone">P:</abbr> (123) 456-7890 -->
-                          </address>
+    <app-page-header [heading]="'Invoice'" [icon]="'fa-calendar'"></app-page-header>
+    <div class="container">
+        <div class="row" *ngIf="invoice != undefined">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="assets/images/vuyonako.png" height="200" alt="invoice icon">
+                    <br/>
+                    <span>Marble Towers, 3rd Floor, Cnr Von Weilligh Street Johannesburg</span>
+                    <span>Tel: 011 0754973</span>
+                    <span>Email: ip@Vuyonakoconsulting.co.za</span>
+                    <span>Fax: 0866025078</span>
+                    <br/>
+                    <br/>
+                    <span><h2>TAX INVOICE</h2></span>
+                </div>
             </div>
-            <div class="pull-right">
-                <h1 class="font-400">Invoice: {{invoice.Number}}</h1>
-            </div>
-            <div class="clearfix"></div>
-            <br>
-            <br>
+            <div class="col-md-4"></div>
+
+            <!-- invoice number row -->
             <div class="row">
-                <div class="col-sm-9">
-                    <!-- <h4 class="semi-bold">Rogers, Inc.</h4>
-                    <address>
-                              <strong>Mr. Simon Hedger</strong>
-                              <br>
-                              342 Mirlington Road,
-                              <br>
-                              Calfornia, CA 431464
-                              <br>
-                              <abbr title="Phone">P:</abbr> (467) 143-4317
-                            </address> -->
+                <div class="col-md-3">
+                    <span class="pull-left"><strong>INVOICE NO:</strong></span>
                 </div>
-                <div class="col-sm-3">
-                    <div>
-                        <div>
-                            <strong>INVOICE NO :</strong>
-                            <span> {{invoice.Number}} </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="font-md">
-                            <strong>INVOICE DATE :</strong>
-                            <span> <i class="fa fa-calendar"></i> {{invoice.InvoiceDate|date:'shortDate'}} </span>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="well well-sm  bg-color-darken txt-color-white no-border">
-                        <div class="fa-lg">
-                            Total Due :
-                            <span> R {{invoice.Total}}** </span>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
+                <div class="col-md-9">
+                    <span class="pull-left"> {{invoice.BookingRef}} </span>
                 </div>
-            </div>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-center">QTY</th>
-                        <th>ITEM</th>
-                        <th>DESCRIPTION</th>
-                        <th>PRICE</th>
-                        <th>SUBTOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let invoiceItem of invoiceItems">
-                        <td class="text-center"><strong>{{invoiceItem.Quantity}}</strong></td>
-                        <td><a (click)="(null)">{{invoiceItem.Name}}</a></td>
-                        <td width="100px">{{invoiceItem.Description}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            
-                        </td>
-                        <td>R {{invoiceItem.Price}}</td>
-                        <td>R{{invoiceItem.SubTotal}}</td>
-                    </tr>
-                    <!-- <tr>
-                        <td colspan="4">Total</td>
-                        <td><strong>R{{invoice.Total}}</strong></td>
-                    </tr> -->
-                </tbody>
-            </table>
-            <div class="invoice-footer">
+                <div class="col-md-3">
+                    <span class="pull-left"><strong>DATE:</strong></span>
+                </div>
+                <div class="col-md-9">
+                    <span class="pull-left">{{today|date:'dd/MM/yyyy'}}</span>
+                </div>
+
+                <!-- start from part -->
+                <div class="col-md-3">
+                    <span class="pull-left"><strong>FROM:</strong></span>
+                </div>
+                <div class="col-md-9">
+                    <span class="pull-left">{{invoice.Qualification}}</span>
+                </div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <span class="pull-left">{{invoice.QualificationHolder}}</span>
+                </div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <strong><span class="pull-left">VENDOR NO: {{invoice.VendorNumber}}</span></strong>
+                </div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <span class="pull-left">HPCSA REG NO: {{invoice.HpcsaRegistrationNumber}}</span>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <span class="pull-left">VAT REG NO: {{invoice.BusinessVatNumber}}</span>
+                </div>
+                <!-- end from part -->
+
+                <!-- start attorney part -->
+                <div class="col-md-3">
+                    <span class="pull-left"><strong>REFFERING ATTORNEYS:</strong></span>
+                </div>
+                <div class="col-md-9">
+                    <span class="pull-left"><strong>{{invoice.ClientName}}</strong></span>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <span class="pull-left"><strong>{{invoice.Address}}</strong></span>
+                </div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <span class="pull-left"><strong>{{invoice.City}} {{invoice.PostalCode}}</strong></span>
+                </div>
+                <!-- end attorney part -->
+
+                <!-- start attention part -->
+                <br/><br/>
+                <div class="col-md-3">
+                    <span class="pull-left"><strong>ATTENTION:</strong></span>
+                </div>
+                <div class="col-md-9">
+                    <span class="pull-left"><strong>ROAD ACCIDENT FUND</strong></span>
+                </div>
+                <!-- end attention part -->
+
+                <!-- start invoice details part -->
+                <br/><br/>
                 <div class="row">
-                    <div class="col-sm-7">
-                        <!-- <div class="payment-methods">
-                            <h5>Payment Methods</h5>
-                            <img src="assets/img/invoice/paypal.png" width="64" height="64" alt="paypal">
-                            <img src="assets/img/invoice/americanexpress.png" width="64" height="64" alt="american express">
-                            <img src="assets/img/invoice/mastercard.png" width="64" height="64" alt="mastercard">
-                            <img src="assets/img/invoice/visa.png" width="64" height="64" alt="visa">
-                        </div> -->
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="invoice-sum-total pull-right">
-                            <h3><strong>Total: <span class="text-success">R {{invoice.Total}}</span></strong></h3>
-                        </div>
-                    </div>
+                    <table class="table table-bordered">
+                        <th>ITEM DESCRIPTION</th>
+                        <th>AMOUNT DUE</th>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span><strong><ins>INVOICE CONSISTS OF:</ins></strong></span> <br/>
+                                    <ol>
+                                        <li>Consultation </li>
+                                        <li>Assessment</li>
+                                        <li>Document, reading and organising data</li>
+                                        <li>Report compilation </li>
+                                        <li>Finalisation and submission</li>
+                                    </ol>
+                                    <br/>
+                                    <span><strong><ins>PATIENT DETAILS:</ins></strong></span> <br/>
+                                    <span><strong>NAME OF PATIENT: </strong> {{invoice.ClaimentFirstName}} {{invoice.ClaimentLastName}}</span><br/>
+                                    <span><strong>ID NUMBER: </strong>{{invoice.ClaimentIdNumber}}</span><br/>
+                                    <span><strong>ASSESSMENT DATE: </strong>{{invoice.BookingDate|date:'dd MMMM yyyy'}}</span><br/>
+                                    <span><strong>RAF CLAIM NUMBER: </strong>{{invoice.RafReference}}</span><br/>
+                                    <span><strong>LINK NUMBER: </strong>{{invoice.LinkNumber}}</span><br/>
+
+                                    <br/>
+                                    <span><strong><ins>BANKING DETAILS:</ins></strong></span> <br/>
+                                    <span><strong>BANK: </strong> Nedbank</span><br/>
+                                    <span><strong>Account holder: </strong>Vuyo Nako Consulting</span><br/>
+                                    <span><strong>Account no: </strong>1066259518</span><br/>
+                                    <span><strong>Branch code: </strong>193305</span><br/>
+                                    <span><strong>Account Type: </strong>Business Account</span><br/>
+                                    <span><strong>Email Remittance to: </strong>vuyo@telkomsa.net</span><br/>
+                                </td>
+                                <td>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Nett</td>
+                                                <td>R 10,224.11</td>
+                                            </tr>
+                                            <tr>
+                                                <td>VAT 14%</td>
+                                                <td>R 1,431.38</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total</strong></td>
+                                                <td><strong>R 11,655.49</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <!-- <div class="row">
-                    <div class="col-sm-12">
-                        <p class="note">**To avoid any excess penalty charges, please make payments within 30 days of the due date. There will be a 2% interest charge per month on all late invoices.</p>
-                    </div>
-                </div> -->
+
+                <!-- end invoice details part -->
+
+
             </div>
         </div>
     </div>

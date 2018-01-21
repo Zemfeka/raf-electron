@@ -7,6 +7,7 @@ import { Time } from '@angular/common/src/i18n/locale_data_api';
 import { error } from 'util';
 import { window } from 'rxjs/operators/window';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Observable } from 'rxjs/Observable';
 
 const now = new Date();
 
@@ -24,6 +25,7 @@ export class BookingsComponent implements OnInit {
     closeResult: string;
     booking: IBooking;
     attorney: IAttorney = this.initialiseAttorney();
+    attorneyNames: any[] = ['dytelligence','vuyo nako'];
     
     constructor(private bookingsService: BookingsService, private modalService: NgbModal) {}
 
@@ -32,14 +34,27 @@ export class BookingsComponent implements OnInit {
     }
 
     initialiseBooking() {
-        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now,TrialDate:null,RequestedReportDate:null,Reference:'', Time: null,BookingTime: {hour: 0, minute: 0},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()},TDate:{year: null, month: null, day: null},RDate:{year: null, month: null, day: null}};
+        return {Id:0, ClientName:'', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: now,TrialDate:null,RequestedReportDate:null,Reference:'', Time: null,BookingTime: {hour: 0, minute: 0},Date: {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()},TDate:{year: null, month: null, day: null},RDate:{year: null, month: null, day: null}, RafReference: '', LinkNumber:'',ClaimentIdNumber:'',ClaimentContactNumber:'',CaseType:''};
     }
     initialiseAttorney() {
-        return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:''};
+        return {Id: 0,BookingId:0, ClientName:'',ContactPerson:'',PhoneNumber:'',Email:'',Address:'',City:'',PostalCode:'',CaseType:''};
     }
-    // initialiseDocument() {
-    //     return {Id:0,BookingId:0, DocumentType: '',DocumentName: '',DocumentExtension: '', Contents: {}, IsNew: true}
-    // }
+    
+    getAttorneyNames() {
+        this.bookingsService.getAttorneyNames().subscribe(result => {
+            result.forEach(element => {
+                this.attorneyNames.push(element.ClientName);
+            });            
+        },error => console.log("Error :: " + error));
+    }
+
+    search = (text$: Observable<string>) =>
+    text$
+      .debounceTime(200)
+      .distinctUntilChanged()
+      .map(term => term.length < 2 ? []
+        : this.attorneyNames.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10));
+
     getRandomArbitrary(min, max) {
         return this.booking.ClientName + Math.random() * (max - min) + min;
     }
@@ -62,9 +77,10 @@ export class BookingsComponent implements OnInit {
                 //save the attorney details                
                 var bookingId = this.booking.Id > 0 ? this.booking.Id : results;
                 var counter = 0;
-                if(this.attorney.ContactPerson != null || this.attorney.ContactPerson != ''){
-                    this.attorney.BookingId = bookingId;
-                    this.attorney.ClientName = this.booking.ClientName;
+                console.log(this.attorney.ClientName);
+                if((this.attorney.ClientName != null && this.attorney.ClientName != '') ||
+                this.attorney.ContactPerson != null && this.attorney.ContactPerson != ''){
+                    this.attorney.BookingId = bookingId;                                        
                     this.bookingsService.saveAttorney(this.attorney).subscribe(a => {                        
                     },error => console.log("Error :: " + error));
                 }      
@@ -99,7 +115,8 @@ export class BookingsComponent implements OnInit {
     //     },error => console.log("Error :: " + error))
     // }
 
-    ngOnInit() {       
+    ngOnInit() {   
+      this.getAttorneyNames();    
        this.getBookings().subscribe(results => this._bookings = results,
         error => console.log("Error :: " + error));      
     }

@@ -32,7 +32,7 @@ export class InvoicesComponent implements OnInit {
          private dataService: DataService, private router: Router) {}
 
     initialiseinvoice() {
-        return { Id: 0, Number: '', InvoiceDate: now, Total: 0, UserId: 0, BookingId: 0, InvoiceBusinessId: 0, BusinessId: 0, BusinessName: '', BusinessRegistrationNumber: '', BusinessVatNumber: '', AttorneyId: 0, AttorneyBookingId: 0, AttorneyClientName: '', AttorneyContactPerson: '', AttorneyPhoneNumber: '', AttorneyEmail: '', ReportId: 0, ReportNotes: '', ReportUserId: 0, ReportBookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: 0, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null, BookingRef:'', Items:[]};
+        return { Id: 0, Number: '', InvoiceDate: now, Total: 0, UserId: 0, BookingId: 0, InvoiceBusinessId: 0, BusinessId: 0, BusinessName: '', BusinessRegistrationNumber: '', BusinessVatNumber: '', AttorneyId: 0, AttorneyBookingId: 0, AttorneyClientName: '', AttorneyContactPerson: '', AttorneyPhoneNumber: '', AttorneyEmail: '', ReportId: 0, ReportNotes: '', ReportUserId: 0, ReportBookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: 0, AssessmentShowNoShow: 0, ClientName: '', ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null, BookingTime: null, BookingRef:'', Items:[], LinkNumber: '', RafReference: '',Qualification:'',QualificationHolder:'',VendorNumber:'',HpcsaRegistrationNumber:'',ClaimentIdNumber:'',ClaimentContactNumber:''};
     }
 
     initialiseinvoiceitem() {
@@ -77,38 +77,38 @@ export class InvoicesComponent implements OnInit {
             this.invoice.Total = total;
         }
 
-        this.invoiceService.saveInvoices(this.invoice,total).subscribe(results => {                
-            //TODO: change the save to return bookingId and then use it.                                       
-                //save the attorney details                
-                var invoiceid = this.invoice.Id > 0 ? this.invoice.Id : results;
-                var counter = 0;
-                this.invoice.Id = invoiceid;
+        // this.invoiceService.saveInvoices(this.invoice,total).subscribe(results => {                
+        //     //TODO: change the save to return bookingId and then use it.                                       
+        //         //save the attorney details                
+        //         var invoiceid = this.invoice.Id > 0 ? this.invoice.Id : results;
+        //         var counter = 0;
+        //         this.invoice.Id = invoiceid;
 
-                        //save invoice items
-                if(this.invoice.Items.length > 0) {                            
-                    for (let item of this.invoice.Items) {
-                        if(item.Id == 0) {
-                            item.InvoiceId = invoiceid;
-                            this.invoiceService.saveInvoiceItem(item).subscribe(d => {
-                            },
-                            error => console.log("Error :: " + error));
-                        }     
-                        else{
-                            item.InvoiceId = invoiceid;
-                            this.invoiceService.updateInvoiceItem(item).subscribe(d => {
-                            },
-                            error => console.log("Error :: " + error));
-                        }                
-                    }
-                }
+        //                 //save invoice items
+        //         if(this.invoice.Items.length > 0) {                            
+        //             for (let item of this.invoice.Items) {
+        //                 if(item.Id == 0) {
+        //                     item.InvoiceId = invoiceid;
+        //                     this.invoiceService.saveInvoiceItem(item).subscribe(d => {
+        //                     },
+        //                     error => console.log("Error :: " + error));
+        //                 }     
+        //                 else{
+        //                     item.InvoiceId = invoiceid;
+        //                     this.invoiceService.updateInvoiceItem(item).subscribe(d => {
+        //                     },
+        //                     error => console.log("Error :: " + error));
+        //                 }                
+        //             }
+        //         }
                    
                 
-                this.invoiceService.getInvoices().subscribe(b => {
-                    this.invoices = b;                                            
-                },
-                error => console.log("Error :: " + error));
-        },
-        error => console.log("Error :: " + error)); 
+        //         this.invoiceService.getInvoices().subscribe(b => {
+        //             this.invoices = b;                                            
+        //         },
+        //         error => console.log("Error :: " + error));
+        // },
+        // error => console.log("Error :: " + error)); 
               
   
         
@@ -119,7 +119,25 @@ export class InvoicesComponent implements OnInit {
     }
 
     addItem(){
-        this.invoiceItems.push({"Id": 0, "Quantity": 0, "Name": '', "Description": '', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+        // this.invoiceItems.push({"Id": 0, "Quantity": 0, "Name": '', "Description": '', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+        this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Consultation ', "Description": 'Consultation', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Assessment', "Description": 'Assessment', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Document, reading and organising data', "Description": 'Document, reading and organising data', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Report compilation', "Description": 'Report compilation', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Finalisation and submission', "Description": 'Finalisation and submission', "Price": 10224.11, "SubTotal": 10224.11, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'VAT 14%', "Description": 'VAT 14%', "Price": 1431.38, "SubTotal": 1431.38, "InvoiceId": this.invoice.Id});
+        
+    }
+    initialiseInvoiceItems(serviceTypeId) {
+        if(serviceTypeId == 1){
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Consultation ', "Description": 'Consultation', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Assessment', "Description": 'Assessment', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Document, reading and organising data', "Description": 'Document, reading and organising data', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Report compilation', "Description": 'Report compilation', "Price": 0, "SubTotal": 0, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'Finalisation and submission', "Description": 'Finalisation and submission', "Price": 10224.11, "SubTotal": 10224.11, "InvoiceId": this.invoice.Id});
+            this.invoiceItems.push({"Id": 0, "Quantity": 1, "Name": 'VAT 14%', "Description": 'VAT 14%', "Price": 1431.38, "SubTotal": 1431.38, "InvoiceId": this.invoice.Id});
+        }
+        //todo: other service types to be added. (i.e Joint minutes, Court appearance and addendum)
     }
 
     deleteInvoiceItem(invoiceItem: any){
@@ -140,7 +158,10 @@ export class InvoicesComponent implements OnInit {
     open(content, data, isNew) {        
         if(!isNew) {        
             this.invoice = data;
+        }else{
+            this.initialiseInvoiceItems(1);
         } 
+        //this.initialiseInvoiceItems(1);
         
         this.invoiceService.getInvoiceItems(this.invoice.Id)
             .subscribe(results => this.invoiceItems = results,

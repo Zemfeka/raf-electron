@@ -13,6 +13,7 @@
                             <tr>
                                 <th>Ref#</th>
                                 <th>Client Name</th>
+                                <th>Case Type</th>
                                 <th>Claiment First Name</th>
                                 <th>Claiment Last Name</th>
                                 <th>Booking Date</th>
@@ -28,6 +29,7 @@
                             <tr *ngFor="let assessment of assessments">
                                 <td>{{assessment.Reference}}</td>
                                 <td>{{assessment.ClientName}}</td>
+                                <td>{{assessment.CaseType}}</td>
                                 <td>{{assessment.ClaimentFirstName}}</td>
                                 <td>{{assessment.ClaimentLastName}}</td>
                                 <td>{{assessment.BookingDate|date}}</td>

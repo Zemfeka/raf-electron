@@ -13,8 +13,13 @@ CREATE TABLE `businesses` (
   `Name` varchar(50) DEFAULT NULL,
   `RegistrationNumber` varchar(50) DEFAULT NULL,
   `VatNumber` varchar(50) DEFAULT NULL,
+  `Qualification` varchar(250) DEFAULT NULL,
+  `QualificationHolder` varchar(100) DEFAULT NULL,
+  `VendorNumber` varchar(50) DEFAULT NULL,
+  `HpcsaRegistrationNumber` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COMMENT='This table will hold the business information';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='This table will hold the business information';
+
 
 CREATE TABLE `invoices` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -43,8 +48,10 @@ CREATE TABLE `reports` (
   `Notes` varchar(45) DEFAULT NULL,
   `UserId` int(11) DEFAULT NULL,
   `BookingId` int(11) DEFAULT NULL,
+  `BusinessId` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COMMENT='This table will hold the report information';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='This table will hold the report information';
+
 
 CREATE TABLE `users` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,

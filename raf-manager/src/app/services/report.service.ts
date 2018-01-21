@@ -62,5 +62,9 @@ export interface IReport{
   BookingDate: Date;
   Time: Time;
   Date: any;
-  BookingTime: any
+  BookingTime: any;
+  DocumentType: any;
+  RafReference: any;
+  LinkNumber: any;
+  CaseType: any;
 }

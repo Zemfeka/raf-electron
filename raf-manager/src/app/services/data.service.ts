@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class DataService {
 
   private bookingSource = new BehaviorSubject<number>(0);
-  bookingId = this.bookingSource.asObservable();
+  bookingId: number = 0;
 
   invoiceId: number = 0;
   
@@ -17,6 +17,13 @@ export class DataService {
   }
   getInvoiceId() {
     return this.invoiceId;
+  }
+
+  setBookingId(invoiceId : number) {
+    this.bookingId = invoiceId;
+  }
+  getBookingId() {
+    return this.bookingId;
   }
   
   changeBooking(data: number){     

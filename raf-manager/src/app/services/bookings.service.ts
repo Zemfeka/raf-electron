@@ -27,10 +27,27 @@ export class BookingsService {
             .catch(this.handleError);
   }
 
+  getBookingById(bookingid: number): Observable<IBooking> {
+    return this._http.get(this._bookingURL + "/" + bookingid)
+            .map((response: Response) => {
+              return <IBooking>response.json()[0];
+
+            })
+            .catch(this.handleError);
+  }
+
   getAttorney(bookingId: number): Observable<IAttorney> {
     return this._http.get(this.attorneyURL + "/" + bookingId)
             .map((response: Response) => {
               return <IAttorney>response.json()[0];
+            })
+            .catch(this.handleError);
+  }
+
+  getAttorneyNames(): Observable<any[]> {
+    return this._http.get(this.attorneyURL)
+            .map((response: Response) => {
+              return <any[]>response.json();
             })
             .catch(this.handleError);
   }
@@ -118,7 +135,13 @@ export interface IBooking {
   Date: any;
   BookingTime: any,
   TDate: any,
-  RDate: any
+  RDate: any,
+  RafReference: any,
+  LinkNumber: any,
+  ClaimentIdNumber: any,
+  ClaimentContactNumber: any,
+  CaseType: any;
+
 }
 
 export interface IAttorney {
@@ -128,6 +151,10 @@ export interface IAttorney {
   ContactPerson: string;
   PhoneNumber: string;
   Email: string;
+  Address: string;
+  City: string;
+  PostalCode: string;
+  CaseType: any;
 }
 
 export interface IDocument {

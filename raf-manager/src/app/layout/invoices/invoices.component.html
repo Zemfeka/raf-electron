@@ -2,7 +2,7 @@
     <app-page-header [heading]="'Invoices'" [icon]="'fa-calendar'"></app-page-header>
     <div class="row" *ngIf="showInvoice">
 
-        
+
         <div class="col col-xl-12 col-lg-12 col-xs-12">
             <div class="card mb-12">
                 <div class="card-header">
@@ -38,7 +38,7 @@
                                         </button>
                                         <button class="btn mce-btn-small" (click)="printInvoice(this.invoice.Id)">
                                             <span class="fa fa-print"></span>
-                                    </button>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    
+
     <ng-template #content let-c="close" let-d="dismiss" width="1000">
         <div class="modal-header">
             <h4 class="modal-title">Invoice: {{invoice.Number}}</h4>
@@ -123,7 +123,7 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                
+
             </ngb-tabset>
         </div>
 

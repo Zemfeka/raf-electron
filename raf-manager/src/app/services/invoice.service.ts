@@ -40,6 +40,15 @@ export class InvoiceService {
     .catch(this.handleError);
   }
 
+  getInvoiceByBookingId(id: number):Observable<IInvoice>{
+    return this.http.get(this.invoiceServiceGetURL + "invoicebybookingid/" + id)
+    .map((response: Response) => {
+      var mapped = <IInvoice>response.json();
+      return mapped[0];
+    })
+    .catch(this.handleError);
+  }
+
   getInvoiceItems(invoiceid: number):Observable<IInvoiceItem[]>{
     return this.http.get(this.invoiceItemsServiceGetURL + invoiceid)
     .map((response: Response) => {
@@ -100,6 +109,10 @@ export interface IInvoice{
   BusinessName: string;
   BusinessRegistrationNumber: string;
   BusinessVatNumber: string;
+  Qualification: string;
+  QualificationHolder: string;
+  VendorNumber: string;  
+  HpcsaRegistrationNumber: string;
 
   //Attorney
   AttorneyId: number;
@@ -107,7 +120,7 @@ export interface IInvoice{
   AttorneyClientName: string;
   AttorneyContactPerson: string;
   AttorneyPhoneNumber: string;
-  AttorneyEmail: string;
+  AttorneyEmail: string;   
 
   //report info
   ReportId: any;
@@ -131,6 +144,10 @@ export interface IInvoice{
   Date: any;
   BookingTime: any;
   BookingRef: any;
+  RafReference: any;
+  LinkNumber: any;
+  ClaimentIdNumber: string;
+  ClaimentContactNumber: string;
   Items: IInvoiceItem[]
 }
 

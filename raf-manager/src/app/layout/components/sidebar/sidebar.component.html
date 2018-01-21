@@ -15,11 +15,27 @@
         <a [routerLink]="['/assessments']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-check-square-o"></i>&nbsp;{{ 'Assessments' | translate }}
         </a>
-        <a [routerLink]="['/reports']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-text-o"></i>&nbsp;{{ 'Reports' | translate }}
-        </a>
-        <a [routerLink]="['/invoices']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-plus"></i>&nbsp; {{ 'Services' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/reports']"><span>{{ 'Medico Legal Report' | translate }}</span></a>
+                        <!-- <i class="fa fa-file-text-o"></i>&nbsp;{{ 'Reports' | translate }} -->
+                    </li>
+                    <!-- <li>
+                        <a href="javascript:void(0)"><span>{{ 'Submenu' | translate }}</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><span>{{ 'Submenu' | translate }}</span></a>
+                    </li> -->
+                </ul>
+            </li>
+        </div>
+        <!-- <a [routerLink]="['/invoices']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-money"></i>&nbsp;{{ 'Invoices' | translate }}
-        </a>
+        </a> -->
     </ul>
 </nav>

@@ -2,7 +2,7 @@ var db = require('../dbconnection');
 var Assessments = {
 
     getAllAssessments: function(callback) {
-        return db.query("select a.*,b.Id BookingId,b.ClientName, b.ClaimentFirstName,b.ClaimentLastName,b.BookingDate,b.TrialDate,b.RequestedReportDate,b.Reference,b.Time from bookings b left join assessments a on a.BookingId = b.id;", callback);
+        return db.query("select a.*,att.CaseType,b.Id BookingId,b.ClientName, b.ClaimentFirstName,b.ClaimentLastName,b.BookingDate,b.TrialDate,b.RequestedReportDate,b.Reference,b.Time from bookings b left join assessments a on a.BookingId = b.id left join attorneys att on att.BookingId=b.Id;", callback);
     },
     getAssessmentById: function(id, callback) {
         return db.query("select * from assessments where Id=?", [id], callback);

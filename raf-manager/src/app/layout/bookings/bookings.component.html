@@ -12,8 +12,11 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Ref#</th>
+                                <th>Our Ref#</th>
+                                <th>Raf Ref#</th>
+                                <th>Link #</th>
                                 <th>Client Name</th>
+                                <th>Case Type</th>
                                 <th>Claiment First Name</th>
                                 <th>Claiment Last Name</th>
                                 <th>Booking date</th>
@@ -24,7 +27,10 @@
                         <tbody>
                             <tr *ngFor="let booking of _bookings">
                                 <td>{{booking.Reference}}</td>
+                                <td>{{booking.RafReference}}</td>
+                                <td>{{booking.LinkNumber}}</td>
                                 <td>{{booking.ClientName}}</td>
+                                <td>{{booking.CaseType}}</td>
                                 <td>{{booking.ClaimentFirstName}}</td>
                                 <td>{{booking.ClaimentLastName}}</td>
                                 <td>{{booking.BookingDate|date}}</td>
@@ -61,16 +67,20 @@
                     <ng-template ngbTabContent>
                         <form role="form">
                             <fieldset class="form-group">
-                                <label for="clientname">Client Name/Attorney</label>
-                                <input name="clientname" class="form-control" placeholder="Enter client name" [(ngModel)]="booking.ClientName">
-                            </fieldset>
-                            <fieldset class="form-group">
                                 <label for="claimentfirstname">Claiment First Name</label>
                                 <input name="claimentfirstname" class="form-control" placeholder="Enter claiment first name" [(ngModel)]="booking.ClaimentFirstName">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="claimentlastname">Claiment Last Name</label>
                                 <input name="claimentlastname" class="form-control" placeholder="Enter claiment last name" [(ngModel)]="booking.ClaimentLastName">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="claimentidnumber">Claiment ID Number</label>
+                                <input name="claimentidnumber" class="form-control" placeholder="Enter claiment id number" [(ngModel)]="booking.ClaimentIdNumber">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="claimentcontactnumber">Claiment Contact Number</label>
+                                <input name="claimentcontactnumber" class="form-control" placeholder="Enter claiment contact number" [(ngModel)]="booking.ClaimentContactNumber">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label for="bookingdate">Booking Date</label>
@@ -87,8 +97,16 @@
                                     <ngb-timepicker [(ngModel)]="booking.BookingTime" name="bookingtime"></ngb-timepicker>
                                 </fieldset>
                                 <fieldset class="form-group col col-xl-6 col-lg-6 col-xs-6">
-                                    <label for="bookingreference">Reference</label>
+                                    <label for="bookingreference">Our Reference</label>
                                     <input name="bookingreference" class="form-control" placeholder="Enter Booking Reference" [(ngModel)]="booking.Reference">
+                                </fieldset>
+                                <fieldset class="form-group col col-xl-6 col-lg-6 col-xs-6">
+                                    <label for="rafreference">Raf Reference</label>
+                                    <input name="rafreference" class="form-control" placeholder="Enter Raf Reference" [(ngModel)]="booking.RafReference">
+                                </fieldset>
+                                <fieldset class="form-group col col-xl-6 col-lg-6 col-xs-6">
+                                    <label for="linknumber">Link Number</label>
+                                    <input name="linknumber" class="form-control" placeholder="Enter Link Number" [(ngModel)]="booking.LinkNumber">
                                 </fieldset>
 
                             </div>
@@ -98,6 +116,18 @@
                 <ngb-tab title="Attorney">
                     <ng-template ngbTabContent>
                         <form role="form">
+                            <fieldset class="form-group">
+                                <label for="clientname">Attorney</label>
+                                <!-- <input name="clientname" class="form-control" placeholder="Enter client name" [(ngModel)]="attorney.ClientName"> -->
+                                <input id="clientname" name="clientname" type="text" class="form-control" [(ngModel)]="attorney.ClientName" [ngbTypeahead]="search" />
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="casetype">Case Type</label>
+                                <select name="casetype" class="form-control" [(ngModel)]="attorney.CaseType">
+                                    <option>Defense</option>
+                                    <option>Plaintive</option>                                    
+                                </select>
+                            </fieldset>
                             <fieldset class="form-group">
                                 <label for="contactperson">Contact Person</label>
                                 <input name="contactperson" class="form-control" placeholder="Name of contact person" [(ngModel)]="attorney.ContactPerson">
@@ -109,6 +139,19 @@
                             <fieldset class="form-group">
                                 <label for="contactemail">Email</label>
                                 <input name="contactemail" class="form-control" placeholder="Email of contact person" [(ngModel)]="attorney.Email">
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <label for="address">Address</label>
+                                <input name="address" class="form-control" placeholder="Address" [(ngModel)]="attorney.Address">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="city">City</label>
+                                <input name="city" class="form-control" placeholder="City" [(ngModel)]="attorney.City">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="postalcode">PostalCode</label>
+                                <input name="postalcode" class="form-control" placeholder="Postal code" [(ngModel)]="attorney.PostalCode">
                             </fieldset>
                         </form>
                     </ng-template>

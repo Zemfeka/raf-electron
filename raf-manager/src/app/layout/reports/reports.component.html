@@ -1,43 +1,46 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Reports'" [icon]="'fa-calendar'"></app-page-header>
+    <app-page-header [heading]="'Medico Legal Report'" [icon]="'fa-calendar'"></app-page-header>
     <div class="row">
         <div class="col col-xl-12 col-lg-12 col-xs-12">
             <div class="card mb-12">
                 <div class="card-header">
-                    Reports
+                    Medico Legal Report
                 </div>
 
                 <div class="card-body table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Ref#</th>
+                                <th>Our Ref#</th>
+                                <th>RAF Ref#</th>
+                                <th>Link #</th>
                                 <th>Client Name</th>
+                                <th>Case Type</th>
                                 <th>Claiment First Name</th>
                                 <th>Claiment Last Name</th>
                                 <th>Booking date</th>
-                                <th>Time</th>
-                                <th>Assessment Notes</th>
-                                <th>ShowNoShow</th>
-                                <th>Report Notes</th>
+                                <th>Medico Report Status</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let report of reports">
                                 <td>{{report.Reference}}</td>
+                                <td>{{report.RafReference}}</td>
+                                <td>{{report.LinkNumber}}</td>
                                 <td>{{report.ClientName}}</td>
+                                <td>{{report.CaseType}}</td>
                                 <td>{{report.ClaimentFirstName}}</td>
                                 <td>{{report.ClaimentLastName}}</td>
                                 <td>{{report.BookingDate|date}}</td>
-                                <td>{{report.Time}}</td>
-                                <td>{{report.AssessmentNotes}}</td>
-                                <td>{{report.AssessmentShowNoShow}}</td>
-                                <td>{{report.Notes}}</td>
+                                <td><span *ngIf="report.DocumentType === 'Draft Medico Report' || report.DocumentType === 'Finale Medico Report' || report.DocumentType === 'Preliminary Medico Report'">{{report.DocumentType}}</span></td>
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn mce-btn-small" (click)="open(content,this.report, false)">
                                                 <span class="fa fa-hand-pointer-o"></span>
+                                        </button>
+                                        <button class="btn mce-btn-small" (click)="printInvoice(this.report.AssessmentBookingId)">
+                                            <span class="fa fa-print"></span>
                                         </button>
                                     </div>
                                 </td>

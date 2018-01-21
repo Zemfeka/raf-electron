@@ -61,5 +61,6 @@ export interface IAssessment{
   RequestedReportDate: Date;
   Time: any;
   Date: any;
-  BookingTime: any
+  BookingTime: any;
+  CaseType: any;
 }

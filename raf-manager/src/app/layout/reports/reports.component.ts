@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ReportService, IReport } from '../../services/report.service';
 import { BookingsService, IDocument } from '../../services/bookings.service';
 import { routerTransition } from '../../router.animations';
-
+import { DataService } from '../../services/data.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Time } from '@angular/common/src/i18n/locale_data_api';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Alert } from 'selenium-webdriver';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.scss'],
-    providers: [ReportService, NgbModal, FormsModule, ReactiveFormsModule,BookingsService],
+    providers: [DataService,ReportService, NgbModal, FormsModule, ReactiveFormsModule,BookingsService],
     animations: [routerTransition()]
 })
 export class ReportsComponent implements OnInit {
@@ -22,10 +23,10 @@ export class ReportsComponent implements OnInit {
     report: IReport = this.initialiseReport();
     documents: IDocument[] = [];
 
-    constructor(private reportService: ReportService, private modalService: NgbModal,private bookingsService: BookingsService) {}
+    constructor(private reportService: ReportService, private modalService: NgbModal,private bookingsService: BookingsService,private dataService: DataService, private router: Router) {}
 
     initialiseReport() {
-        return {Id: 0, Notes: '', UserId: 0,BookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: false, AssessmentShowNoShow: 0,  ClientName: '',ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null,  BookingTime: null};
+        return {Id: 0, Notes: '', UserId: 0,BookingId: 0, AssessmentId: 0, AssessmentNotes: '', AssessmentUserId: 0, AssessmentBookingId: false, AssessmentShowNoShow: 0,  ClientName: '',ClaimentFirstName: '', ClaimentLastName: '', BookingDate: null, Time: null, Date: null,  BookingTime: null, DocumentType: '', RafReference:'', LinkNumber:'',CaseType:''};
     }
 
     getReports(){
@@ -85,6 +86,15 @@ export class ReportsComponent implements OnInit {
         } else {
             return  `with: ${reason}`;
         }
+    }
+
+    printInvoice(bookingid) {
+        this.dataService.setInvoiceId(bookingid);
+        localStorage.setItem('bookingid', bookingid);
+        console.log(bookingid);
+        
+
+        this.router.navigate(["/invoiceprint"]);
     }
 }
 
